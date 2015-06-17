@@ -1,3 +1,14 @@
 from django.db import models
 
-# Create your models here.
+
+class Account(models.Model):
+    name = models.CharField(max_length=25)
+    number = models.CharField(max_length=140)
+    balance = models.DecimalField()
+
+    def __str__(self):
+        return self.name
+
+
+class Currency(models.Model):
+    name = models.CharField(max_length=25)
