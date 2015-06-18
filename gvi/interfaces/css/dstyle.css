@@ -1,0 +1,21 @@
+.nav-pills a {
+    color: #45951a;
+    font-weight:bold;
+}
+
+.nav>li>a:hover{
+	background-color: #45951A;
+	color: #ffffff;
+	font-style:italic;
+
+}
+
+.nav>li>a:focus {
+    background-color: #45951A;
+    color: #ffffff
+}
+
+#sidebar {
+		background-color:#76ff2d;
+		min-height:100vh;
+}
