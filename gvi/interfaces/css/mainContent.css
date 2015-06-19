@@ -11,6 +11,9 @@
 .login{
     margin-top: 150px;
     background: #ffffff;
+    padding: 50px;
+    border-radius: 5%;
+    color: #417505;
 }
 
 #loginBody{
