@@ -1,21 +1,38 @@
 .nav-pills a {
-    color: #45951a;
-    font-weight:bold;
+   color: #417505;
+   font-weight:bold;
 }
 
 .nav>li>a:hover{
-	background-color: #45951A;
+	background-color: #417505;
 	color: #ffffff;
 	font-style:italic;
 
 }
 
 .nav>li>a:focus {
-    background-color: #45951A;
-    color: #ffffff
+   background-color: #417505;
+   color: #ffffff
 }
 
 #sidebar {
-		background-color:#76ff2d;
-		min-height:100vh;
+	background-color:#d4ef82|;
+	min-height:100vh;
+}
+
+#topbar {
+	background-color:#f8f8f8;
+	height: 5vh;
+	border: 1px solid #cacaca;
+	color: #f8f8f8;
+}
+
+#logo {
+	max-width:100%;
+	max-height:100%;
+}
+
+#user {
+	text-align:center;
+	color:#417505;
 }
