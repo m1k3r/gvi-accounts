@@ -1,0 +1,18 @@
+.texto{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.tituloTabla{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.login{
+    margin-top: 150px;
+    background: #ffffff;
+}
+
+#loginBody{
+    background: #d4ef82;
+}
