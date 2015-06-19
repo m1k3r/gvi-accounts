@@ -1,0 +1,20 @@
+.text{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.tableTitle{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.login{
+    margin-top: 150px;
+    background: #ffffff;
+    padding: 50px;
+    border-radius: 5%;
+}
+
+#loginBody{
+    background: #d4ef82;
+}
