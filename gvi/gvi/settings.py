@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'accounts',
     'hubs',
     'transactions',
+    'budgets',
 )
 
 MIDDLEWARE_CLASSES = (
