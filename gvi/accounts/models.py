@@ -26,7 +26,7 @@ class Account(models.Model):
     #add the account owner
     
     def __str__(self):
-        if account_type == 'b'
+        if self.account_type == 'b'
             return self.number
         else
             return self.currency 
