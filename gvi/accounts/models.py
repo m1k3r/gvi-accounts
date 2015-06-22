@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 class Currency(models.Model):
@@ -25,7 +26,18 @@ class Account(models.Model):
     #add the account owner
     
     def __str__(self):
-        if(account_type == 'b')
+        if account_type == 'b'
             return self.number
         else
-            return self.currency
+            return self.currency 
+
+
+class Transfer(models.Model):
+    from_account =  models.ForeignKey(Account)
+    to_account = models.ForeignKey(Account)
+    amount = models.DecimalField(decimal_places=10, max_digits=19)
+    exchange_rate = models.DecimalField(decimal_places=10, max_digits=19)
+    date = models.DateTimeField(default=datetime.now())
+
+     def __str__(self):
+         return self.amount
