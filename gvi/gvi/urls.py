@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^budgets/', include('budgets.urls')),
     url(r'^transactions/', include('transactions.urls')),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^hubs/', include('hubs.urls')),
