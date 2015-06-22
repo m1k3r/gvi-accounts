@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Accounts Dashboard")
+    return HttpResponse("Welcome to Accounts Dashboard")
