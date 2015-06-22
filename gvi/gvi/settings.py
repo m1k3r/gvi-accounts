@@ -106,7 +106,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/var/www/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static_prod/")
 
 try:
     from local_settings import *
