@@ -61,3 +61,30 @@
     background: #d4ef82;
 }
 
+h1>#hubname{
+	font-size:120%;
+	color:black;
+	margin-bottom:25px;
+}
+
+#hubinfo{
+	font-size:120%;
+	line-height:130%;
+	color:#717171;
+	margin-bottom:25px;	
+}
+
+.horizontal-separator{
+	background-color:black; 
+	height:2px;
+}
+
+.select-title{
+	color:#aaaaaa;
+	font-size:80%;
+}
+
+.select-title-offset{
+	margin-left:-30px;
+}
+
