@@ -5,7 +5,7 @@ class Hubs(models.Model):
     C_MANAGER = 'c'
     TYPE_CHOICES = (
             (HUB, 'Hub'),
-            (C_MANAGER, 'CM'),
+            (C_MANAGER, 'Country Manager'),
     )
     hub_type = models.CharField(max_length=5, choices=TYPE_CHOICES, default=HUB)
     name = models.CharField(max_length=100)
