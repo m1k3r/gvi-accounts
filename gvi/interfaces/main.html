@@ -125,12 +125,129 @@
         </div>
         <!-- Ends table for cash accounts -->
 
-        <!-- Dummy button for modal -->
+        <!-- Dummy button for add account modal -->
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddAccount">
-            Launch demo modal
+            Add account
         </button>
-        <!-- Ends dummy button for modal -->
+        <!-- Ends dummy button for add account modal -->
+
+        <!-- Dummy button for edit account modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditAccount">
+            Edit account
+        </button>
+        <!-- Ends dummy button for edit account modal -->
     </div>
+
+    <!--Edit Account Modal-->
+    <div class="modal fade modalStyles" id="modalEditAccount" tabindex="-1" role="dialog" aria-labelledby="labelEditAccount">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelEditAccount">Edit Account</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form class="form-horizontal" id="editAccountForm">
+
+                        <!-- Account type-->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-md-offset-2">
+                                    Account type:
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadio" id="radioCashEdit" value="cash" onclick="cashSelectEditAccount()">
+                                            <p class="label-success accountTypeLabel">Cash</p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadio" id="radioBankEdit" value="bank" onclick="bankSelectEditAccount()">
+                                            <p class="label-info accountTypeLabel">Bank</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Account type -->
+
+                        <!-- Currency -->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">Currency:</div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="currencySelectEdit">
+
+                                        <!-- For to display currencies -->
+                                        <option>Pesos</option>
+                                        <option>Pounds</option>
+                                        <option>Dollars</option>
+                                        <!--***************************-->
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Currency -->
+
+                        <!-- Bank, Account #, Amount -->
+                        <div class="row" id="bankTxtFieldEdit" style="display: block">
+                            <div class="form-group">
+                                <label for="inputBank" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Bank:</label>
+                                <div class=" col-md-6">
+                                    <input type="text" class="form-control" id="inputBankEdit">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="accountNoTxtFieldEdit" style="display: block" >
+                            <div class="form-group">
+                                <label for="inputAccountNo" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Account #:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputAccountNoEdit">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputAmount" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Amount $$:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputAmountEdit">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Bank, Account #, Amount-->
+
+                    </form>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <div class="row">
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" onclick="saveNewAccount()">Save</button>
+                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
+                </div>
+                <div class="row"><p> </p><br></div>
+                <div class="row">
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="deleteBtnEdit" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete</button>
+                </div>
+            </div>
+            <!-- Ends footer -->
+        </div>
+        </div>
+     </div>
+    <!-- Ends Edit Account Modal-->
 
     <!--Add Account Modal-->
     <div class="modal fade modalStyles" id="modalAddAccount" tabindex="-1" role="dialog" aria-labelledby="labelAddAccount">
@@ -156,7 +273,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioCash" value="cash" onclick="cashSelect()">
+                                            <input type="radio" name="accountTypeRadio" id="radioCash" value="cash" onclick="cashSelectAddAccount()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -164,7 +281,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioBank" value="bank" onclick="bankSelect()" checked>
+                                            <input type="radio" name="accountTypeRadio" id="radioBank" value="bank" onclick="bankSelectAddAccount()" checked>
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -236,7 +353,6 @@
         </div>
      </div>
     <!-- Ends Add Account Modal-->
-
 
   </body>
 </html>

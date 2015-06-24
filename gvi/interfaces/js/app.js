@@ -31,7 +31,7 @@ function isNumberDecimal(field){
     }
 }
 
-//Function that recieves a json and connects to the backend
+//Function that receives a json and connects to the backend
 function jsonAjax(json ){
     console.log("Entra a funcion");
     console.log(json);
@@ -124,13 +124,34 @@ function saveNewAccount(){
 }
 
 //Function to hide additional fields when the account type is cash
-function cashSelect(){
+function cashSelectAddAccount(){
     $('#bankTxtField').css("display", "none");
     $('#accountNoTxtField').css("display", "none");
 }
 
 //Function to display additional fields when the account type is bank
-function bankSelect(){
+function bankSelectAddAccount(){
     $('#bankTxtField').css("display", "block");
     $('#accountNoTxtField').css("display", "block");
+}
+
+function cashSelectEditAccount(){
+    $('#bankTxtFieldEdit').css("display", "none");
+    $('#accountNoTxtFieldEdit').css("display", "none");
+}
+
+//Function to display additional fields when the account type is bank
+function bankSelectEditAccount(){
+    $('#bankTxtFieldEdit').css("display", "block");
+    $('#accountNoTxtFieldEdit').css("display", "block");
+}
+
+function deleteBtnOver(){
+    $('#deleteBtnEdit').css("background", "#C61212");
+    $('#deleteBtnEdit').css("color", "#ffffff");
+}
+
+function deleteBtnOut(){
+    $('#deleteBtnEdit').css("background", "#ffffff");
+    $('#deleteBtnEdit').css("color", "#C61212");
 }
