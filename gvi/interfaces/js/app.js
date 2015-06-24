@@ -31,6 +31,15 @@ function isNumberDecimal(field){
     }
 }
 
+//Function that recieves a json and connects to the backend
+function jsonAjax(json ){
+    console.log("Entra a funcion");
+    console.log(json);
+    console.log(JSON.stringify(json));
+
+    return true;
+}
+
 //Function to SAVE info from the New Account modal
 function saveNewAccount(){
 
@@ -44,15 +53,22 @@ function saveNewAccount(){
 
         //Validations
         if(isNull(currency)==false){
-            alert("error")
+            alert("You need to select a currency");
            return false;
         }
         if(isNull(amount)==false){
-            alert("error")
+            alert("The field Amount cannot be empty");
             return false;
         }
         if(isNumberDecimal(amount)==false){
-            alert("error");
+            alert("The amount must be a number");
+            return false;
+        }
+
+        //Connection to backend
+        var accountData = {account_type: accountType, balance:amount, currency:currency};
+        if(jsonAjax(accountData)==false){
+            alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
             return false;
         }
     }
@@ -65,6 +81,7 @@ function saveNewAccount(){
         //Validations
         if(isNull(currency)==false){
             alert("You need to select a currency");
+
             return false;
         }
         if(isNull(bank)==false){
@@ -88,6 +105,12 @@ function saveNewAccount(){
             return false;
         }
 
+        //Connection to backend
+        var accountData={account_type:accountType, bank_name:bank, number:account, balance:amount, currency:currency};
+        if(jsonAjax(accountData)==false){
+            alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
+            return false;
+        }
 
     }
 
