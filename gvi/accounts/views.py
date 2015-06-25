@@ -1,6 +1,6 @@
 
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.core import serializers
 
 from .models import Account, Currency
@@ -25,4 +25,4 @@ def new_account(request):
 
         return JsonResponse({'code': '200'})
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseForbidden
