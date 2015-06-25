@@ -51,30 +51,16 @@
                 </tr>
 
                 <!-- For to fill info about each account -->
-                <tr>
-                    <td>1</td>
-                    <td>Pesos</td>
-                    <td>$30,000</td>
-                    <td>Santander</td>
-                    <td>10394029340</td>
+                {% for a in bank_acc %}
+                    <tr>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.currency }}</td>
+                    <td>{{ a.balance }}</td>
+                    <td>{{ a.bank_name }}</td>
+                    <td>{{ a.number }}</td>
                     <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Dollars</td>
-                    <td>$10,000</td>
-                    <td>CityBank</td>
-                    <td>10394029340</td>
-                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Pounds</td>
-                    <td>$10,000</td>
-                    <td>HSBC</td>
-                    <td>10394029340</td>
-                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
-                </tr>
+                {% endfor %}
                 <!-- ****************************************-->
 
             </table>
@@ -95,24 +81,14 @@
                 </tr>
 
                 <!-- For to fill information about each account-->
+                {% for a in cash_acc %}
                 <tr>
-                    <td>1</td>
-                    <td>Pesos</td>
-                    <td>$1,000</td>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.currency }}</td>
+                    <td>{{ a.balance }}</td>
                     <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Dollars</td>
-                    <td>$0</td>
-                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Pounds</td>
-                    <td>$0</td>
-                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
-                </tr>
+                {% endfor %}
                 <!--***********************************************-->
 
             </table>
