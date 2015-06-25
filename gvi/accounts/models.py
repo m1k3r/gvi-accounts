@@ -11,6 +11,7 @@ class Currency(models.Model):
 
 class Account(models.Model):
     DEFAULT_CURRENCY_ID = 1  # pounds ?
+    DEFAULT_OWNER = 1
     BANK = 'b'
     CASH = 'c'
     TYPE_CHOICES = (
@@ -20,10 +21,10 @@ class Account(models.Model):
     account_type = models.CharField(max_length=5, choices=TYPE_CHOICES, default=CASH)
     bank_name = models.CharField(max_length=25, blank=True)
     number = models.CharField(max_length=140, blank=True, unique=True)
-    balance = models.DecimalField(decimal_places=10, max_digits=19, default=0)
+    balance = models.DecimalField(decimal_places=2, max_digits=19, default=0.0)
     currency = models.ForeignKey(Currency, default=DEFAULT_CURRENCY_ID)
     active = models.BooleanField(default=True)
-    # add the account owner
+    owner = models.ForeignKey('hubs.Hubs', default=DEFAULT_OWNER)
 
     def __str__(self):
         if self.account_type == 'b':
@@ -35,8 +36,8 @@ class Account(models.Model):
 class Transfer(models.Model):
     from_account = models.ForeignKey(Account, related_name="from_account")
     to_account = models.ForeignKey(Account, related_name="to_account")
-    amount = models.DecimalField(decimal_places=10, max_digits=19)
-    exchange_rate = models.DecimalField(decimal_places=10, max_digits=19)
+    amount = models.DecimalField(decimal_places=2, max_digits=19)
+    exchange_rate = models.DecimalField(decimal_places=2, max_digits=19)
     date = models.DateTimeField()
 
     def __str__(self):
