@@ -2,20 +2,315 @@
 
 {% extends "base_generic.html" %}
 
+{% block menubar %}
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
+
+{% endblock %}
+
 {% block content %}
 
-<h1>Bank Accounts</h1>
-<ul>
-{% for account in bank_acc %}
-    <li>{{ account }}</li>
-{% endfor %}
-</ul>
+    <!-- Info about money left and expenses-->
+    <div class="row">
+        <div class="col-md-5 col-md-offset-1">
+            <h1>Money left</h1><br>
+            <ul class="list-unstyled">
 
-<h1>Cash Accounts</h1>
-<ul>
-{% for account in cash_acc %}
-    <li>$ {{ account.balance }} {{ account }}</li>
-{% endfor %}
-</ul>
+                <!-- For to display all currencies and how much money they have -->
+                <li class="text">Pesos: $30,000.00</li>
+                <li class="text">Pounds: &pound;10,000.00</li>
+                <li class="text">Dollars: $10,000.00</li>
+                <!-- **********************************************************-->
+
+            </ul>
+        </div>
+        <div class="col-md-5">
+            <h1>Expenses</h1><br>
+            <ul class="list-unstyled">
+
+                <!-- For to display currencies and their total expenses -->
+                <li class="text">Pesos: $2,000.00</li>
+                <li class="text">Dollars: $150.00</li>
+                <!--*****************************************************-->
+
+            </ul>
+        </div>
+    </div><br>
+    <!-- Ends info about money left and expenses -->
+
+    <!-- Table for bank accounts -->
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <p class="tableTitle">Bank Accounts:</p>
+            <table class="table table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Bank</th>
+                    <th>Account #</th>
+                    <th>Edit</th>
+                </tr>
+
+                <!-- For to fill info about each account -->
+                {% for a in bank_acc %}
+                    <tr>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.currency }}</td>
+                    <td>{{ a.balance }}</td>
+                    <td>{{ a.bank_name }}</td>
+                    <td>{{ a.number }}</td>
+                    <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                {% endfor %}
+                <!-- ****************************************-->
+
+            </table>
+        </div>
+    </div>
+    <!-- Ends table for bank accounts-->
+
+    <!-- Table for cash accounts -->
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <p class="tableTitle">Cash Accounts:</p>
+            <table class="table table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Edit</th>
+                </tr>
+
+                <!-- For to fill information about each account-->
+                {% for a in cash_acc %}
+                <tr>
+                    <td>{{ a.id }}</td>
+                    <td>{{ a.currency }}</td>
+                    <td>{{ a.balance }}</td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                {% endfor %}
+                <!--***********************************************-->
+
+            </table>
+        </div>
+    </div>
+    <!-- Ends table for cash accounts -->
+
+    <!--Add Account Modal-->
+    <div class="modal fade modalStyles" id="modalAddAccount" tabindex="-1" role="dialog" aria-labelledby="labelAddAccount">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelAddAccount">New Account</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form class="form-horizontal" id="addAccountForm">
+
+                        <!-- Account type-->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-md-offset-2">
+                                    Account type:
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadio" id="radioCash" value="c" onclick="cashSelectAddAccount()">
+                                            <p class="label-success accountTypeLabel">Cash</p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadio" id="radioBank" value="b" onclick="bankSelectAddAccount()" checked>
+                                            <p class="label-info accountTypeLabel">Bank</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Account type -->
+
+                        <!-- Currency -->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">Currency:</div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="currencySelect">
+
+                                        <!-- For to display currencies -->
+                                        <option>Pesos</option>
+                                        <option>Pounds</option>
+                                        <option>Dollars</option>
+                                        <!--***************************-->
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Currency -->
+
+                        <!-- Bank, Account #, Amount -->
+                        <div class="row" id="bankTxtField" style="display: block">
+                            <div class="form-group">
+                                <label for="inputBank" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Bank:</label>
+                                <div class=" col-md-6">
+                                    <input type="text" class="form-control" id="inputBank">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="accountNoTxtField" style="display: block" >
+                            <div class="form-group">
+                                <label for="inputAccountNo" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Account #:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputAccountNo">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputAmount" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Amount $$:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputAmount">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Bank, Account #, Amount-->
+
+                    </form>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" onclick="saveNewAccount()">Save</button>
+                <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+        </div>
+     </div>
+    <!-- Ends Add Account Modal-->
+
+    <!--Edit Account Modal-->
+    <div class="modal fade modalStyles" id="modalEditAccount" tabindex="-1" role="dialog" aria-labelledby="labelEditAccount">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelEditAccount">Edit Account</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form class="form-horizontal" id="editAccountForm">
+
+                        <!-- Account type-->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-md-offset-2">
+                                    Account type:
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadio" id="radioCashEdit" value="c" onclick="cashSelectEditAccount()">
+                                            <p class="label-success accountTypeLabel">Cash</p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadio" id="radioBankEdit" value="b" onclick="bankSelectEditAccount()">
+                                            <p class="label-info accountTypeLabel">Bank</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Account type -->
+
+                        <!-- Currency -->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">Currency:</div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="currencySelectEdit">
+
+                                        <!-- For to display currencies -->
+                                        <option>Pesos</option>
+                                        <option>Pounds</option>
+                                        <option>Dollars</option>
+                                        <!--***************************-->
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Currency -->
+
+                        <!-- Bank, Account #, Amount -->
+                        <div class="row" id="bankTxtFieldEdit" style="display: block">
+                            <div class="form-group">
+                                <label for="inputBank" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Bank:</label>
+                                <div class=" col-md-6">
+                                    <input type="text" class="form-control" id="inputBankEdit">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="accountNoTxtFieldEdit" style="display: block" >
+                            <div class="form-group">
+                                <label for="inputAccountNo" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Account #:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputAccountNoEdit">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="inputAmount" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Amount $$:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputAmountEdit">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Bank, Account #, Amount-->
+
+                    </form>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <div class="row">
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" onclick="saveNewAccount()">Save</button>
+                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
+                </div>
+                <div class="row"><p> </p><br></div>
+                <div class="row">
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="deleteBtnEdit" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete Account</button>
+                </div>
+            </div>
+            <!-- Ends footer -->
+        </div>
+        </div>
+     </div>
+    <!-- Ends Edit Account Modal-->
 
 {% endblock %}
