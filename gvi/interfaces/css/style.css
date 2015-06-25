@@ -90,4 +90,40 @@
 	border-color: #C61212;
 	border-radius: 5%;
 	font-weight: 500;
+h1>#hubname{
+	font-size:120%;
+	color:black;
+	margin-bottom:25px;
+}
+
+#hubinfo{
+	font-size:120%;
+	line-height:130%;
+	color:#717171;
+	margin-bottom:25px;	
+}
+
+.horizontal-separator{
+	background-color:black; 
+	height:2px;
+}
+
+.select-title{
+	color:#aaaaaa;
+	font-size:80%;
+}
+
+.select-title-offset{
+	margin-left:10px;
+}
+
+.container-non-responsive {
+  /* Margin/padding copied from Bootstrap */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0px;
+  padding-right: 0px;
+
+  /* Set width to your desired site width */
+  width: 1170px;
 }
