@@ -21,7 +21,7 @@ class Account(models.Model):
     bank_name = models.CharField(max_length=25, blank=True)
     number = models.CharField(max_length=140, blank=True, unique=True)
     balance = models.DecimalField(decimal_places=10, max_digits=19, default=0)
-    currency = models.ForeignKey('Currency', default=DEFAULT_CURRENCY_ID)
+    currency = models.ForeignKey(Currency, default=DEFAULT_CURRENCY_ID)
     active = models.BooleanField(default=True)
     # add the account owner
 
