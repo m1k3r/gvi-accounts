@@ -30,7 +30,7 @@ class Transaction(models.Model):
     comment = models.CharField(max_length=200, blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=19)
     balance = models.DecimalField(decimal_places=2, max_digits=19)
-    account = models.ForeignKey('accounts.Acount')
+    account = models.ForeignKey('accounts.Account')
 
     def __str__(self):
         return self.transaction_type + amount

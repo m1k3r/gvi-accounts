@@ -20,8 +20,8 @@ class BudgetElement(models.Model):
     amount = models.DecimalField(decimal_places=2, max_digits=19, default=0)
     number = models.ForeignKey(Budget)
     currency = models.ForeignKey('accounts.Currency')
-    category = models.ForeignKey('accounts.Category')
-    subcategory = models.ForeignKey('accounts.Subcategory')
+    category = models.ForeignKey('transactions.Category')
+    subcategory = models.ForeignKey('transactions.Subcategory')
     
     def __str__(self):
         return self.amount + self.number
