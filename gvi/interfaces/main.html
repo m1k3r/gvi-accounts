@@ -132,7 +132,7 @@
         <!-- Ends dummy button for add account modal -->
 
         <!-- Dummy button for edit account modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditAccount">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()">
             Edit account
         </button>
         <!-- Ends dummy button for edit account modal -->
@@ -162,7 +162,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioCashEdit" value="cash" onclick="cashSelectEditAccount()">
+                                            <input type="radio" name="accountTypeRadio" id="radioCashEdit" value="c" onclick="cashSelectEditAccount()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -170,7 +170,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioBankEdit" value="bank" onclick="bankSelectEditAccount()">
+                                            <input type="radio" name="accountTypeRadio" id="radioBankEdit" value="b" onclick="bankSelectEditAccount()">
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -240,7 +240,7 @@
                 </div>
                 <div class="row"><p> </p><br></div>
                 <div class="row">
-                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="deleteBtnEdit" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete</button>
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="deleteBtnEdit" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete Account</button>
                 </div>
             </div>
             <!-- Ends footer -->
@@ -273,7 +273,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioCash" value="cash" onclick="cashSelectAddAccount()">
+                                            <input type="radio" name="accountTypeRadio" id="radioCash" value="c" onclick="cashSelectAddAccount()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -281,7 +281,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioBank" value="bank" onclick="bankSelectAddAccount()" checked>
+                                            <input type="radio" name="accountTypeRadio" id="radioBank" value="b" onclick="bankSelectAddAccount()" checked>
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>

@@ -47,7 +47,7 @@ function saveNewAccount(){
     var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();
 
     //Get data
-    if(accountType == "cash"){
+    if(accountType == "c"){
         var currency = $('#currencySelect').val();
         var amount= $('#inputAmount').val();
 
@@ -66,13 +66,13 @@ function saveNewAccount(){
         }
 
         //Connection to backend
-        var accountData = {account_type: accountType, balance:amount, currency:currency};
+        var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
         if(jsonAjax(accountData)==false){
             alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
             return false;
         }
     }
-    if(accountType == "bank"){
+    if(accountType == "b"){
         var currency = $('#currencySelect').val();
         var bank= $('#inputBank').val();
         var account= $('#inputAccountNo').val();
@@ -106,7 +106,7 @@ function saveNewAccount(){
         }
 
         //Connection to backend
-        var accountData={account_type:accountType, bank_name:bank, number:account, balance:amount, currency:currency};
+        var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
         if(jsonAjax(accountData)==false){
             alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
             return false;
@@ -121,6 +121,61 @@ function saveNewAccount(){
     $('#bankTxtField').css("display", "block");
     $('#accountNoTxtField').css("display", "block");
 
+}
+
+function getJson(){
+    var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
+    //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
+    return prueba;
+    //return null;
+}
+
+//Function to EDIT account info
+function editAccount(){
+
+    //Get json from backend
+    var json=getJson();
+
+    //Validate
+    if(json==null){
+        alert("Error. Can't reach the server.");
+        return false;
+    }
+    else{
+        var data = JSON.parse(json);
+        var accountType = data.account_type;
+
+        // Get data
+        if(accountType == "b") {
+
+            var bank = data.bank_name;
+            var accountNo = data.number;
+            var amount = data.balance;
+            var currency = data.currency;
+
+            //Fill fields
+            $("#radioBankEdit").prop('checked', true);
+            $("#currencySelectEdit").val(currency);
+            $("#inputBankEdit").val(bank);
+            $("#inputAccountNoEdit").val(accountNo);
+            $("#inputAmountEdit").val(amount);
+            $('#bankTxtFieldEdit').css("display", "block");
+            $('#accountNoTxtFieldEdit').css("display", "block");
+
+        }
+        if(accountType == "c"){
+            var amount = data.balance;
+            var currency = data.currency;
+
+            //Fill fields
+            $("#radioCashEdit").prop('checked', true);
+            $("#currencySelectEdit").val(currency);
+            $("#inputAmountEdit").val(amount);
+            $('#bankTxtFieldEdit').css("display", "none");
+            $('#accountNoTxtFieldEdit').css("display", "none");
+        }
+
+    }
 }
 
 //Function to hide additional fields when the account type is cash
