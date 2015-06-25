@@ -124,8 +124,8 @@ function saveNewAccount(){
 }
 
 function getJson(){
-    var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
-    //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
+    //var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
+    var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
     return prueba;
     //return null;
 }
