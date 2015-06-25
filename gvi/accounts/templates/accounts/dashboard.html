@@ -1,5 +1,9 @@
 <!-- dashboard -->
 
+{% extends "base_generic.html" %}
+
+{% block content %}
+
 <h1>Bank Accounts</h1>
 <ul>
 {% for account in bank_acc %}
@@ -13,3 +17,5 @@
     <li>$ {{ account.balance }} {{ account }}</li>
 {% endfor %}
 </ul>
+
+{% endblock %}
