@@ -28,9 +28,9 @@ class Transaction(models.Model):
     date = models.DateTimeField()
     subcategory = models.ForeignKey(Subcategory, blank=True)
     comment = models.CharField(max_length=200, blank=True)
-    amount = models.DecimalField(decimal_places=10, max_digits=19)
-    balance = models.DecimalField(decimal_places=10, max_digits=19)
-    #Add the ForeignKey to accounts
+    amount = models.DecimalField(decimal_places=2, max_digits=19)
+    balance = models.DecimalField(decimal_places=2, max_digits=19)
+    account = models.ForeignKey('accounts.Acount')
 
     def __str__(self):
         return self.transaction_type + amount
