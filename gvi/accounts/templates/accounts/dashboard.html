@@ -2,20 +2,122 @@
 
 {% extends "base_generic.html" %}
 
+{% block menubar %}
+    <p class="navbar-text"><a>add account</a></p>
+{% endblock %}
+
 {% block content %}
 
-<h1>Bank Accounts</h1>
-<ul>
-{% for account in bank_acc %}
-    <li>{{ account }}</li>
-{% endfor %}
-</ul>
+    <!-- Info about money left and expenses-->
+    <div class="row">
+        <div class="col-md-5 col-md-offset-1">
+            <h1>Money left</h1><br>
+            <ul class="list-unstyled">
 
-<h1>Cash Accounts</h1>
-<ul>
-{% for account in cash_acc %}
-    <li>$ {{ account.balance }} {{ account }}</li>
-{% endfor %}
-</ul>
+                <!-- For to display all currencies and how much money they have -->
+                <li class="text">Pesos: $30,000.00</li>
+                <li class="text">Pounds: &pound;10,000.00</li>
+                <li class="text">Dollars: $10,000.00</li>
+                <!-- **********************************************************-->
+
+            </ul>
+        </div>
+        <div class="col-md-5">
+            <h1>Expenses</h1><br>
+            <ul class="list-unstyled">
+
+                <!-- For to display currencies and their total expenses -->
+                <li class="text">Pesos: $2,000.00</li>
+                <li class="text">Dollars: $150.00</li>
+                <!--*****************************************************-->
+
+            </ul>
+        </div>
+    </div><br>
+    <!-- Ends info about money left and expenses -->
+
+    <!-- Table for bank accounts -->
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <p class="tableTitle">Bank Accounts:</p>
+            <table class="table table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Bank</th>
+                    <th>Account #</th>
+                    <th>Edit</th>
+                </tr>
+
+                <!-- For to fill info about each account -->
+                <tr>
+                    <td>1</td>
+                    <td>Pesos</td>
+                    <td>$30,000</td>
+                    <td>Santander</td>
+                    <td>10394029340</td>
+                    <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Dollars</td>
+                    <td>$10,000</td>
+                    <td>CityBank</td>
+                    <td>10394029340</td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Pounds</td>
+                    <td>$10,000</td>
+                    <td>HSBC</td>
+                    <td>10394029340</td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                <!-- ****************************************-->
+
+            </table>
+        </div>
+    </div>
+    <!-- Ends table for bank accounts-->
+
+    <!-- Table for cash accounts -->
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <p class="tableTitle">Cash Accounts:</p>
+            <table class="table table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Edit</th>
+                </tr>
+
+                <!-- For to fill information about each account-->
+                <tr>
+                    <td>1</td>
+                    <td>Pesos</td>
+                    <td>$1,000</td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Dollars</td>
+                    <td>$0</td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Pounds</td>
+                    <td>$0</td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                </tr>
+                <!--***********************************************-->
+
+            </table>
+        </div>
+    </div>
+    <!-- Ends table for cash accounts -->
 
 {% endblock %}
