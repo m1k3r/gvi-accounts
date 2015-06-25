@@ -29,7 +29,7 @@ class Account(models.Model):
         if self.account_type == 'b':
             return self.number
         else:
-            return self.currency
+            return self.currency.name
 
 
 class Transfer(models.Model):
