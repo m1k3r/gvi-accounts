@@ -1,1 +1,15 @@
 <!-- dashboard -->
+
+<h1>Bank Accounts</h1>
+<ul>
+{% for account in bank_acc %}
+    <li>{{ account }}</li>
+{% endfor %}
+</ul>
+
+<h1>Cash Accounts</h1>
+<ul>
+{% for account in cash_acc %}
+    <li>{{ account }}</li>
+{% endfor %}
+</ul>
