@@ -32,10 +32,31 @@ function isNumberDecimal(field){
 }
 
 //Function that receives a json and connects to the backend
-function jsonAjax(json ){
+
+function jsonAjax(json){
     console.log("Entra a funcion");
     console.log(json);
     console.log(JSON.stringify(json));
+
+    $.ajax({
+        url : "create_account/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+
+            console.log(json); // log the returned json to the console
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
+        }
+    });
 
     return true;
 }
@@ -67,10 +88,11 @@ function saveNewAccount(){
 
         //Connection to backend
         var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
-        if(jsonAjax(accountData)==false){
+        /*if(jsonAjax(accountData)==false){
             alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
             return false;
-        }
+        }*/
+        jsonAjax(accountData);
     }
     if(accountType == "b"){
         var currency = $('#currencySelect').val();
