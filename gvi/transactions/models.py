@@ -28,8 +28,8 @@ class Transaction(models.Model):
     date = models.DateTimeField()
     subcategory = models.ForeignKey(Subcategory, blank=True)
     comment = models.CharField(max_length=200, blank=True)
-    amount = models.CharField(max_length=50)
-    balance = models.CharField(max_length=50)
+    amount = models.DecimalField(decimal_places=10, max_digits=19)
+    balance = models.DecimalField(decimal_places=10, max_digits=19)
     #Add the ForeignKey to accounts
 
     def __str__(self):
