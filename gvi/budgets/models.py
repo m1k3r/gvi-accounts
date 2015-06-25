@@ -5,7 +5,9 @@ class Budget(models.Model):
     initial_date = models.DateTimeField()
     final_date = models.DateTimeField(blank=True)
     #who-b <--lel (srsly add ForeignKey Hub)
-
+    
+    def __str__(self):
+        return self.number
 
 class BudgetElement(models.Model):
     FIXED = 'f'
@@ -20,4 +22,7 @@ class BudgetElement(models.Model):
     #Add currency
     #Add category
     #Add subcategory
+    
+    def __str__(self):
+        return self.amount + self.number
 
