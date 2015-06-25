@@ -61,3 +61,33 @@
     background: #d4ef82;
 }
 
+.modalStyles{
+	text-align: left;
+	color: #999999;
+	font-style: normal;
+	font-weight:300;
+	font-size: 14px;
+}
+
+.modalHeader{
+	color: #000000;
+	text-align: center;
+}
+
+.accountTypeLabel{
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 10%;
+	color: #ffffff;
+}
+
+.btnDelete{
+	color: #C61212;
+	background: #FFFFFF;
+	border-width: 2px;
+	border-color: #C61212;
+	border-radius: 5%;
+	font-weight: 500;
+}
