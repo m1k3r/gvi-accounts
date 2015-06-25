@@ -10,6 +10,6 @@
 <h1>Cash Accounts</h1>
 <ul>
 {% for account in cash_acc %}
-    <li>{{ account }}</li>
+    <li>$ {{ account.balance }} {{ account }}</li>
 {% endfor %}
 </ul>
