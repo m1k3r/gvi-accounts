@@ -33,29 +33,36 @@ function isNumberDecimal(field){
 
 //Function that receives a json and connects to the backend
 
-function jsonAjax(json){
+function jsonAjax(lejson){
     console.log("Entra a funcion");
-    console.log(json);
-    console.log(JSON.stringify(json));
+    console.log(lejson);
+    console.log(JSON.stringify(lejson));
 
     $.ajax({
         url : "create_account/", // the endpoint
         type : "POST", // http method
-        data : json, // data sent with the post request
+        data : lejson, // data sent with the post request
+        dataType: 'json',
 
         // handle a successful response
-        success : function(json) {
+        success : function(jsonResponse) {
 
-            console.log(json); // log the returned json to the console
+            console.log(jsonResponse); // log the returned json to the console
             console.log("success"); // another sanity check
+
+
             $('#modalAddAccount').modal('hide');
             $('#modalAddAccount').find('#inputAmount').val('');
             $('#modalAddAccount').find('#inputAccountNo').val('');
             $('#modalAddAccount').find('#inputBank').val('');
-            //$('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
-            //$('#bankTxtField').css("display", "block");
-            //$('#accountNoTxtField').css("display", "block");
 
+
+            if(lejson.account_type == 'c'){
+                console.log('Cambiar la tabla de Cash');
+            }
+            else {
+                console.log('Cambiar la tabla de Bank');
+            }
 
         },
 
@@ -156,7 +163,6 @@ $(document).on('click', '#modal_save' ,function (){
             return;
         }
 
-        console.log("DESPUES DE C Y B");
 
         //Connection to backend
         var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
@@ -168,12 +174,6 @@ $(document).on('click', '#modal_save' ,function (){
 
     }
 
-    /*//Close modal and clear fields
-     $('#modalAddAccount').modal('hide');
-     $('#modalAddAccount').find("input,select").val('').end();
-     $('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
-     $('#bankTxtField').css("display", "block");
-     $('#accountNoTxtField').css("display", "block");*/
 
 });
 
