@@ -36,6 +36,9 @@ def new_account(request):
         new_acc = Account(account_type=a_type, balance=b, currency=currency[0])
         new_acc.save()
 
-        return JsonResponse({'code': '200'})
+        return JsonResponse({'code': '200',
+                             'msg': 'all cool',
+                             'pk': new_acc.pk},
+                            )
     else:
         return HttpResponseForbidden
