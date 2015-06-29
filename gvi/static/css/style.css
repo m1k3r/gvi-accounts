@@ -129,3 +129,20 @@ h1>#hubname{
   /* Set width to your desired site width */
   width: 1170px;
 }
+
+.labelExchangeRate{
+	font-weight: 700;
+	font-size: 16px;
+	padding-top: 5px;
+}
+
+#arrowTransfer{
+	color: #5CB85C;
+	height: 20px;
+	font-size: 30px;
+	padding-left: 35px;
+}
+
+#inputAmountTransferResult{
+	border: none;
+}
