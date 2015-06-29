@@ -146,9 +146,9 @@
                                     <select class="form-control" id="currencySelect">
 
                                         <!-- For to display currencies -->
-                                        <option>Pesos</option>
-                                        <option>Pounds</option>
-                                        <option>Dollars</option>
+                                        {% for c in curr %}
+                                        <option>{{ c }}</option>
+                                        {% endfor %}
                                         <!--***************************-->
 
                                     </select>
@@ -251,9 +251,9 @@
                                     <select class="form-control" id="currencySelectEdit">
 
                                         <!-- For to display currencies -->
-                                        <option>Pesos</option>
-                                        <option>Pounds</option>
-                                        <option>Dollars</option>
+                                        {% for c in curr %}
+                                        <option>{{ c }}</option>
+                                        {% endfor %}
                                         <!--***************************-->
 
                                     </select>
