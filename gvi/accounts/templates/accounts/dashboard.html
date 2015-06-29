@@ -359,7 +359,7 @@
                                 <div class="col-md-3">
                                     <select class="form-control" id="sourceAccount">
 
-                                        <!-- For to display currencies -->
+                                        <!-- For to display bank or cash accounts -->
                                         <option>Pesos</option>
                                         <option>Pounds</option>
                                         <option>Dollars</option>
@@ -404,7 +404,7 @@
                                 <div class="col-md-3">
                                     <select class="form-control" id="destinyAccount">
 
-                                        <!-- For to display currencies -->
+                                        <!-- For to display bank or cash accounts -->
                                         <option>Pesos</option>
                                         <option>Pounds</option>
                                         <option>Dollars</option>
@@ -424,15 +424,19 @@
                                 <div class="col-md-3 col-md-offset-2">Exchange Rate:</div>
                             </div>
                             <div class="row" style="padding-top: 20px;">
+
+                                <!-- Change label values to currencies from source and destiny accounts-->
                                 <div class="col-md-2 col-md-offset-3 labelExchangeRate">
-                                    Dollars
+                                    <label>Dollars</label>
                                 </div>
                                 <div class=" col-md-2">
                                     <input type="text" class="form-control" id="inputExchangeRate">
                                 </div>
                                 <div class="col-md-2 labelExchangeRate">
-                                    Pesos
+                                    <label>Pesos</label>
                                 </div>
+                                <!--******************************************************************-->
+
                             </div>
                         </div>
                         <!-- End exchange rate -->
@@ -447,9 +451,12 @@
                                 <input type="text" class="form-control" id="inputAmountTransfer">
                             </div>
                             <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
+
+                            <!--Change value to the amount multiplied by the exchange rate -->
                             <div class="col-md-3 col-md-offset-1">
                                 <input type="text" class="form-control" id="inputAmountTransferResult" value="10000" disabled>
                             </div>
+                            <!--***********************************************************-->
 
                         </div>
                         <br>
