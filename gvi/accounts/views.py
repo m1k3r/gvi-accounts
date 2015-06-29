@@ -20,25 +20,35 @@ def index(request):
 
 
 @csrf_exempt
-def new_account(request):
+def account_api(request):
     if request.is_ajax():
-        # for obj in serializers.deserialize("json", request.body):
-        #    print obj
-        print "***********"
-        print request.body
-        print "***********"
-        a_type = request.POST['account_type']
-        b = request.POST['balance']
-        curr = request.POST['currency']
-        currency = Currency.objects.filter(name=curr)
-        print currency
+        # POST method for creating a new object
+        if request.method == 'POST':
 
-        new_acc = Account(account_type=a_type, balance=b, currency=currency[0])
-        new_acc.save()
+            a_type = request.POST['account_type']
+            b = request.POST['balance']
+            curr = request.POST['currency']
+            currency = Currency.objects.filter(name=curr)
+            print currency
 
-        return JsonResponse({'code': '200',
-                             'msg': 'all cool',
-                             'pk': new_acc.pk},
-                            )
+            new_acc = Account(account_type=a_type, balance=b, currency=currency[0])
+            new_acc.save()
+
+            return JsonResponse({'code': '200',
+                                 'msg': 'all cool',
+                                 'pk': new_acc.pk},
+                                )
+        # GET method for retrieving and object
+        elif request.method == 'GET':
+            pass
+
+        elif request.method == 'UPDATE':
+            pass
+
+        elif request.method == 'DELETE':
+            pass
+
+        else:
+            return HttpResponseForbidden
     else:
         return HttpResponseForbidden
