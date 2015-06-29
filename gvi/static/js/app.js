@@ -27,7 +27,7 @@ function isNumberDecimal(field){
     if(field.match(/^[1-9]\d*(\.\d+)?$/)){
         return true;
     }else{
-       return false;
+        return false;
     }
 }
 
@@ -48,6 +48,15 @@ function jsonAjax(json){
 
             console.log(json); // log the returned json to the console
             console.log("success"); // another sanity check
+            $('#modalAddAccount').modal('hide');
+            $('#modalAddAccount').find('#inputAmount').val('');
+            $('#modalAddAccount').find('#inputAccountNo').val('');
+            $('#modalAddAccount').find('#inputBank').val('');
+            //$('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
+            //$('#bankTxtField').css("display", "block");
+            //$('#accountNoTxtField').css("display", "block");
+
+
         },
 
         // handle a non-successful response
@@ -55,6 +64,16 @@ function jsonAjax(json){
 
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
+
+            $('#modalAddAccount').modal('hide');
+            $('#modalAddAccount').find('#inputAmount').val('');
+            $('#modalAddAccount').find('#inputAccountNo').val('');
+            $('#modalAddAccount').find('#inputBank').val('');
+            /*$('#modalAddAccount').find("input,select").val('').end();
+            $('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
+            $('#bankTxtField').css("display", "block");
+            $('#accountNoTxtField').css("display", "block");*/
+
         }
     });
 
@@ -62,36 +81,46 @@ function jsonAjax(json){
 }
 
 //Function to SAVE info from the New Account modal
-function saveNewAccount(){
+$(document).on('click', '#modal_save' ,function (){
 
     //Validate account type
     var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();
 
+    console.log("Despues accountType");
+    console.log(accountType);
+
     //Get data
     if(accountType == "c"){
+
+        console.log("EN SAVE CCCC");
+
         var currency = $('#currencySelect').val();
         var amount= $('#inputAmount').val();
 
         //Validations
         if(isNull(currency)==false){
+            console.log("in currency");
             alert("You need to select a currency");
-           return false;
+            return;
         }
         if(isNull(amount)==false){
+            console.log("in amount");
             alert("The field Amount cannot be empty");
-            return false;
+            return;
         }
         if(isNumberDecimal(amount)==false){
+            console.log("in number");
             alert("The amount must be a number");
-            return false;
+            return;
         }
+
 
         //Connection to backend
         var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
         /*if(jsonAjax(accountData)==false){
-            alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
-            return false;
-        }*/
+         alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
+         return false;
+         }*/
         jsonAjax(accountData);
     }
     if(accountType == "b"){
@@ -104,46 +133,49 @@ function saveNewAccount(){
         if(isNull(currency)==false){
             alert("You need to select a currency");
 
-            return false;
+            return;
         }
         if(isNull(bank)==false){
             alert("The field Bank cannot be empty");
-            return false;
+            return;
         }
         if(isNull(account)==false){
             alert("The field Account cannot be empty");
-            return false;
+            return;
         }
         if(isNull(amount)==false){
             alert("The field amount cannot be empty");
-            return false;
+            return;
         }
         if(isNumberInteger(account)==false){
             alert("The Account # must be a number without decimals");
-            return false;
+            return;
         }
         if(isNumberDecimal(amount)==false){
             alert("The Amount must be a number");
-            return false;
+            return;
         }
+
+        console.log("DESPUES DE C Y B");
 
         //Connection to backend
         var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
-        if(jsonAjax(accountData)==false){
-            alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
-            return false;
-        }
+
+        jsonAjax(accountData)
+
+
+
 
     }
 
-    //Close modal and clear fields
-    $('#modalAddAccount').modal('hide');
-    $('#modalAddAccount').find("input,select").val('').end();
-    $('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
-    $('#bankTxtField').css("display", "block");
-    $('#accountNoTxtField').css("display", "block");
+    /*//Close modal and clear fields
+     $('#modalAddAccount').modal('hide');
+     $('#modalAddAccount').find("input,select").val('').end();
+     $('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
+     $('#bankTxtField').css("display", "block");
+     $('#accountNoTxtField').css("display", "block");*/
 
-}
+});
 
 function getJson(){
     //var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
