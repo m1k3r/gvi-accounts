@@ -47,6 +47,8 @@ function jsonAjax(lejson){
         // handle a successful response
         success : function(jsonResponse) {
 
+            // Hides the modal and update the tables DOM
+
             console.log(jsonResponse); // log the returned json to the console
             console.log("success"); // another sanity check
 
