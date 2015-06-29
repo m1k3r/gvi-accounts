@@ -4,7 +4,7 @@
 
 {% block menubar %}
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
-
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalMoneyTransfer" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Money Transfer</button></p>
 {% endblock %}
 
 {% block content %}
@@ -312,5 +312,164 @@
         </div>
      </div>
     <!-- Ends Edit Account Modal-->
+
+    <!--Money Transfer Modal-->
+    <div class="modal fade modalStyles" id="modalMoneyTransfer" tabindex="-1" role="dialog" aria-labelledby="labelMoneyTransfer">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelMoneyTransfer">Money Transfer</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form class="form-horizontal" id="moneyTransferForm">
+
+                        <!-- Source account-->
+                        <!-- Account type -->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-md-offset-5">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransfer()">
+                                            <p class="label-success accountTypeLabel">Cash</p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransfer()" checked>
+                                            <p class="label-info accountTypeLabel">Bank</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Account type -->
+
+                        <!-- Select Source account -->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">Source Account:</div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="sourceAccount">
+
+                                        <!-- For to display currencies -->
+                                        <option>Pesos</option>
+                                        <option>Pounds</option>
+                                        <option>Dollars</option>
+                                        <!--***************************-->
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select Source account -->
+                        <!-- End Source account -->
+
+                        <hr><br>
+                        <!-- Destiny account-->
+                        <!-- Account type -->
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-md-offset-5">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransfer()">
+                                            <p class="label-success accountTypeLabel">Cash</p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransfer()" checked>
+                                            <p class="label-info accountTypeLabel">Bank</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Account type -->
+
+                        <!-- Select Source account -->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
+                                <div class="col-md-3">
+                                    <select class="form-control" id="destinyAccount">
+
+                                        <!-- For to display currencies -->
+                                        <option>Pesos</option>
+                                        <option>Pounds</option>
+                                        <option>Dollars</option>
+                                        <!--***************************-->
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Select Source account -->
+                        <!-- End Source account -->
+
+                        <hr><br>
+                        <!-- Exchange rate-->
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-2">Exchange Rate:</div>
+                            </div>
+                            <div class="row" style="padding-top: 20px;">
+                                <div class="col-md-2 col-md-offset-3 labelExchangeRate">
+                                    Dollars
+                                </div>
+                                <div class=" col-md-2">
+                                    <input type="text" class="form-control" id="inputExchangeRate">
+                                </div>
+                                <div class="col-md-2 labelExchangeRate">
+                                    Pesos
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End exchange rate -->
+
+                        <br><hr><br>
+                        <!-- Amount -->
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2" style="text-align: center;">Amount</div>
+                        </div>
+                        <div class="row">
+                            <div class=" col-md-3 col-md-offset-2">
+                                <input type="text" class="form-control" id="inputAmountTransfer">
+                            </div>
+                            <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
+                            <div class="col-md-3 col-md-offset-1">
+                                <input type="text" class="form-control" id="inputAmountTransferResult" value="10000" disabled>
+                            </div>
+
+                        </div>
+                        <br>
+                        <!-- End amount -->
+
+                    </form>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" >Save</button>
+                <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+        </div>
+     </div>
+    <!-- Ends Add Account Modal-->
+
 
 {% endblock %}
