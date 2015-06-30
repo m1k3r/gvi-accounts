@@ -343,7 +343,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()" checked>
+                                            <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()">
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -357,24 +357,28 @@
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Source Account:</div>
                                 <div class="col-md-3">
+                                    <select class="form-control" id="defaultSelectSource" style="display: block;">
+                                        <option></option>
+                                    </select>
+
                                     <!-- Select bank account-->
-                                    <select class="form-control" id="sourceBankAccount" style="display: block;" >
+                                    <!-- CHANGE THE ARGUMENT OF selectSourceAccount TO THE CURRENCY OF THE ACCOUNT -->
+                                    <select class="form-control" id="sourceBankAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
 
                                         <!-- For to display bank or cash accounts -->
-                                        <option>Pesos1</option>
-                                        <option>Pounds1</option>
-                                        <option>Dollars1</option>
+                                        <option></option>
+                                        <option>Pesos</option>
+                                        <option>Pounds</option>
                                         <!--***************************-->
 
                                     </select>
 
                                     <!-- Select cash account -->
-                                    <select class="form-control" id="sourceCashAccount" style="display: none;">
+                                    <select class="form-control" id="sourceCashAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
 
                                         <!-- For to display bank or cash accounts -->
-                                        <option>Pesos2</option>
-                                        <option>Pounds2</option>
-                                        <option>Dollars2</option>
+                                        <option></option>
+                                        <option>Dollars</option>
                                         <!--***************************-->
 
                                     </select>
@@ -400,7 +404,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()" checked>
+                                            <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()">
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -414,22 +418,24 @@
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
                                 <div class="col-md-3">
-                                    <select class="form-control" id="destinyAccountBank" style="display: block;">
+                                    <select class="form-control" id="defaultSelectDestiny" style="display: block;">
+                                        <option></option>
+                                    </select>
+                                    <select class="form-control" id="destinyAccountBank" style="display: none;" onchange="selectDestinyAccount($(this).val())">
 
                                         <!-- For to display bank accounts -->
-                                        <option>Pesos b</option>
-                                        <option>Pounds b</option>
-                                        <option>Dollars b</option>
+                                        <option></option>
+                                        <option>Pesos</option>
+                                        <option>Dollars</option>
                                         <!--***************************-->
 
 
                                     </select>
-                                    <select class="form-control" id="destinyAccountCash" style="display: none;">
+                                    <select class="form-control" id="destinyAccountCash" style="display: none;" onchange="selectDestinyAccount($(this).val())">
 
                                         <!-- For to display cash accounts -->
-                                        <option>Pesos c</option>
-                                        <option>Pounds c</option>
-                                        <option>Dollars c</option>
+                                        <option></option>
+                                        <option>Pounds</option>
                                         <!--***************************-->
 
 
@@ -450,13 +456,13 @@
 
                                 <!-- Change label values to currencies from source and destiny accounts-->
                                 <div class="col-md-2 col-md-offset-3 labelExchangeRate">
-                                    <label>Dollars</label>
+                                    <label id="labelSourceCurrency"></label>
                                 </div>
                                 <div class=" col-md-2">
-                                    <input type="text" class="form-control" id="inputExchangeRate">
+                                    <input type="text" class="form-control" id="inputExchangeRate" onkeyup="validateExchangeRate($(this).val());">
                                 </div>
                                 <div class="col-md-2 labelExchangeRate">
-                                    <label>Pesos</label>
+                                    <label id="labelDestinyCurrency"></label>
                                 </div>
                                 <!--******************************************************************-->
 
@@ -471,13 +477,13 @@
                         </div>
                         <div class="row">
                             <div class=" col-md-3 col-md-offset-2">
-                                <input type="text" class="form-control" id="inputAmountTransfer">
+                                <input type="text" class="form-control" id="inputAmountTransfer" onkeyup="calculateAmount($(this).val())" >
                             </div>
                             <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
 
                             <!--Change value to the amount multiplied by the exchange rate -->
                             <div class="col-md-3 col-md-offset-1">
-                                <input type="text" class="form-control" id="inputAmountTransferResult" value="10000" disabled>
+                                <input type="text" class="form-control" id="inputAmountTransferResult" value="" disabled>
                             </div>
                             <!--***********************************************************-->
 

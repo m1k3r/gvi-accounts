@@ -236,20 +236,73 @@ function deleteBtnOut(){
 
 function cashSelectMoneyTransferSource(){
     $('#sourceBankAccount').css("display", "none");
+    $('#defaultSelectSource').css("display", "none");
     $('#sourceCashAccount').css("display", "block");
+    $('#sourceCashAccount').val('');
+    $('#labelSourceCurrency').empty();
 }
 
 function bankSelectMoneyTransferSource(){
     $('#sourceBankAccount').css("display", "block");
+    $('#defaultSelectSource').css("display", "none");
     $('#sourceCashAccount').css("display", "none");
+    $('#sourceBankAccount').val('');
+    $('#labelSourceCurrency').empty();
 }
 
 function cashSelectMoneyTransferDestiny(){
     $('#destinyAccountBank').css("display", "none");
+    $('#defaultSelectDestiny').css("display", "none");
     $('#destinyAccountCash').css("display", "block");
+    $('#destinyAccountCash').val('');
+    $('#labelDestinyCurrency').empty();
 }
 
 function bankSelectMoneyTransferDestiny(){
     $('#destinyAccountBank').css("display", "block");
+    $('#defaultSelectDestiny').css("display", "none");
     $('#destinyAccountCash').css("display", "none");
+    $('#destinyAccountBank').val('');
+    $('#labelDestinyCurrency').empty();
+}
+
+function selectSourceAccount(currency){
+    $('#labelSourceCurrency').empty();
+    $('#labelSourceCurrency').append(currency);
+}
+
+function selectDestinyAccount(currency){
+    $('#labelDestinyCurrency').empty();
+    $('#labelDestinyCurrency').append(currency);
+}
+
+function calculateAmount(amount){
+
+    var exchangeRate = $("#inputExchangeRate").val();
+
+    if(isNull(exchangeRate) == false){
+        alert("You must enter an exchange rate.");
+        $("#inputAmountTransfer").val("");
+        return;
+    }
+    if(amount != "") {
+        if (!(amount.match(/^\d*\.?\d*$/))) {
+            alert("The amount must be a number.");
+            $("#inputAmountTransfer").val("");
+            return;
+        }
+    }
+    var res = amount*exchangeRate;
+    $("#inputAmountTransferResult").val(res);
+
+}
+
+function validateExchangeRate(exchangeRate){
+    if(exchangeRate != "") {
+        if (!(exchangeRate.match(/^\d*\.?\d*$/))) {
+            alert("The exchange rate must be a number.");
+            $("#inputExchangeRate").val("");
+            return;
+        }
+    }
 }
