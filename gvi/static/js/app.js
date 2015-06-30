@@ -319,6 +319,7 @@ $(document).on('click', '#modal_edit' ,function () {
 
     //Validate account type
     var accountType = $('input[name=accountTypeRadioEdit]:checked', '#addAccountForm').val();
+    console.log(accountType);
     var id = $("#idAccountEdit").val();
     //Get data
     if(accountType == "c"){
@@ -345,7 +346,7 @@ $(document).on('click', '#modal_edit' ,function () {
 
 
         //Connection to backend
-        var accountData = {"id":id, "type": accountType, "balance":amount, "currency":currency};
+        var accountData = {"id":id, "account_type": accountType, "balance":amount, "currency":currency};
         console.log(accountData);
         /*if(jsonAjax(accountData)==false){
          alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
@@ -387,7 +388,7 @@ $(document).on('click', '#modal_edit' ,function () {
     }
 
         //Connection to backend
-        var accountData={"id":id, "type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
+        var accountData={"id":id, "account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
         console.log(accountData);
         updateJson(accountData);
 });
