@@ -217,6 +217,54 @@ function getJson(id){
     //return null;
 }
 
+
+function updateJson(json){
+    //var prueba='{"account_type":"b", "bank_name":"CACA", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
+    //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
+    //alert(id)
+
+    $.ajax({
+        url : "change_account/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+            $('#modalEditAccount').modal('hide');
+            $('#modalEditAccount').find('#inputAmountEdit').val('');
+            $('#modalEditAccount').find('#inputAccountNoEdit').val('');
+            $('#modalEditAccount').find('#inputBankEdit').val('');
+
+            //var balance = parseInt(lejson.balance).toFixed(2);
+
+            if(json.account_type == 'c'){
+                location.reload();
+
+            }
+            else {
+                console.log('Cambiar la tabla de Bank');
+                location.reload()
+            }
+
+            console.log(jsonResponse); // log the returned json to the console
+            console.log("success"); // another sanity check
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error editing the account. Please try again or contact the system manager.");
+
+        }
+    });
+
+    //return null;
+}
+
 //Function to EDIT account info
 function editAccount(id){
     id = id.attr('id');
@@ -225,30 +273,20 @@ function editAccount(id){
     // get json form backend
     var response = getJson(id);
 
-    response.done(function(json){
-        alert("TODO COOL");
-    }).fail(function (json) {
-       alert("error");
-    });
+    response.done(function(data){
 
-    //Validate
-    if(json==null){
-        alert("Error 1. Can't reach the server.");
-        return;
-    }
-    else{
-        var data = JSON.parse(json);
-        var accountType = data.account_type;
+        var accountType = data.type;
 
         // Get data
         if(accountType == "b") {
 
-            var bank = data.bank_name;
+            var bank = data.bank;
             var accountNo = data.number;
             var amount = data.balance;
             var currency = data.currency;
 
             //Fill fields
+            $("#idAccountEdit").val(id);
             $("#radioBankEdit").prop('checked', true);
             $("#currencySelectEdit").val(currency);
             $("#inputBankEdit").val(bank);
@@ -263,21 +301,25 @@ function editAccount(id){
             var currency = data.currency;
 
             //Fill fields
+            $("#idAccountEdit").val(id);
             $("#radioCashEdit").prop('checked', true);
             $("#currencySelectEdit").val(currency);
             $("#inputAmountEdit").val(amount);
             $('#bankTxtFieldEdit').css("display", "none");
             $('#accountNoTxtFieldEdit').css("display", "none");
         }
+    }).fail(function (json) {
+       alert("Error 1. Can't reach the server.");
+        return;
+    });
 
-    }
 }
 
 $(document).on('click', '#modal_edit' ,function () {
 
     //Validate account type
-    var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();
-
+    var accountType = $('input[name=accountTypeRadioEdit]:checked', '#addAccountForm').val();
+    var id = $("#idAccountEdit").val();
     //Get data
     if(accountType == "c"){
 
@@ -303,12 +345,13 @@ $(document).on('click', '#modal_edit' ,function () {
 
 
         //Connection to backend
-        var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
+        var accountData = {"id":id, "account_type": accountType, "balance":amount, "currency":currency};
+        console.log(accountData);
         /*if(jsonAjax(accountData)==false){
          alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
          return false;
          }*/
-        //jsonAjax(accountData);
+        updateJson(accountData);
     }
     if(accountType == "b") {
         var currency = $('#currencySelectEdit').val();
@@ -344,10 +387,17 @@ $(document).on('click', '#modal_edit' ,function () {
     }
 
         //Connection to backend
-        var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
-
-        //jsonAjax(accountData);
+        var accountData={"id":id, "account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
+        console.log(accountData);
+        updateJson(accountData);
 });
+
+$(document).on('click', '#modal_editDelete' ,function () {
+    $('#modal_editDelete').css("background", "#C61212");
+    $('#modal_editDelete').css("color", "#ffffff");
+    $('#deleteConfirmation').css("display", "block");
+});
+
 
 //Function to hide additional fields when the account type is cash
 function cashSelectAddAccount(){
@@ -373,11 +423,31 @@ function bankSelectEditAccount(){
 }
 
 function deleteBtnOver(){
-    $('#deleteBtnEdit').css("background", "#C61212");
-    $('#deleteBtnEdit').css("color", "#ffffff");
+    $('#modal_editDelete').css("background", "#C61212");
+    $('#modal_editDelete').css("color", "#ffffff");
 }
 
 function deleteBtnOut(){
-    $('#deleteBtnEdit').css("background", "#ffffff");
-    $('#deleteBtnEdit').css("color", "#C61212");
+    $('#modal_editDelete').css("background", "#ffffff");
+    $('#modal_editDelete').css("color", "#C61212");
+}
+
+function deleteBtnOverYes(){
+    $('#deleteYes').css("background", "#C61212");
+    $('#deleteYes').css("color", "#ffffff");
+}
+
+function deleteBtnOutYes(){
+    $('#deleteYes').css("background", "#ffffff");
+    $('#deleteYes').css("color", "#C61212");
+}
+
+function deleteBtnOverNo(){
+    $('#deleteNo').css("background", "darkorange");
+    $('#deleteNo').css("color", "#ffffff");
+}
+
+function deleteBtnOutNo(){
+    $('#deleteNo').css("background", "#ffffff");
+    $('#deleteNo').css("color", "darkorange");
 }
