@@ -13,3 +13,8 @@ class Hubs(models.Model):
     country = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
     #Hub area ?
+    
+    def __str__(self):
+        return self.name
+                      
+
