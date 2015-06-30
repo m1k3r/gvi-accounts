@@ -53,14 +53,14 @@
 
                 <!-- For to fill info about each account -->
                 {% for a in bank_acc %}
-                    <tr>
+                    <tr id="1">
                     <td>{{ forloop.counter}}</td>
                     <td hidden id="pk">{{ a.id }}</td>
                     <td>{{ a.currency }}</td>
                     <td>{{ a.balance }}</td>
                     <td>{{ a.bank_name }}</td>
                     <td>{{ a.number }}</td>
-                    <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                    <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount($(this).closest('tr'))"></a></td>
                 </tr>
                 {% endfor %}
                 <!-- ****************************************-->
@@ -85,11 +85,11 @@
                 <!-- For to fill information about each account-->
                 {% for a in cash_acc %}
                 <tr>
-                    <td hidden id="pk">{{ a.id }}</td>
+                    <td hidden id="pk" >{{ a.id }}</td>
 
                     <td>{{ a.currency }}</td>
                     <td>{{ a.balance }}</td>
-                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td>
+                    <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick='editAccount({{ a.id }})'></a></td>
                 </tr>
                 {% endfor %}
                 <!--***********************************************-->
@@ -301,7 +301,7 @@
             <!-- Footer -->
             <div class="modal-footer">
                 <div class="row">
-                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" onclick="saveNewAccount()">Save</button>
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_edit">Save</button>
                     <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
                 </div>
                 <div class="row"><p> </p><br></div>

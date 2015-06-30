@@ -179,14 +179,16 @@ $(document).on('click', '#modal_save' ,function (){
 });
 
 function getJson(){
-    //var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
-    var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
+    var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
+    //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
+
     return prueba;
     //return null;
 }
 
 //Function to EDIT account info
-function editAccount(){
+function editAccount(id){
+    alert(id.attr('id'));
 
     //Get json from backend
     var json=getJson();
@@ -194,7 +196,7 @@ function editAccount(){
     //Validate
     if(json==null){
         alert("Error. Can't reach the server.");
-        return false;
+        return;
     }
     else{
         var data = JSON.parse(json);
@@ -232,6 +234,84 @@ function editAccount(){
 
     }
 }
+
+$(document).on('click', '#modal_edit' ,function () {
+
+    return;
+
+    //Validate account type
+    var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();
+
+    //Get data
+    if(accountType == "c"){
+
+        var currency = $('#currencySelectEdit').val();
+        var amount= $('#inputAmountEdit').val();
+
+        //Validations
+        if(isNull(currency)==false){
+            console.log("in currency");
+            alert("You need to select a currency");
+            return;
+        }
+        if(isNull(amount)==false){
+            console.log("in amount");
+            alert("The field Amount cannot be empty");
+            return;
+        }
+        if(isNumberDecimal(amount)==false){
+            console.log("in number");
+            alert("The amount must be a number");
+            return;
+        }
+
+
+        //Connection to backend
+        var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
+        /*if(jsonAjax(accountData)==false){
+         alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
+         return false;
+         }*/
+        //jsonAjax(accountData);
+    }
+    if(accountType == "b") {
+        var currency = $('#currencySelectEdit').val();
+        var bank = $('#inputBankEdit').val();
+        var account = $('#inputAccountNoEdit').val();
+        var amount = $('#inputAmountEdit').val();
+
+        //Validations
+        if (isNull(currency) == false) {
+            alert("You need to select a currency");
+            return;
+        }
+        if (isNull(bank) == false) {
+            alert("The field Bank cannot be empty");
+            return;
+        }
+        if (isNull(account) == false) {
+            alert("The field Account cannot be empty");
+            return;
+        }
+        if (isNull(amount) == false) {
+            alert("The field amount cannot be empty");
+            return;
+        }
+        if (isNumberInteger(account) == false) {
+            alert("The Account # must be a number without decimals");
+            return;
+        }
+        if (isNumberDecimal(amount) == false) {
+            alert("The Amount must be a number");
+            return;
+        }
+    }
+
+        //Connection to backend
+        var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
+
+        //jsonAjax(accountData);
+});
 
 //Function to hide additional fields when the account type is cash
 function cashSelectAddAccount(){
