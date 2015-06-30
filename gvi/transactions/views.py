@@ -12,10 +12,24 @@ def index(request):
     category = Category.objects.all()
     subcategory = Subcategory.objects.all()
 
+    context = {'transactions': transactions,
+               'category': category,
+               'subcategory': subcategory,
+               }
+
+    return render(request, 'transactions/dashboard.html', context)
+
+def search_transactions(request):
+    transactions = Transaction.objects.filter(category_number='5020')
+    category = Category.objects.all()
+    subcategory = Subcategory.objects.all()
+
     context = {'transactions':transactions,
                'category':category,
                'subcategory':subcategory,
                }
 
-# return HttpResponse("Welcome to Transactions Dashboard")
     return render(request, 'transactions/dashboard.html', context)
+
+
+
