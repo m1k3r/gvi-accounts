@@ -38,9 +38,11 @@ def account_new_get(request):
                     new_acc = Account(account_type=a_type, balance=b, currency=currency[0])
 
             except KeyError, e:
+                print "Key Error account_new_get POST"
                 print e
                 return HttpResponseServerError
             except Exception as e:
+                print "Turbo Exception account_new_get GET"
                 print e
                 return HttpResponseServerError
 
@@ -63,12 +65,15 @@ def account_new_get(request):
                                 'bank': account.bank_name,
                                 'balance': account.balance,
                                 'currency': currency.name,
+                                'number': account.number,
                                 }
 
             except KeyError as e:
+                print "Key Error account_new_get GET"
                 print e
                 return HttpResponseServerError
             except Account.DoesNotExist as e:
+                print "Does Not Exist account_new_get GET"
                 print e
                 return Http404
 
@@ -109,10 +114,14 @@ def account_update_delete(request):
                                     )
 
             except KeyError, e:
-                print e
+                print "KeyError account_update_delete POST"
+                print type(e)
+                print e.args
                 return HttpResponseServerError
             except Exception as e:
-                print e
+                print "Turbo Exception account_update_delete POST"
+                print type(e)
+                print e.args
                 return HttpResponseServerError
         elif request.method == 'GET':
             try:
@@ -124,8 +133,12 @@ def account_update_delete(request):
                                      'msg': 'account deleted',
                                      'pk': account_id},
                                     )
-
+            except KeyError as e:
+                print "Key Error account_update_delete GET"
+                print e
+                return HttpResponseServerError
             except Exception as e:
+                print "Turbo Exception account_update_delete GET"
                 print e
                 return HttpResponseServerError
         else:
