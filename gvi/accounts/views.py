@@ -19,7 +19,7 @@ def index(request):
 
 
 @csrf_exempt
-def account_api(request):
+def account_new_get(request):
     if request.is_ajax():
         # POST method for creating a new object
         if request.method == 'POST':
@@ -59,11 +59,11 @@ def account_api(request):
                 account = Account.objects.get(pk=account_id)
                 currency = Currency.objects.get(pk=account.currency.pk)
                 json_account = {'id': account.pk,
-                               'type': account.account_type,
-                               'bank': account.bank_name,
-                               'balance': account.balance,
-                               'currency': currency.name,
-                               }
+                                'type': account.account_type,
+                                'bank': account.bank_name,
+                                'balance': account.balance,
+                                'currency': currency.name,
+                                }
 
             except KeyError as e:
                 print e
@@ -74,14 +74,62 @@ def account_api(request):
 
             return JsonResponse(json_account)
 
-        # UPDATE method for updating an object
-        elif request.method == 'UPDATE':
-            pass
-        # DELETE method for deleting an object
-        elif request.method == 'DELETE':
-            pass
         # The rest of the methods are not supported
         else:
             return HttpResponseForbidden
     else:
         return HttpResponseForbidden
+
+@csrf_exempt
+def account_update_delete(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                account_id = request.POST['id']
+                a_type = request.POST['account_type']
+                b = request.POST['balance']
+                curr = request.POST['currency']
+                currency = Currency.objects.filter(name=curr)
+                account = Account.objects.get(pk=account_id)
+                account.account_type = a_type
+                account.balance = b
+                account.currency = currency[0]
+                if a_type == 'b':
+                    bank = request.POST['bank_name']
+                    number = request.POST['number']
+
+                    account.bank_name = bank
+                    account.number = number
+
+                account.save()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'all cool',
+                                     'pk': account.pk},
+                                    )
+
+            except KeyError, e:
+                print e
+                return HttpResponseServerError
+            except Exception as e:
+                print e
+                return HttpResponseServerError
+        elif request.method == 'GET':
+            try:
+                account_id = request.GET['id']
+                account = Account.objects.get(pk=account_id)
+                account.delete()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'account deleted',
+                                     'pk': account_id},
+                                    )
+
+            except Exception as e:
+                print e
+                return HttpResponseServerError
+        else:
+            return HttpResponseForbidden
+    else:
+        return HttpResponseForbidden
+
