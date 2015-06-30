@@ -284,8 +284,7 @@ function editAccount(id){
             var accountNo = data.number;
             var amount = data.balance;
             var currency = data.currency;
-
-            alert(accountNo);
+            
 
             //Fill fields
             $("#idAccountEdit").val(id);
