@@ -1,6 +1,6 @@
 
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseServerError
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
@@ -25,19 +25,33 @@ def account_api(request):
         # POST method for creating a new object
         if request.method == 'POST':
 
-            a_type = request.POST['account_type']
-            b = request.POST['balance']
-            curr = request.POST['currency']
-            currency = Currency.objects.filter(name=curr)
-            print currency
+            try:
+                a_type = request.POST['account_type']
+                b = request.POST['balance']
+                curr = request.POST['currency']
+                currency = Currency.objects.filter(name=curr)
+                if a_type == 'b':
+                    bank = request.POST['bank_name']
+                    number = request.POST['number']
+                    new_acc = Account(account_type=a_type, balance=b, currency=currency[0],
+                                      bank_name=bank, number=number)
+                else:
+                    new_acc = Account(account_type=a_type, balance=b, currency=currency[0])
 
-            new_acc = Account(account_type=a_type, balance=b, currency=currency[0])
+            except KeyError, e:
+                print e
+                return HttpResponseServerError
+            except Exception as e:
+                print e
+                return HttpResponseServerError
+
             new_acc.save()
 
             return JsonResponse({'code': '200',
                                  'msg': 'all cool',
                                  'pk': new_acc.pk},
                                 )
+
         # GET method for retrieving an object
         elif request.method == 'GET':
             pass
