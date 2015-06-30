@@ -285,6 +285,8 @@ function editAccount(id){
             var amount = data.balance;
             var currency = data.currency;
 
+            alert(accountNo);
+
             //Fill fields
             $("#idAccountEdit").val(id);
             $("#radioBankEdit").prop('checked', true);
@@ -318,8 +320,10 @@ function editAccount(id){
 $(document).on('click', '#modal_edit' ,function () {
 
     //Validate account type
-    var accountType = $('input[name=accountTypeRadioEdit]:checked', '#addAccountForm').val();
-    console.log(accountType);
+
+
+    var accountType = $('input[name=accountTypeRadioEdit]:checked', '#editAccountForm').val();
+
     var id = $("#idAccountEdit").val();
     //Get data
     if(accountType == "c"){
@@ -347,7 +351,7 @@ $(document).on('click', '#modal_edit' ,function () {
 
         //Connection to backend
         var accountData = {"id":id, "account_type": accountType, "balance":amount, "currency":currency};
-        console.log(accountData);
+
         /*if(jsonAjax(accountData)==false){
          alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
          return false;
@@ -389,7 +393,7 @@ $(document).on('click', '#modal_edit' ,function () {
 
         //Connection to backend
         var accountData={"id":id, "account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
-        console.log(accountData);
+
         updateJson(accountData);
 });
 
