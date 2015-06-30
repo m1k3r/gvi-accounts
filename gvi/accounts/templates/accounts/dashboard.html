@@ -91,7 +91,7 @@
 
                 <td>{{ a.currency }}</td>
                 <td>{{ a.balance }}</td>
-                <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick='editAccount({{ a.id }})'></a></td>
+                <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount($(this).closest('tr'))"></a></td>
             </tr>
             {% endfor %}
             <!--***********************************************-->
