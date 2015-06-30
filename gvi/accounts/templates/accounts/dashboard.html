@@ -335,7 +335,7 @@
                                 <div class="col-md-3 col-md-offset-5">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransfer()">
+                                            <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransferSource()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -343,7 +343,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransfer()" checked>
+                                            <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()" checked>
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -357,12 +357,24 @@
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Source Account:</div>
                                 <div class="col-md-3">
-                                    <select class="form-control" id="sourceAccount">
+                                    <!-- Select bank account-->
+                                    <select class="form-control" id="sourceBankAccount" style="display: block;" >
 
                                         <!-- For to display bank or cash accounts -->
-                                        <option>Pesos</option>
-                                        <option>Pounds</option>
-                                        <option>Dollars</option>
+                                        <option>Pesos1</option>
+                                        <option>Pounds1</option>
+                                        <option>Dollars1</option>
+                                        <!--***************************-->
+
+                                    </select>
+
+                                    <!-- Select cash account -->
+                                    <select class="form-control" id="sourceCashAccount" style="display: none;">
+
+                                        <!-- For to display bank or cash accounts -->
+                                        <option>Pesos2</option>
+                                        <option>Pounds2</option>
+                                        <option>Dollars2</option>
                                         <!--***************************-->
 
                                     </select>
@@ -380,7 +392,7 @@
                                 <div class="col-md-3 col-md-offset-5">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransfer()">
+                                            <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransferDestiny()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -388,7 +400,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransfer()" checked>
+                                            <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()" checked>
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -402,13 +414,24 @@
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
                                 <div class="col-md-3">
-                                    <select class="form-control" id="destinyAccount">
+                                    <select class="form-control" id="destinyAccountBank" style="display: block;">
 
-                                        <!-- For to display bank or cash accounts -->
-                                        <option>Pesos</option>
-                                        <option>Pounds</option>
-                                        <option>Dollars</option>
+                                        <!-- For to display bank accounts -->
+                                        <option>Pesos b</option>
+                                        <option>Pounds b</option>
+                                        <option>Dollars b</option>
                                         <!--***************************-->
+
+
+                                    </select>
+                                    <select class="form-control" id="destinyAccountCash" style="display: none;">
+
+                                        <!-- For to display cash accounts -->
+                                        <option>Pesos c</option>
+                                        <option>Pounds c</option>
+                                        <option>Dollars c</option>
+                                        <!--***************************-->
+
 
                                     </select>
                                 </div>

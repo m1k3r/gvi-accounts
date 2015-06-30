@@ -232,3 +232,24 @@ function deleteBtnOut(){
     $('#deleteBtnEdit').css("background", "#ffffff");
     $('#deleteBtnEdit').css("color", "#C61212");
 }
+
+
+function cashSelectMoneyTransferSource(){
+    $('#sourceBankAccount').css("display", "none");
+    $('#sourceCashAccount').css("display", "block");
+}
+
+function bankSelectMoneyTransferSource(){
+    $('#sourceBankAccount').css("display", "block");
+    $('#sourceCashAccount').css("display", "none");
+}
+
+function cashSelectMoneyTransferDestiny(){
+    $('#destinyAccountBank').css("display", "none");
+    $('#destinyAccountCash').css("display", "block");
+}
+
+function bankSelectMoneyTransferDestiny(){
+    $('#destinyAccountBank').css("display", "block");
+    $('#destinyAccountCash').css("display", "none");
+}
