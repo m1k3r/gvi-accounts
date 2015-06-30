@@ -220,7 +220,11 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <form class="form-horizontal" id="editAccountForm">
-
+                        <!-- Account id-->
+                        <div hidden>
+                            <input type="hidden" value="" id="idAccountEdit">
+                        </div>
+                        <!-- -->
                         <!-- Account type-->
                         <div class="row">
                             <div class="form-group">
@@ -230,7 +234,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioCashEdit" value="c" onclick="cashSelectEditAccount()">
+                                            <input type="radio" name="accountTypeRadioEdit" id="radioCashEdit" value="c" onclick="cashSelectEditAccount()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -238,7 +242,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadio" id="radioBankEdit" value="b" onclick="bankSelectEditAccount()">
+                                            <input type="radio" name="accountTypeRadioEdit" id="radioBankEdit" value="b" onclick="bankSelectEditAccount()">
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -308,13 +312,30 @@
                 </div>
                 <div class="row"><p> </p><br></div>
                 <div class="row">
-                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="deleteBtnEdit" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete Account</button>
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete Account</button>
                 </div>
+
+                <!-- Delete confirmation --->
+                <br>
+                <div id="deleteConfirmation" style="display: none;">
+                <div class="row">
+                    <div class="col-md-7 col-md-offset-2">
+                        <label id="labelDeleteConfirm">Are you sure you want to delete this account?</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes()" onmouseout="deleteBtnOutYes()">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo()" onmouseout="deleteBtnOutNo()">No</button>
+                </div>
+                    </div>
+                <!-- Ends delete confirmation -->
             </div>
             <!-- Ends footer -->
         </div>
     </div>
 </div>
 <!-- Ends Edit Account Modal-->
+
 
 {% endblock %}
