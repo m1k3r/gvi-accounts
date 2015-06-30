@@ -1,6 +1,3 @@
-/**
- * Created by anauriarte on 6/23/15.
- */
 
 //Function to validate if a field or select is null or empty
 function isNull(field){
@@ -58,15 +55,21 @@ function jsonAjax(lejson){
             $('#modalAddAccount').find('#inputAccountNo').val('');
             $('#modalAddAccount').find('#inputBank').val('');
 
+            var balance = parseInt(lejson.balance).toFixed(2);
 
             if(lejson.account_type == 'c'){
                 console.log('Cambiar la tabla de Cash');
+                // This code was used to manipulated the DOM and add the new account into the table.
+                /*$('#cashAccounts').append('<tr id='+ jsonResponse.pk +'><td hidden id="pk">'+ jsonResponse.pk + '</td>' +
+                                          '<td>' + lejson.currency + '</td><td>' + balance + '</td>' +
+                                          '<td><a class="glyphicon glyphicon-pencil" ' +
+                    'data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td></tr>');*/
+                location.reload();
 
-                $('#cashAccounts').append('<tr><td hidden id="pk">'+ jsonResponse.pk + '</td>' +
-                                          '<td>' + jsonResponse + '');
             }
             else {
                 console.log('Cambiar la tabla de Bank');
+                location.reload()
             }
 
         },
