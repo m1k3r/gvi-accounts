@@ -61,6 +61,9 @@ function jsonAjax(lejson){
 
             if(lejson.account_type == 'c'){
                 console.log('Cambiar la tabla de Cash');
+
+                $('#cashAccounts').append('<tr><td hidden id="pk">'+ jsonResponse.pk + '</td>' +
+                                          '<td>' + jsonResponse + '');
             }
             else {
                 console.log('Cambiar la tabla de Bank');
@@ -72,16 +75,12 @@ function jsonAjax(lejson){
         error : function(xhr,errmsg,err) {
 
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
+            alert("Error saving the account. Please try again or contact the system manager.");
 
             $('#modalAddAccount').modal('hide');
             $('#modalAddAccount').find('#inputAmount').val('');
             $('#modalAddAccount').find('#inputAccountNo').val('');
             $('#modalAddAccount').find('#inputBank').val('');
-            /*$('#modalAddAccount').find("input,select").val('').end();
-            $('#modalAddAccount').find("input[type=radio]").prop("checked", "radioBank");
-            $('#bankTxtField').css("display", "block");
-            $('#accountNoTxtField').css("display", "block");*/
 
         }
     });
