@@ -224,8 +224,8 @@ function updateJson(json){
     //alert(id)
 
     $.ajax({
-        url : "edit_account/", // the endpoint
-        type : "PUT", // http method
+        url : "change_account/", // the endpoint
+        type : "POST", // http method
         data : json, // data sent with the post request
 
         // handle a successful response
