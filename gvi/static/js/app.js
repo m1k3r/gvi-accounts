@@ -181,24 +181,59 @@ $(document).on('click', '#modal_save' ,function (){
 
 });
 
-function getJson(){
-    var prueba='{"account_type":"b", "bank_name":"Santander", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
+function getJson(id){
+    //var prueba='{"account_type":"b", "bank_name":"CACA", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
     //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
+    //alert(id)
+    var lejson = {'id': id };
 
-    return prueba;
+    var jxhr = $.ajax({
+        url : "create_account/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+
+            console.log(jsonResponse); // log the returned json to the console
+            console.log("success"); // another sanity check
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the account. Please try again or contact the system manager.");
+
+
+        }
+    });
+
+    return jxhr;
+
     //return null;
 }
 
 //Function to EDIT account info
 function editAccount(id){
-    alert(id.attr('id'));
+    id = id.attr('id');
+    //var lejson = {'id': id };
 
-    //Get json from backend
-    var json=getJson();
+    // get json form backend
+    var response = getJson(id);
+
+    response.done(function(json){
+        alert("TODO COOL");
+    }).fail(function (json) {
+       alert("error");
+    });
 
     //Validate
     if(json==null){
-        alert("Error. Can't reach the server.");
+        alert("Error 1. Can't reach the server.");
         return;
     }
     else{
@@ -239,8 +274,6 @@ function editAccount(id){
 }
 
 $(document).on('click', '#modal_edit' ,function () {
-
-    return;
 
     //Validate account type
     var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();

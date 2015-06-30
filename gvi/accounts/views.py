@@ -1,7 +1,6 @@
 
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseServerError
-from django.core import serializers
+from django.http import Http404, JsonResponse, HttpResponseForbidden, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Account, Currency
@@ -54,7 +53,27 @@ def account_api(request):
 
         # GET method for retrieving an object
         elif request.method == 'GET':
-            pass
+            try:
+                account_id = request.GET['id']
+                print account_id
+                account = Account.objects.get(pk=account_id)
+                currency = Currency.objects.get(pk=account.currency.pk)
+                json_account = {'id': account.pk,
+                               'type': account.account_type,
+                               'bank': account.bank_name,
+                               'balance': account.balance,
+                               'currency': currency.name,
+                               }
+
+            except KeyError as e:
+                print e
+                return HttpResponseServerError
+            except Account.DoesNotExist as e:
+                print e
+                return Http404
+
+            return JsonResponse(json_account)
+
         # UPDATE method for updating an object
         elif request.method == 'UPDATE':
             pass
