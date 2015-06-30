@@ -38,16 +38,16 @@ def account_api(request):
                                  'msg': 'all cool',
                                  'pk': new_acc.pk},
                                 )
-        # GET method for retrieving and object
+        # GET method for retrieving an object
         elif request.method == 'GET':
             pass
-
+        # UPDATE method for updating an object
         elif request.method == 'UPDATE':
             pass
-
+        # DELETE method for deleting an object
         elif request.method == 'DELETE':
             pass
-
+        # The rest of the methods are not supported
         else:
             return HttpResponseForbidden
     else:
