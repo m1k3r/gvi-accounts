@@ -284,7 +284,7 @@ function editAccount(id){
             var accountNo = data.number;
             var amount = data.balance;
             var currency = data.currency;
-            
+
 
             //Fill fields
             $("#idAccountEdit").val(id);
@@ -402,6 +402,53 @@ $(document).on('click', '#modal_editDelete' ,function () {
     $('#deleteConfirmation').css("display", "block");
 });
 
+$(document).on('click', '#deleteNo' ,function () {
+    $('#modal_editDelete').css("background", "#ffffff");
+    $('#modal_editDelete').css("color", "#C61212");
+    $('#deleteConfirmation').css("display", "none");
+});
+
+$(document).on('click', '#deleteYes' ,function () {
+    $('#modal_editDelete').css("background", "#ffffff");
+    $('#modal_editDelete').css("color", "#C61212");
+    $('#deleteConfirmation').css("display", "none");
+
+    var id = $("#idAccountEdit").val();
+    deleteJson(id);
+});
+
+function deleteJson(id){
+    var lejson = {'id': id };
+
+    var jxhr = $.ajax({
+        url : "change_account/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+
+            console.log(jsonResponse); // log the returned json to the console
+            console.log("success"); // another sanity check
+            $('#modalEditAccount').modal('hide');
+            location.reload()
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the account. Please try again or contact the system manager.");
+
+
+        }
+    });
+
+    return jxhr;
+}
 
 //Function to hide additional fields when the account type is cash
 function cashSelectAddAccount(){
