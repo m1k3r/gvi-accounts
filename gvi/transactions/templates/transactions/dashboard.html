@@ -29,7 +29,8 @@
         </div><!-- /.row Hub info -->
 
         <!-- Form data to backend -->
-        <form action="">
+        <form action="{% url 'transactions:search_transactions' %}" method="post">
+            {% csrf_token %}
 
             <!-- Category title -->
             <div class="row">
@@ -110,7 +111,7 @@
                 </div>
             </div><!-- /.row To - From title -->
 
-            <!-- Date data -->
+            <!-- Date data and search button-->
             <div class="row">
                 <div class="col-xs-8">
                     <div class="col-xs-4">
@@ -151,10 +152,10 @@
                     </div>
 
                 </div>
-                <button type="button" class="btn btn-info pull-left">
+                <button type="submit" class="btn btn-info pull-left">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> search
                 </button>
-            </div><!-- /.row Date data -->
+            </div><!-- /.row Date data and search button -->
         </form> <!-- Form data to backend -->
 
         <!-- Transaction table -->
