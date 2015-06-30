@@ -33,4 +33,5 @@ class Transaction(models.Model):
     account = models.ForeignKey('accounts.Account')
 
     def __str__(self):
-        return self.transaction_type + amount
+        return self.transaction_type + str(self.amount)
+
