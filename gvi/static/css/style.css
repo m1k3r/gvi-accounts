@@ -130,3 +130,18 @@ h1>#hubname{
   /* Set width to your desired site width */
   width: 1170px;
 }
+
+#labelDeleteConfirm{
+
+	font-size: 14px;
+	padding-bottom: 20px;
+}
+
+.btnDeleteCancel {
+	color: darkorange;
+	background: #FFFFFF;
+	border-width: 2px;
+	border-color: darkorange;
+	border-radius: 5%;
+	font-weight: 500;
+}
