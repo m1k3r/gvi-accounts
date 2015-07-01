@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 
 {% block menubar %}
-    <p class="navbar-text"><button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" ><a href="{% url 'accounts:index' %}" style="color: black; text-decoration: none;"> Accounts</a></button></p>
+    <p class="navbar-text"><a href="{% url 'accounts:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" > Accounts</button></a></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddCurrency" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add currency</button></p>
 {% endblock %}
 

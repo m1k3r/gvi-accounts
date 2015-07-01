@@ -6,7 +6,7 @@
 
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalMoneyTransfer" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Money Transfer</button></p>
-    <p class="navbar-text"><button class="btn btn-default btn-sm glyphicon glyphicon-usd" type="button" id="btnCurrencies"><a href="{%url 'accounts:currencies'%}" style="color: #ffffff; text-decoration: none; font-weight: 500; font-size: 12px;">  Currencies</a></button></p>
+    <p class="navbar-text"><a href="{%url 'accounts:currencies'%}" style="color: #ffffff; text-decoration: none; font-weight: 500; font-size: 12px;"><button class="btn btn-default btn-sm glyphicon glyphicon-usd" type="button" id="btnCurrencies">  Currencies</button></a></p>
 {% endblock %}
 
 {% block content %}
