@@ -170,8 +170,8 @@ h1>#hubname{
 	padding-top: 6px;
 	padding-bottom: 5px;
 	font-weight: 700;
-	border-color: #ffffff;
-	background: #1b6d85;
+	border-color: #1b6d85;
+	background: #53BBDB;
 	color: white;
 }
 
@@ -181,6 +181,17 @@ h1>#hubname{
 	padding-left: 15px;
 	font-size: 16px;
 	background: transparent;
+}
+
+#btnAccounts{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 6px;
+	padding-bottom: 5px;
+	font-weight: 700;
+	border-color: #1b6d85;
+	background: #53BBDB;
+	color: white;
 }
 
 
