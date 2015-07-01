@@ -26,7 +26,8 @@
                     </div>
                 </h4>
             </div>
-        </div><!-- /.row Hub info -->
+        </div>
+        <!-- /.row Hub info -->
 
         <!-- Form data to backend -->
         <form action="{% url 'transactions:search_transactions' %}" method="post">
@@ -42,7 +43,8 @@
                         <label class="select-title">Category</label>
                     </div>
                 </div>
-            </div><!-- /.row Category/Subcategory title -->
+            </div>
+            <!-- /.row Category/Subcategory title -->
 
             <!-- Category -->
             <div class="row">
@@ -57,14 +59,15 @@
                     <div class="col-xs-11 pull-left">
                         <div class="form-group">
                             <select class="form-control" id="categorySelect" name="categorySelect">
-                                <option>Fuel</option>
-                                <option>Food</option>
-                                <option>Travel Expenses</option>
+                                {% for a in xxx %}
+                                    <option>{{ a.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
                 </div>
-            </div><!-- /.row Category -->
+            </div>
+            <!-- /.row Category -->
 
             <!-- Subcategory title -->
             <div class="row">
@@ -73,7 +76,8 @@
                         <label class="select-title">Subcategory</label>
                     </div>
                 </div>
-            </div><!-- /.row Subcategory title -->
+            </div>
+            <!-- /.row Subcategory title -->
 
             <!-- Subcategory -->
             <div class="row">
@@ -88,14 +92,16 @@
                     <div class="col-xs-11 pull-left">
                         <div class="form-group">
                             <select class="form-control" id="subcategorySelect" name="subcategorySelect">
-                                <option>Car Fuel</option>
-                                <option>Boat Fuel</option>
-                                <option>Compressor Fuel</option>
+                                {% for a in xxx %}
+                                    <option>{{ a.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
-                    </div><!-- /.col-xs-4 -->
+                    </div>
+                    <!-- /.col-xs-4 -->
                 </div>
-            </div><!-- /.row Subcategory -->
+            </div>
+            <!-- /.row Subcategory -->
 
             <!-- To - From title -->
             <div class="row">
@@ -104,12 +110,13 @@
                         <label class="select-title">From</label>
                     </div>
                     <div class="col-xs-1 col-xs-offset-7">
-                        <div class = "pull-left">
-                            <label class="select-title select-title-offset" >To</label>
+                        <div class="pull-left">
+                            <label class="select-title select-title-offset">To</label>
                         </div>
                     </div>
                 </div>
-            </div><!-- /.row To - From title -->
+            </div>
+            <!-- /.row To - From title -->
 
             <!-- Date data and search button-->
             <div class="row">
@@ -132,7 +139,9 @@
                     </div>
 
 
-                    <div class="col-xs-4"><hr class="horizontal-separator"></div>
+                    <div class="col-xs-4">
+                        <hr class="horizontal-separator">
+                    </div>
 
                     <div class="col-xs-4">
                         <div class="form-inline pull-right">
@@ -155,8 +164,10 @@
                 <button type="submit" class="btn btn-info pull-left">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> search
                 </button>
-            </div><!-- /.row Date data and search button -->
-        </form> <!-- Form data to backend -->
+            </div>
+            <!-- /.row Date data and search button -->
+        </form>
+        <!-- Form data to backend -->
 
         <!-- Transaction table -->
         <div class="row">
@@ -184,13 +195,15 @@
                             <td>{{ a.comment }}</td>
                             <td>{{ a.amount }}</td>
                             <td>{{ a.balance }}</td>
-                            <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditTransaction" onclick="editTransaction()"></a></td>
+                            <td><a class="glyphicon glyphicon-pencil" data-toggle="modal"
+                                   data-target="#modalEditTransaction" onclick="editTransaction()"></a></td>
                         </tr>
                     {% endfor %}
                     <!-- ****************************************-->
 
                 </table>
             </div>
-        </div><!-- /.row Transaction table -->
+        </div>
+        <!-- /.row Transaction table -->
     </div>
 {% endblock %}
