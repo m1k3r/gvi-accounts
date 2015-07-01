@@ -1,9 +1,9 @@
 
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, JsonResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseNotAllowed
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Account, Currency
+from .models import Account, Currency, Transfer
 
 
 def index(request):
@@ -144,12 +144,18 @@ def money_transfer(request):
                 source_id = request.POST['source_id']
                 target_id = request.POST['target_id']
                 amount = request.POST['amount']
+                rate = request.POST['rate']
                 s_account = Account.objects.get(pk=source_id)
                 t_account = Account.objects.get(pk=target_id)
                 s_account.balance = s_account.balance - amount
                 t_account.balance = t_account + amount
                 s_account.save()
                 t_account.save()
+                transfer = Transfer(from_account=s_account,
+                                    to_account=t_account,
+                                    amount=amount,
+                                    exchange_rate=rate)
+                transfer.save()
 
                 return JsonResponse({'code': '200',
                                      'msg': 'transaction completed',
