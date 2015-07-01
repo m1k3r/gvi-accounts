@@ -38,4 +38,57 @@
             </table>
         </div>
     </div>
+
+<!--Add Currency Modal-->
+<div class="modal fade modalStyles" id="modalAddCurrency" tabindex="-1" role="dialog" aria-labelledby="labelAddCurrency">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelAddCurrency">New Currency</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <br>
+                    <form class="form-horizontal" id="addCurrencyForm">
+
+                        <!-- Name and contraction -->
+                        <div class="row" id="nameTxtField">
+                            <div class="form-group">
+                                <label for="inputName" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Name:</label>
+                                <div class=" col-md-6">
+                                    <input type="text" class="form-control" id="inputName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="contractionTxtField" >
+                            <div class="form-group">
+                                <label for="inputContraction" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Contraction:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputContraction">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Name and contraction-->
+
+                    </form>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="currencySave">Save</button>
+                <button type="button" class="btn btn-default col-md-2" id="addCurrencyCancel" data-dismiss="modal">Cancel</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Add Account Modal-->
 {% endblock %}
