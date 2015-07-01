@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Account, Currency, Transfer
 
+from decimal import *
+
 
 def index(request):
     bank_acc = Account.objects.filter(account_type='b')
@@ -40,11 +42,11 @@ def account_new_get(request):
             except KeyError, e:
                 print "Key Error account_new_get POST"
                 print e
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
             except Exception as e:
                 print "Turbo Exception account_new_get GET"
                 print e
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
 
             new_acc.save()
 
@@ -72,15 +74,15 @@ def account_new_get(request):
             except KeyError as e:
                 print "Key Error account_new_get GET"
                 print type(e)
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
 
             return JsonResponse(json_account)
 
         # The rest of the methods are not supported
         else:
-            return HttpResponseNotAllowed
+            return HttpResponseNotAllowed(request)
     else:
-        return HttpResponseForbidden
+        return HttpResponseForbidden(request)
 
 @csrf_exempt
 def account_update_delete(request):
@@ -114,7 +116,7 @@ def account_update_delete(request):
                 print "KeyError/ Exception account_update_delete POST"
                 print type(e)
                 print e.args
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
 
         elif request.method == 'GET':
             try:
@@ -129,12 +131,12 @@ def account_update_delete(request):
             except (KeyError, Exception) as e:
                 print "Key Error/Exception account_update_delete GET"
                 print type(e)
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
 
         else:
-            return HttpResponseNotAllowed
+            return HttpResponseNotAllowed(request)
     else:
-        return HttpResponseNotAllowed
+        return HttpResponseNotAllowed(request)
 
 @csrf_exempt
 def money_transfer(request):
@@ -145,10 +147,11 @@ def money_transfer(request):
                 target_id = request.POST['target_id']
                 amount = request.POST['amount']
                 rate = request.POST['rate']
-                s_account = Account.objects.get(pk=source_id)
-                t_account = Account.objects.get(pk=target_id)
-                s_account.balance = s_account.balance - amount
-                t_account.balance = t_account + amount
+                new_amount = float(amount) * float(rate)
+                s_account = Account.objects.get(pk=int(source_id))
+                t_account = Account.objects.get(pk=int(target_id))
+                s_account.balance -= Decimal(amount)
+                t_account.balance += Decimal(new_amount)
                 s_account.save()
                 t_account.save()
                 transfer = Transfer(from_account=s_account,
@@ -164,9 +167,10 @@ def money_transfer(request):
             except (KeyError, Exception) as e:
                 print "Key Error/ Exception money_transfer"
                 print type(e)
-                return HttpResponseServerError
+                print e.args
+                return HttpResponseServerError(request)
 
         else:
-            return HttpResponseNotAllowed
+            return HttpResponseNotAllowed(request)
     else:
-        return HttpResponseForbidden
+        return HttpResponseForbidden(request)
