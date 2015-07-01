@@ -177,6 +177,7 @@ def money_transfer(request):
         return HttpResponseForbidden(request)
 
 
+@csrf_exempt
 def currency_dash(request):
     if request.is_ajax():
         if request.method == 'POST':
@@ -209,3 +210,4 @@ def currency_dash(request):
         currencies = Currency.objects.all()
         context = {'currencies': currencies}
         return render(request, 'accounts/currencies.html', context)
+

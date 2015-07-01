@@ -757,3 +757,62 @@ $(document).on('click', '#moneyTransferCancel' ,function () {
     $('#radioBankTransferDestiny').prop('checked', false);
     $('#radioCashTransferDestiny').prop('checked', false);
 });
+
+
+$(document).on('click', '#currencySave' ,function () {
+
+    var name = $("#inputName").val();
+    var contraction = $("#inputContraction").val();
+
+    if(isNull(name)==false){
+        alert("You must enter a name.")
+        return;
+    }
+
+    if(isNull(contraction)==false){
+        alert("You must enter a contraction.")
+        return;
+    }
+
+    var json = {"name":name, "contraction":contraction};
+    jsonAddCurrency(json);
+});
+
+function jsonAddCurrency(json){
+
+    $.ajax({
+        url : "../currencies/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+
+            console.log(jsonResponse); // log the returned json to the console
+            console.log("success"); // another sanity check
+
+
+            $('#modalAddCurrency').modal('hide');
+            $('#modalAddCurrency').find('#inputName').val('');
+            $('#modalAddAccount').find('#inputContraction').val('');
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the currency. Please try again or contact the system manager.");
+            $('#modalAddCurrency').find('#inputName').val('');
+            $('#modalAddCurrency').find('#inputContraction').val('');
+
+        }
+    });
+
+    return true;
+}
