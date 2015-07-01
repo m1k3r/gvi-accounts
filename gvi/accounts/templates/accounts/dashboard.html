@@ -383,20 +383,19 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Source Account:</div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <select class="form-control" id="defaultSelectSource" style="display: block;">
                                         <option></option>
                                     </select>
 
                                     <!-- Select bank account-->
-                                    <!-- CHANGE THE ARGUMENT OF selectSourceAccount TO THE CURRENCY OF THE ACCOUNT -->
                                     <select class="form-control" id="sourceBankAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
 
                                         <!-- For to display bank or cash accounts -->
                                         <option></option>
-                                        <option>Pesos</option>
-                                        <option>Pounds</option>
-                                        <!--***************************-->
+                                        {% for a in bank_acc %}
+                                            <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} - {{ a.number }}</option>
+                                        {% endfor %}
 
                                     </select>
 
@@ -405,7 +404,9 @@
 
                                         <!-- For to display bank or cash accounts -->
                                         <option></option>
-                                        <option>Dollars</option>
+                                        {% for a in cash_acc %}
+                                            <option value='{{ a.currency }}.{{ a.id }}'id="{{ a.currency }}">{{ a.currency }} </option>
+                                        {% endfor %}
                                         <!--***************************-->
 
                                     </select>
@@ -444,7 +445,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
-                                <div class="col-md-3">
+                                <div class="col-md-5">
                                     <select class="form-control" id="defaultSelectDestiny" style="display: block;">
                                         <option></option>
                                     </select>
@@ -452,8 +453,9 @@
 
                                         <!-- For to display bank accounts -->
                                         <option></option>
-                                        <option>Pesos</option>
-                                        <option>Dollars</option>
+                                        {% for a in bank_acc %}
+                                            <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} - {{ a.number }}</option>
+                                        {% endfor %}
                                         <!--***************************-->
 
 
@@ -462,7 +464,9 @@
 
                                         <!-- For to display cash accounts -->
                                         <option></option>
-                                        <option>Pounds</option>
+                                        {% for a in cash_acc %}
+                                            <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} </option>
+                                        {% endfor %}
                                         <!--***************************-->
 
 
@@ -525,7 +529,7 @@
 
             <!-- Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" >Save</button>
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="btnSaveTransfer">Save</button>
                 <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
             </div>
             <!-- Ends footer -->
