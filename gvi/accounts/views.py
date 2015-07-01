@@ -176,8 +176,23 @@ def money_transfer(request):
     else:
         return HttpResponseForbidden(request)
 
-def currency(request):
-    currencies = Currency.objects.all()
-    context = {'currencies': currencies, }
-    return HttpResponse(request)
+def currency_dash(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                name = request.POST['name']
+                contraction = request.POST['contraction']
+                new_currency = Currency(name=name, contraction=contraction)
+                new_currency.save()
+                return JsonResponse({'code': 200,
+                                     'msg': 'currency saved'})
+            except (KeyError, Exception) as e:
+                print "Key Error / Exception currency POST"
+                print type(e)
+                print e.args
+                return HttpResponseServerError
+    else:
+        currencies = Currency.objects.all()
+        context = {'currencies': currencies}
+        return HttpResponse('currencies')
 
