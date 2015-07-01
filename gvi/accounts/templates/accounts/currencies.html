@@ -25,11 +25,11 @@
 
                 <!-- For to fill info about each currency -->
                 {% for c in currencies %}
-                <tr id="{{ c.id }}">
+                <tr id="{{ c.id }}.{{ c.name }}">
                     <td hidden id="pk">{{ c.id }}</td>
                     <td>{{ c.name }}</td>
                     <td>{{ c.contraction }}</td>
-                    <td><button class="glyphicon glyphicon-remove" id="btnDeleteCurrency" onclick="currencyDeleteConfirm($(this).closest('tr'))"></button></td>
+                    <td><button class="glyphicon glyphicon-remove" id="btnDeleteCurrency" data-toggle="modal" data-target="#modalDeleteCurrency" onclick="currencyDeleteConfirm($(this).closest('tr'))"></button></td>
                 </tr>
                 {% endfor %}
 
@@ -85,6 +85,43 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="currencySave">Save</button>
                 <button type="button" class="btn btn-default col-md-2" id="addCurrencyCancel" data-dismiss="modal">Cancel</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Add Account Modal-->
+
+<!--Delete Currency Modal-->
+<div class="modal fade modalStyles" id="modalDeleteCurrency" tabindex="-1" role="dialog" aria-labelledby="labelDeleteCurrency">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelDeleteCurrency">Delete Currency</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <br>
+                    <div class="row">
+                        <label>Are you sure you want to delete the currency</label>
+                        <label id="labelCurrencyName"></label>
+                        <label>?</label>
+                    </div>
+                    <div>
+                        <input type="hidden" id="currencyId">
+                    </div>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="currencyDeleteYes">Save</button>
+                <button type="button" class="btn btn-default col-md-2" id="currencyDeleteNo" data-dismiss="modal">Cancel</button>
             </div>
             <!-- Ends footer -->
         </div>

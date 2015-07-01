@@ -817,12 +817,17 @@ function jsonAddCurrency(json){
     return true;
 }
 
-function currencyDeleteConfirm(id){
-    id = id.attr('id');
+function currencyDeleteConfirm(data){
+    data = data.attr('id');
+    var arrayData = data.split(".");
+    var id = arrayData[0];
+    var name = arrayData[1];
 
-    var json = {"currency_id":id};
+    $('#labelCurrencyName').empty();
+    $('#labelCurrencyName').append(name);
+    //var json = {"currency_id":id};
 
-    jsonDeleteCurrency(json);
+    //jsonDeleteCurrency(json);
 }
 
 function jsonDeleteCurrency(json){
