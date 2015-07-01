@@ -21,7 +21,8 @@ function isNumberInteger(field){
 
 //Function to validate if a field has only numbers with or without decimals
 function isNumberDecimal(field){
-    if(field.match(/^[1-9]\d*(\.\d+)?$/)){
+    //if(field.match(/^[1-9]\d*(\.\d+)?$/)){
+    if(field.match(/^\d*\.?\d*$/)){
         return true;
     }else{
         return false;
@@ -539,7 +540,12 @@ function bankSelectMoneyTransferDestiny(){
 function selectSourceAccount(currency){
     var data = currency.split('.');
     $('#labelSourceCurrency').empty();
-    $('#labelSourceCurrency').append(data[0]);
+    var lastChar = data[0].slice(-1);
+    if(lastChar == "s"){
+        var curr = data[0].slice(0, -1);
+    }
+    var label = "1 "+curr+" =";
+    $('#labelSourceCurrency').append(label);
 }
 
 function selectDestinyAccount(currency){
@@ -552,12 +558,13 @@ function calculateAmount(amount){
 
     var exchangeRate = $("#inputExchangeRate").val();
 
+    if(amount != "") {
     if(isNull(exchangeRate) == false){
         alert("You must enter an exchange rate.");
         $("#inputAmountTransfer").val("");
         return;
     }
-    if(amount != "") {
+
         if (!(amount.match(/^\d*\.?\d*$/))) {
             alert("The amount must be a number.");
             $("#inputAmountTransfer").val("");
@@ -576,6 +583,16 @@ function validateExchangeRate(exchangeRate){
             $("#inputExchangeRate").val("");
             return;
         }
+    }
+    if($("#inputAmountTransfer").val() != ""){
+        var amount = $("#inputAmountTransfer").val();
+        if (!(amount.match(/^\d*\.?\d*$/))) {
+            alert("The amount must be a number.");
+            $("#inputAmountTransfer").val("");
+            return;
+        }
+        var res = amount*exchangeRate;
+        $("#inputAmountTransferResult").val(res);
     }
 }
 
@@ -633,7 +650,7 @@ $(document).on('click', '#btnSaveTransfer' ,function (){
     }
 
     if(isNumberDecimal(exchangeRate)==false){
-        alert("The exchange rate must be a number.");
+        alert("The exchange rate must be a number1.");
         return;
     }
 
@@ -707,3 +724,36 @@ function jsonTransfer(json) {
         }
     });
 }
+
+$(document).on('click', '#addAccountCancel' ,function () {
+    $('#modalAddAccount').modal('hide');
+    $('#modalAddAccount').find('#inputAmount').val('');
+    $('#modalAddAccount').find('#inputAccountNo').val('');
+    $('#modalAddAccount').find('#inputBank').val('');
+    $('#radioBank').prop('checked', true);
+    $('#bankTxtField').css("display", "block");
+    $('#accountNoTxtField').css("display", "block");
+});
+
+$(document).on('click', '#moneyTransferCancel' ,function () {
+    $('#modalMoneyTransfer').modal('hide');
+    $('#modalMoneyTransfer').find('#sourceBankAccount').val('');
+    $('#modalMoneyTransfer').find('#sourceCashAccount').val('');
+    $('#modalMoneyTransfer').find('#destinyAccountBank').val('');
+    $('#modalMoneyTransfer').find('#destinyAccountCash').val('');
+    $('#modalMoneyTransfer').find('#inputExchangeRate').val('');
+    $('#modalMoneyTransfer').find('#inputAmountTransfer').val('');
+    $('#modalMoneyTransfer').find('#inputAmountTransferResult').val('');
+    $('#labelDestinyCurrency').empty();
+    $('#labelSourceCurrency').empty();
+    $('#destinyAccountBank').css("display", "none");
+    $('#defaultSelectDestiny').css("display", "block");
+    $('#destinyAccountCash').css("display", "none");
+    $('#sourceBankAccount').css("display", "none");
+    $('#defaultSelectSource').css("display", "block");
+    $('#sourceCashAccount').css("display", "none");
+    $('#radioBankTransferSource').prop('checked', false);
+    $('#radioCashTransferSource').prop('checked', false);
+    $('#radioBankTransferDestiny').prop('checked', false);
+    $('#radioCashTransferDestiny').prop('checked', false);
+});
