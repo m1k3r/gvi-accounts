@@ -537,13 +537,15 @@ function bankSelectMoneyTransferDestiny(){
 }
 
 function selectSourceAccount(currency){
+    var data = currency.split('.');
     $('#labelSourceCurrency').empty();
-    $('#labelSourceCurrency').append(currency);
+    $('#labelSourceCurrency').append(data[0]);
 }
 
 function selectDestinyAccount(currency){
+    var data = currency.split('.');
     $('#labelDestinyCurrency').empty();
-    $('#labelDestinyCurrency').append(currency);
+    $('#labelDestinyCurrency').append(data[0]);
 }
 
 function calculateAmount(amount){
@@ -575,4 +577,133 @@ function validateExchangeRate(exchangeRate){
             return;
         }
     }
+}
+
+$(document).on('click', '#btnSaveTransfer' ,function (){
+
+    var sourceType = $('input[name=accountTypeRadioSource]:checked', '#modalMoneyTransfer').val();
+    var destinyType = $('input[name=accountTypeRadioDestiny]:checked', '#modalMoneyTransfer').val();
+
+    if(isNull(sourceType)==false){
+        alert("You must select a Source Account type (bank/cash).");
+        return;
+    }
+
+    if(isNull(destinyType)==false){
+        alert("You must select a Destiny Account type (bank/cash).");
+        return;
+    }
+
+    if(sourceType == "b"){
+        var valSource = $("#sourceBankAccount").val();
+        var valSourceArray = valSource.split('.');
+        var sourceId = valSourceArray[1];
+    }else{
+        var valSource = $("#sourceCashAccount").val();
+        var valSourceArray = valSource.split('.');
+        var sourceId = valSourceArray[1];
+    }
+
+    if(destinyType == "b"){
+        var valDestiny = $("#destinyAccountBank").val();
+        var valDestinyArray = valDestiny.split('.');
+        var destinyId = valDestinyArray[1];
+    }else{
+        var valDestiny = $("#destinyAccountCash").val();
+        var valDestinyArray = valDestiny.split('.');
+        var destinyId = valDestinyArray[1];
+    }
+
+    var exchangeRate = $("#inputExchangeRate").val();
+    var amount = $("#inputAmountTransfer").val();
+
+    if(isNull(sourceId)==false){
+        alert("You must select a source account.");
+        return;
+    }
+
+    if(isNull(destinyId)==false){
+        alert("You must select a destiny account.");
+        return;
+    }
+
+    if(isNull(exchangeRate) == false){
+        alert("You must enter an exchange rate.");
+        return;
+    }
+
+    if(isNumberDecimal(exchangeRate)==false){
+        alert("The exchange rate must be a number.");
+        return;
+    }
+
+    if(isNull(amount)==false){
+        alert("You must enter an amount.");
+        return;
+    }
+
+    if(isNumberDecimal(amount)==false){
+        alert("The amount must be a number.");
+        return;
+    }
+
+    //source_id target_id amount rate
+    var json = {"source_id":sourceId, "target_id":destinyId, "amount":amount, "rate":exchangeRate};
+    jsonTransfer(json);
+
+});
+
+function jsonTransfer(json) {
+
+    console.log(JSON.stringify(json));
+
+    $.ajax({
+        url: "money_transfer/", // the endpoint
+        type: "POST", // http method
+        data: json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success: function (jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+
+            console.log(jsonResponse); // log the returned json to the console
+            console.log("success"); // another sanity check
+
+
+            $('#modalMoneyTransfer').modal('hide');
+            $('#modalMoneyTransfer').find('#sourceBankAccount').val('');
+            $('#modalMoneyTransfer').find('#sourceCashAccount').val('');
+            $('#modalMoneyTransfer').find('#destinyAccountBank').val('');
+            $('#modalMoneyTransfer').find('#destinyAccountCash').val('');
+            $('#modalMoneyTransfer').find('#inputExchangeRate').val('');
+            $('#modalMoneyTransfer').find('#inputAmountTransfer').val('');
+            $('#modalMoneyTransfer').find('#inputAmountTransferResult').val('');
+            $('#labelDestinyCurrency').empty();
+            $('#labelSourceCurrency').empty();
+            $('#destinyAccountBank').css("display", "none");
+            $('#defaultSelectDestiny').css("display", "block");
+            $('#destinyAccountCash').css("display", "none");
+            $('#sourceBankAccount').css("display", "none");
+            $('#defaultSelectSource').css("display", "block");
+            $('#sourceCashAccount').css("display", "none");
+            $('#radioBankTransferSource').prop('checked', false);
+            $('#radioCashTransferSource').prop('checked', false);
+            $('#radioBankTransferDestiny').prop('checked', false);
+            $('#radioCashTransferDestiny').prop('checked', false);
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error: function (xhr, errmsg, err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the money transfer. Please try again or contact the system manager.");
+
+
+        }
+    });
 }
