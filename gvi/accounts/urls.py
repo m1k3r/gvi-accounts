@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^change_account/$', views.account_update_delete, name='update_account'),
     url(r'^money_transfer/$', views.money_transfer, name='money_transfer'),
     url(r'^currencies/$', views.currency_dash, name='currencies'),
-    
+
 ]

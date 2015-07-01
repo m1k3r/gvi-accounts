@@ -195,7 +195,7 @@ def currency_dash(request):
                 return HttpResponseServerError
         else:
             try:
-                c_id = request.POST['currency_id']
+                c_id = request.GET['currency_id']
                 currency = Currency.objects.get(pk=c_id)
                 currency.delete()
                 return JsonResponse({'code': 200,
