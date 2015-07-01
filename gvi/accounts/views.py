@@ -58,7 +58,8 @@ def account_new_get(request):
             try:
                 account_id = request.GET['id']
                 print account_id
-                account = Account.objects.get(pk=account_id)
+                account = get_object_or_404(Account, pk=account_id)
+                # account = Account.objects.get(pk=account_id)
                 currency = Currency.objects.get(pk=account.currency.pk)
                 json_account = {'id': account.pk,
                                 'type': account.account_type,
@@ -70,12 +71,8 @@ def account_new_get(request):
 
             except KeyError as e:
                 print "Key Error account_new_get GET"
-                print e
+                print type(e)
                 return HttpResponseServerError
-            except Account.DoesNotExist as e:
-                print "Does Not Exist account_new_get GET"
-                print e
-                return Http404
 
             return JsonResponse(json_account)
 
@@ -113,16 +110,12 @@ def account_update_delete(request):
                                      'pk': account.pk},
                                     )
 
-            except KeyError, e:
-                print "KeyError account_update_delete POST"
+            except (KeyError, Exception) as e:
+                print "KeyError/ Exception account_update_delete POST"
                 print type(e)
                 print e.args
                 return HttpResponseServerError
-            except Exception as e:
-                print "Turbo Exception account_update_delete POST"
-                print type(e)
-                print e.args
-                return HttpResponseServerError
+
         elif request.method == 'GET':
             try:
                 account_id = request.GET['id']
@@ -133,14 +126,11 @@ def account_update_delete(request):
                                      'msg': 'account deleted',
                                      'pk': account_id},
                                     )
-            except KeyError as e:
-                print "Key Error account_update_delete GET"
-                print e
+            except (KeyError, Exception) as e:
+                print "Key Error/Exception account_update_delete GET"
+                print type(e)
                 return HttpResponseServerError
-            except Exception as e:
-                print "Turbo Exception account_update_delete GET"
-                print e
-                return HttpResponseServerError
+
         else:
             return HttpResponseNotAllowed
     else:
