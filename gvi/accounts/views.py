@@ -146,3 +146,6 @@ def account_update_delete(request):
     else:
         return HttpResponseForbidden
 
+@csrf_exempt
+def money_transfer(request):
+    pass
