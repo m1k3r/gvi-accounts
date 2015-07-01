@@ -131,6 +131,7 @@ h1>#hubname{
   width: 1170px;
 }
 
+
 #labelDeleteConfirm{
 
 	font-size: 14px;
@@ -144,4 +145,21 @@ h1>#hubname{
 	border-color: darkorange;
 	border-radius: 5%;
 	font-weight: 500;
+}
+
+.labelExchangeRate{
+	font-weight: 700;
+	font-size: 16px;
+	padding-top: 5px;
+}
+
+#arrowTransfer{
+	color: #5CB85C;
+	height: 20px;
+	font-size: 30px;
+	padding-left: 35px;
+}
+
+#inputAmountTransferResult{
+	border: none;
 }
