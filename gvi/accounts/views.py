@@ -194,5 +194,5 @@ def currency_dash(request):
     else:
         currencies = Currency.objects.all()
         context = {'currencies': currencies}
-        return HttpResponse('currencies')
+        return render(request, 'accounts/currencies.html', context)
 
