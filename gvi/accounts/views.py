@@ -191,6 +191,19 @@ def currency_dash(request):
                 print type(e)
                 print e.args
                 return HttpResponseServerError
+        else:
+            try:
+                c_id = request.POST['currency_id']
+                currency = Currency.objects.get(pk=c_id)
+                currency.delete()
+                return JsonResponse({'code': 200,
+                                     'msg': 'currency deleted'})
+            except (KeyError, Exception) as e:
+                print "Key Error/ Exception GET currency"
+                print type(e)
+                print e.args
+                return HttpResponseServerError
+
     else:
         currencies = Currency.objects.all()
         context = {'currencies': currencies}
