@@ -1,6 +1,6 @@
 
-from django.shortcuts import render
-from django.http import Http404, JsonResponse, HttpResponseForbidden, HttpResponseServerError
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404, JsonResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Account, Currency
@@ -81,7 +81,7 @@ def account_new_get(request):
 
         # The rest of the methods are not supported
         else:
-            return HttpResponseForbidden
+            return HttpResponseNotAllowed
     else:
         return HttpResponseForbidden
 
@@ -142,10 +142,35 @@ def account_update_delete(request):
                 print e
                 return HttpResponseServerError
         else:
-            return HttpResponseForbidden
+            return HttpResponseNotAllowed
     else:
-        return HttpResponseForbidden
+        return HttpResponseNotAllowed
 
 @csrf_exempt
 def money_transfer(request):
-    pass
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                source_id = request.POST['source_id']
+                target_id = request.POST['target_id']
+                amount = request.POST['amount']
+                s_account = Account.objects.get(pk=source_id)
+                t_account = Account.objects.get(pk=target_id)
+                s_account.balance = s_account.balance - amount
+                t_account.balance = t_account + amount
+                s_account.save()
+                t_account.save()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'transaction completed',
+                                     })
+
+            except (KeyError, Exception) as e:
+                print "Key Error/ Exception money_transfer"
+                print type(e)
+                return HttpResponseServerError
+
+        else:
+            return HttpResponseNotAllowed
+    else:
+        return HttpResponseForbidden
