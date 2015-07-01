@@ -816,3 +816,43 @@ function jsonAddCurrency(json){
 
     return true;
 }
+
+function currencyDeleteConfirm(id){
+    id = id.attr('id');
+
+    var json = {"currency_id":id};
+
+    jsonDeleteCurrency(json);
+}
+
+function jsonDeleteCurrency(json){
+
+    $.ajax({
+        url : "../currencies/", // the endpoint
+        type : "GET", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+
+            console.log(jsonResponse); // log the returned json to the console
+            console.log("success"); // another sanity check
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error deleting the currency. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return true;
+}
