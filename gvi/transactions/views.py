@@ -12,17 +12,19 @@ def index(request):
     transactions = Transaction.objects.order_by('date')
     category = Category.objects.all()
     subcategory = Subcategory.objects.all()
+    year_range = Transaction.year_range()
 
     context = {'transactions': transactions,
                'category': category,
                'subcategory': subcategory,
+               'year_range': year_range,
                }
 
     return render(request, 'transactions/dashboard.html', context)
 
 
 def search_transactions(request):
-    transactions = Transaction.objects.filter(category__number='5020')
+    transactions = Transaction.objects.filter(category__number='5020').order_by('date')
     category = Category.objects.all()
     subcategory = Subcategory.objects.all()
 
