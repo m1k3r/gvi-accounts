@@ -107,9 +107,7 @@
                 <div class="container-fluid">
                     <br>
                     <div class="row">
-                        <label>Are you sure you want to delete the currency</label>
                         <label id="labelCurrencyName"></label>
-                        <label>?</label>
                     </div>
                     <div>
                         <input type="hidden" id="currencyId">
@@ -120,8 +118,8 @@
 
             <!-- Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="currencyDeleteYes">Save</button>
-                <button type="button" class="btn btn-default col-md-2" id="currencyDeleteNo" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm col-sm-2 col-md-offset-4" id="currencyDeleteYes" onmouseover="deleteYesOver()" onmouseout="deleteYesOut()">Yes</button>
+                <button type="button" class="btn btn-sm col-sm-2" id="currencyDeleteNo" data-dismiss="modal" onmouseover="deleteNoOver()" onmouseout="deleteNoOut()">No</button>
             </div>
             <!-- Ends footer -->
         </div>

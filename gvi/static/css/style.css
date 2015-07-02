@@ -194,5 +194,22 @@ h1>#hubname{
 	color: white;
 }
 
+#currencyDeleteYes{
+	color: #C61212;
+	background: #FFFFFF;
+	border-width: 2px;
+	border-color: #C61212;
+	border-radius: 5%;
+	font-weight: 500;
+}
+
+#currencyDeleteNo{
+	color: darkorange;
+	background: #FFFFFF;
+	border-width: 2px;
+	border-color: darkorange;
+	border-radius: 5%;
+	font-weight: 500;
+}
 
 

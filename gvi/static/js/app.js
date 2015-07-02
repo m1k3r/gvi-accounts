@@ -821,13 +821,12 @@ function currencyDeleteConfirm(data){
     data = data.attr('id');
     var arrayData = data.split(".");
     var id = arrayData[0];
-    var name = arrayData[1];
+    var name = "Are your sure you want to delete the currency "+arrayData[1]+"?";
 
+    $('#currencyId').val(id);
     $('#labelCurrencyName').empty();
     $('#labelCurrencyName').append(name);
-    //var json = {"currency_id":id};
 
-    //jsonDeleteCurrency(json);
 }
 
 function jsonDeleteCurrency(json){
@@ -861,3 +860,30 @@ function jsonDeleteCurrency(json){
 
     return true;
 }
+
+function deleteYesOver(){
+    $('#currencyDeleteYes').css("background", "#C61212");
+    $('#currencyDeleteYes').css("color", "#ffffff");
+}
+
+function deleteYesOut(){
+    $('#currencyDeleteYes').css("background", "#ffffff");
+    $('#currencyDeleteYes').css("color", "#C61212");
+}
+
+function deleteNoOver(){
+    $('#currencyDeleteNo').css("background", "darkorange");
+    $('#currencyDeleteNo').css("color", "#ffffff");
+}
+
+function deleteNoOut(){
+    $('#currencyDeleteNo').css("background", "#ffffff");
+    $('#currencyDeleteNo').css("color", "darkorange");
+}
+
+$(document).on('click', '#currencyDeleteYes' ,function () {
+
+    var id= $('#currencyId').val();
+    var json = {"currency_id":id};
+    jsonDeleteCurrency(json);
+});
