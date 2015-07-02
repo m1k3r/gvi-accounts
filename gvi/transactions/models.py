@@ -27,7 +27,7 @@ class Transaction(models.Model):
     )
     transaction_type = models.CharField(max_length=5, choices=TYPE_CHOICES, default=OUT)
     category = models.ForeignKey(Category, blank=True, null=True)
-    date = models.DateTimeField()
+    date = models.DateField()
     subcategory = models.ForeignKey(Subcategory, blank=True, null=True)
     comment = models.CharField(max_length=200, blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=19)
