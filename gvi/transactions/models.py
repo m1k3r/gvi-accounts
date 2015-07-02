@@ -26,9 +26,9 @@ class Transaction(models.Model):
         (OUT, 'Money Out'),
     )
     transaction_type = models.CharField(max_length=5, choices=TYPE_CHOICES, default=OUT)
-    category = models.ForeignKey(Category, blank=True)
+    category = models.ForeignKey(Category, blank=True, null=True)
     date = models.DateTimeField()
-    subcategory = models.ForeignKey(Subcategory, blank=True)
+    subcategory = models.ForeignKey(Subcategory, blank=True, null=True)
     comment = models.CharField(max_length=200, blank=True)
     amount = models.DecimalField(decimal_places=2, max_digits=19)
     balance = models.DecimalField(decimal_places=2, max_digits=19)
