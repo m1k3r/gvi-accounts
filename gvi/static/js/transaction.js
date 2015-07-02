@@ -15,12 +15,15 @@ function lockSelections(){
         }
         else {
             $('#categorySelect').prop('disabled', 'disabled');
+            $('#subcategorySelect').prop('disabled', 'disabled');
         }
     };
 
     var lockSubcategory = function () {
         if ($("#enableSubcategory").is(":checked")) {
             $('#subcategorySelect').prop('disabled', false);
+            $('#enableCategory').prop('checked', true);
+            $('#categorySelect').prop('disabled', false);
         }
         else {
             $('#subcategorySelect').prop('disabled', 'disabled');
@@ -30,7 +33,10 @@ function lockSelections(){
 
     $(lockCategory);
     $("#enableCategory").change(lockCategory);
+    $("#enableSubcategory").change(lockCategory);
     $(lockSubcategory);
     $("#enableSubcategory").change(lockSubcategory);
+    $("#enableCategory").change(lockSubcategory);
+
 
 }
