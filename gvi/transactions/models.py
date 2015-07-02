@@ -46,7 +46,7 @@ class Transaction(models.Model):
     def year_range(cls):
         year_range = [cls.first_year()]
 
-        if timezone.now().year == year_range:
+        if timezone.now().year == year_range[-1]:
             return year_range
         else:
             while year_range[-1] != timezone.now().year:
