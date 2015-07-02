@@ -8,7 +8,8 @@ class Currency(models.Model):
     def __str__(self):
         return self.name
 
-    def get_total(self):
+    @property
+    def total(self):
         accounts = Account.objects.filter(currency=self)
         total = 0
         for a in accounts:
