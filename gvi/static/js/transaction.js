@@ -5,12 +5,6 @@ $(document).ready(function() {
     $(window).load(function() {
         lockSelections();
         datepickers();
-
-
-        //$("#datetimepickerFrom").datepicker('setDate', new Date());
-        //$("#datetimepickerTo").datepicker('setDate', new Date());
-
-
     });
 });
 
@@ -52,7 +46,9 @@ function datepickers(){
         format: 'YYYY-MM-DD',
         pickTime: false,
         defaultDate: new Date()
-    });
+    })
+        .change(dateChanged)
+        .on('changeDate', dateChanged);
 
 
 
@@ -62,7 +58,39 @@ function datepickers(){
         format: 'YYYY-MM-DD',
         pickTime: false,
         defaultDate: new Date()
-    });
+    })
+        .change(dateChanged)
+        .on('changeDate', dateChanged);
+
+
+}
+function dateChanged(ev) {
+    var fromDate = $('#fromDate').val();
+    var toDate = $('#toDate').val();
+
+    fromDate = fromDate.split("-");
+    toDate = toDate.split("-");
+
+
+    if(fromDate[0] > toDate[0]){
+        $('button').prop('disabled', true);
+        $("#dateError").show(500);
+
+
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
+        $('button').prop('disabled', true);
+        $("#dateError").show(500);
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
+        $('button').prop('disabled', true);
+        $("#dateError").show(500);
+    }
+    else{
+        $('button').prop('disabled', false);
+        $("#dateError").hide(500);
+    }
+
 
 
 }
