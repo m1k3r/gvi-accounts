@@ -29,13 +29,16 @@ def search_transactions(request):
         subcategorySelect = request.POST.get('subcategorySelect')
         fromDate = request.POST.get('fromDate')
         toDate = request.POST.get('toDate')
-        transactions = Transaction.objects.filter(category__name=categorySelect).filter(subcategory__name=subcategorySelect).filter(date__range=[fromDate, toDate]).order_by('-date')
+        transactions = Transaction.objects.filter(category__name=categorySelect)
+        transactions = transactions.filter(subcategory__name=subcategorySelect)
+        transactions = transactions.filter(date__range=[fromDate, toDate]).order_by('-date')
     
     elif enableCategory:
         fromDate = request.POST.get('fromDate')
         toDate = request.POST.get('toDate')
         categorySelect = request.POST.get('categorySelect')
-        transactions = Transaction.objects.filter(category__name=categorySelect).filter(date__range=[fromDate, toDate]).order_by('-date')
+        transactions = Transaction.objects.filter(category__name=categorySelect)
+        transactions = transactions.filter(date__range=[fromDate, toDate]).order_by('-date')
     
     else:
         fromDate = request.POST.get('fromDate')
