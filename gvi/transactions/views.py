@@ -33,20 +33,20 @@ def search_transactions(request):
     if enableCategory and enableSubcategory:
         categorySelect = request.POST.get('categorySelect')
         subcategorySelect = request.POST.get('subcategorySelect')
-        #fromMonth = request.POST.get('fromMonth')
-        #fromYear = request.POST.get('fromYear')    
-        #toMonth = request.POST.get('toMonth')    
-        #toYear = request.POST.get('toYear')    
-        #fromDate = str(fromYear)+"-"+str(fromMonth)
-        #toDate = str(toYear)+"-"+str(toMonth)
-        transactions = Transaction.objects.filter(category__name=categorySelect).filter(subcategory__name=subcategorySelect).order_by('date')
+        fromDate = request.POST.get('fromDate')
+        toDate = request.POST.get('toDate')
+        transactions = Transaction.objects.filter(category__name=categorySelect).filter(subcategory__name=subcategorySelect).filter(date__range=[fromDate, toDate]).order_by('date')
     
     elif enableCategory:
+        fromDate = request.POST.get('fromDate')
+        toDate = request.POST.get('toDate')
         categorySelect = request.POST.get('categorySelect')
-        transactions = Transaction.objects.filter(category__name=categorySelect).order_by('date')
+        transactions = Transaction.objects.filter(category__name=categorySelect).filter(date__range=[fromDate, toDate]).order_by('date')
     
     else:
-        transactions = Transaction.objects.all().order_by('date')
+        fromDate = request.POST.get('fromDate')
+        toDate = request.POST.get('toDate')
+        transactions = Transaction.objects.filter(date__range=[fromDate, toDate]).order_by('date')
 
     year_range = Transaction.year_range()
     category = Category.objects.all()
