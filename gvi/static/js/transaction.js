@@ -6,6 +6,11 @@ $(document).ready(function() {
         lockSelections();
         datepickers();
 
+
+        //$("#datetimepickerFrom").datepicker('setDate', new Date());
+        //$("#datetimepickerTo").datepicker('setDate', new Date());
+
+
     });
 });
 
@@ -45,15 +50,19 @@ function datepickers(){
     $('#datetimepickerFrom').datetimepicker({
         viewMode: 'years',
         format: 'YYYY-MM-DD',
-        pickTime: false
+        pickTime: false,
+        defaultDate: new Date()
     });
+
 
 
 
     $('#datetimepickerTo').datetimepicker({
         viewMode: 'years',
         format: 'YYYY-MM-DD',
-        pickTime: false
+        pickTime: false,
+        defaultDate: new Date()
     });
+
 
 }
