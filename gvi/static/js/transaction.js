@@ -4,6 +4,7 @@
 $(document).ready(function() {
     $(window).load(function() {
         lockSelections();
+        datepickers();
 
     });
 });
@@ -37,6 +38,22 @@ function lockSelections(){
     $(lockSubcategory);
     $("#enableSubcategory").change(lockSubcategory);
     $("#enableCategory").change(lockSubcategory);
+}
 
+
+function datepickers(){
+    $('#datetimepickerFrom').datetimepicker({
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        pickTime: false
+    });
+
+
+
+    $('#datetimepickerTo').datetimepicker({
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        pickTime: false
+    });
 
 }
