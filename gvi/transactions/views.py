@@ -1,12 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
-from django.core import serializers
-from django.views.decorators.csrf import csrf_exempt
-
-from django.http import HttpResponse
 
 from .models import Transaction, Category, Subcategory
-import datetime
+
 
 def index(request):
     transactions = Transaction.objects.order_by('-date')
@@ -27,7 +22,6 @@ def search_transactions(request):
     print "**********"
     print request.body
     print "**********"
-    transactions = Transaction.objects.filter(category__number='5010').order_by('-date')
     enableCategory = request.POST.get('enableCategory')
     enableSubcategory = request.POST.get('enableSubcategory')
     if enableCategory and enableSubcategory:
