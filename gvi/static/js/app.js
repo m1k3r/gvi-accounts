@@ -1,4 +1,65 @@
+/* This file contains all the js functions of the accounts app, it is divided in the following sections:
+    -GENERAL VALIDATIONS
+        isNull()
+        isNumberInteger()
+        isNumberDecimal()
 
+    -ADD ACCOUNT
+        SAVE button function    (add account modal)
+        jsonAjax()
+        CANCEL button function  (add account modal)
+
+    -EDIT ACCOUNT
+        editAccount()
+        getJson()
+        SAVE button function    (edit account modal)
+        updateJson()
+
+    -DELETE ACCOUNT
+        DELETE button function  (edit account modal)
+        NO button function      (edit account modal)
+        YES button function     (edit account modal)
+        deleteJson()
+
+    -MONEY TRANSFER
+        selectSourceAccount()
+        selectDestinyAccount()
+        validateExchangeRate()
+        calculateAmount()
+        SAVE button function    (money transfer modal)
+        jsonTransfer()
+        CANCEL button function  (money transfer modal)
+
+    -ADD CURRENCY
+        SAVE button function    (add currency modal)
+        jsonAddCurrency()
+        CANCEL button function  (add currency modal)
+
+    -DELETE CURRENCY
+        currencyDeleteConfirm()
+        YES button function     (delete currency modal)
+        jsonDeleteCurrency()
+
+    -CSS FUNCTIONS
+        cashSelectAddAccount()  (add account modal)
+        bankSelectAddAccount()  (add account modal)
+        cashSelectEditAccount() (edit account modal)
+        bankSelectEditAccount() (edit account modal)
+        deleteBtnOver()         (edit account modal)
+        deleteBtnOut()          (edit account modal)
+        deleteBtnOverYes()      (edit account and delete currency modal)
+        deleteBtnOutYes()       (edit account and delete currency modal)
+        deleteBtnOverNo()       (edit account and delete currency modal)
+        deleteBtnOutNo()        (edit account and delete currency modal)
+        cashSelectMoneyTransferSource()     (money transfer modal)
+        bankSelectMoneyTransferSource()     (money transfer modal)
+        cashSelectMoneyTransferDestiny()    (money transfer modal)
+        bankSelectMoneyTransferDestiny()    (money transfer modal)
+
+*/
+
+
+//************************************** GENERAL VALIDATIONS ***********************************************************
 //Function to validate if a field or select is null or empty
 function isNull(field){
     if (field == '' || field == null) {
@@ -20,6 +81,7 @@ function isNumberInteger(field){
 }
 
 //Function to validate if a field has only numbers with or without decimals
+//(Number can start with zero or decimal and have or not numbers after decimal)
 function isNumberDecimal(field){
     //if(field.match(/^[1-9]\d*(\.\d+)?$/)){
     if(field.match(/^\d*\.?\d*$/)){
@@ -28,111 +90,38 @@ function isNumberDecimal(field){
         return false;
     }
 }
+//************************************* END GENERAL VALIDATIONS ********************************************************
 
-//Function that receives a json and connects to the backend
+//******************************************* ADD ACCOUNT **************************************************************
 
-function jsonAjax(lejson){
-    console.log("Entra a funcion");
-    console.log(lejson);
-    console.log(JSON.stringify(lejson));
-
-    $.ajax({
-        url : "create_account/", // the endpoint
-        type : "POST", // http method
-        data : lejson, // data sent with the post request
-        dataType: 'json',
-
-        // handle a successful response
-        success : function(jsonResponse) {
-
-            // Hides the modal and update the tables DOM
-
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
-
-
-            $('#modalAddAccount').modal('hide');
-            $('#modalAddAccount').find('#inputAmount').val('');
-            $('#modalAddAccount').find('#inputAccountNo').val('');
-            $('#modalAddAccount').find('#inputBank').val('');
-
-            var balance = parseInt(lejson.balance).toFixed(2);
-
-            if(lejson.account_type == 'c'){
-                console.log('Cambiar la tabla de Cash');
-                // This code was used to manipulated the DOM and add the new account into the table.
-                /*$('#cashAccounts').append('<tr id='+ jsonResponse.pk +'><td hidden id="pk">'+ jsonResponse.pk + '</td>' +
-                                          '<td>' + lejson.currency + '</td><td>' + balance + '</td>' +
-                                          '<td><a class="glyphicon glyphicon-pencil" ' +
-                    'data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount()"></a></td></tr>');*/
-                location.reload();
-
-            }
-            else {
-                console.log('Cambiar la tabla de Bank');
-                location.reload()
-            }
-
-        },
-
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-
-            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            alert("Error saving the account. Please try again or contact the system manager.");
-
-            $('#modalAddAccount').modal('hide');
-            $('#modalAddAccount').find('#inputAmount').val('');
-            $('#modalAddAccount').find('#inputAccountNo').val('');
-            $('#modalAddAccount').find('#inputBank').val('');
-
-        }
-    });
-
-    return true;
-}
-
-//Function to SAVE info from the New Account modal
+//Function triggered by SAVE on the Add Account modal
+//Validates fields, creates json and calls jsonAjax() function
 $(document).on('click', '#modal_save' ,function (){
 
     //Validate account type
     var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();
 
-    console.log("Despues accountType");
-    console.log(accountType);
-
-    //Get data
+    //Get data according to the account type
     if(accountType == "c"){
-
-        console.log("EN SAVE CCCC");
-
         var currency = $('#currencySelect').val();
         var amount= $('#inputAmount').val();
 
         //Validations
         if(isNull(currency)==false){
-            console.log("in currency");
             alert("You need to select a currency");
             return;
         }
         if(isNull(amount)==false){
-            console.log("in amount");
             alert("The field Amount cannot be empty");
             return;
         }
         if(isNumberDecimal(amount)==false){
-            console.log("in number");
             alert("The amount must be a number");
             return;
         }
 
-
         //Connection to backend
         var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
-        /*if(jsonAjax(accountData)==false){
-         alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
-         return false;
-         }*/
         jsonAjax(accountData);
     }
     if(accountType == "b"){
@@ -144,7 +133,6 @@ $(document).on('click', '#modal_save' ,function (){
         //Validations
         if(isNull(currency)==false){
             alert("You need to select a currency");
-
             return;
         }
         if(isNull(bank)==false){
@@ -156,7 +144,7 @@ $(document).on('click', '#modal_save' ,function (){
             return;
         }
         if(isNull(amount)==false){
-            alert("The field amount cannot be empty");
+            alert("The field Amount cannot be empty");
             return;
         }
         if(isNumberInteger(account)==false){
@@ -164,114 +152,86 @@ $(document).on('click', '#modal_save' ,function (){
             return;
         }
         if(isNumberDecimal(amount)==false){
-            alert("The Amount must be a number");
+            alert("The amount must be a number");
             return;
         }
 
-
         //Connection to backend
         var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
-
         jsonAjax(accountData)
 
-
-
-
     }
-
-
 });
 
-function getJson(id){
-    //var prueba='{"account_type":"b", "bank_name":"CACA", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
-    //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
-    //alert(id)
-    var lejson = {'id': id };
+//Function that receives a json with the New Account info and connects to the backend to add the account
+function jsonAjax(lejson){
 
-    var jxhr = $.ajax({
+    $.ajax({
         url : "create_account/", // the endpoint
-        type : "GET", // http method
+        type : "POST", // http method
         data : lejson, // data sent with the post request
+        dataType: 'json',
 
-        // handle a successful response
+        //Handle a successful response
         success : function(jsonResponse) {
 
-            // Hides the modal and update the tables DOM
+            // Hides the modal, updates the tables DOM and cleans the modal fields
+            $('#modalAddAccount').modal('hide');
+            $('#modalAddAccount').find('#inputAmount').val('');
+            $('#modalAddAccount').find('#inputAccountNo').val('');
+            $('#modalAddAccount').find('#inputBank').val('');
 
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
+            var balance = parseInt(lejson.balance).toFixed(2);
 
+            location.reload();
         },
 
-        // handle a non-successful response
+        //Handle a non-successful response
         error : function(xhr,errmsg,err) {
 
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             alert("Error saving the account. Please try again or contact the system manager.");
 
+            // Hides the modal and cleans the modal fields
+            $('#modalAddAccount').modal('hide');
+            $('#modalAddAccount').find('#inputAmount').val('');
+            $('#modalAddAccount').find('#inputAccountNo').val('');
+            $('#modalAddAccount').find('#inputBank').val('');
 
         }
     });
 
-    return jxhr;
-
-    //return null;
+    return true;
 }
 
+//Function triggered by the CANCEL button on the Add Account modal
+//Hides the modal, cleans fields
+$(document).on('click', '#addAccountCancel' ,function () {
 
-function updateJson(json){
-    //var prueba='{"account_type":"b", "bank_name":"CACA", "number":"123456", "balance":"500.00", "currency":"Pesos"}';
-    //var prueba='{"account_type":"c", "balance":"1000.00", "currency":"Pounds"}';
-    //alert(id)
+    $('#modalAddAccount').modal('hide');
+    $('#modalAddAccount').find('#inputAmount').val('');
+    $('#modalAddAccount').find('#inputAccountNo').val('');
+    $('#modalAddAccount').find('#inputBank').val('');
 
-    $.ajax({
-        url : "change_account/", // the endpoint
-        type : "POST", // http method
-        data : json, // data sent with the post request
+    //Set the default account type to Bank
+    $('#radioBank').prop('checked', true);
+    $('#bankTxtField').css("display", "block");
+    $('#accountNoTxtField').css("display", "block");
 
-        // handle a successful response
-        success : function(jsonResponse) {
+});
 
-            // Hides the modal and update the tables DOM
-            $('#modalEditAccount').modal('hide');
-            $('#modalEditAccount').find('#inputAmountEdit').val('');
-            $('#modalEditAccount').find('#inputAccountNoEdit').val('');
-            $('#modalEditAccount').find('#inputBankEdit').val('');
+//************************************* ENDS ADD ACCOUNT ***************************************************************
 
-            //var balance = parseInt(lejson.balance).toFixed(2);
+//*************************************** EDIT ACCOUNT *****************************************************************
 
-            if(json.account_type == 'c'){
-                location.reload();
-
-            }
-            else {
-                console.log('Cambiar la tabla de Bank');
-                location.reload()
-            }
-
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
-
-        },
-
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-
-            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            alert("Error editing the account. Please try again or contact the system manager.");
-
-        }
-    });
-
-    //return null;
-}
-
-//Function to EDIT account info
+//Function to fill in information in the Edit Account modal
+//Receives the account id, calls getJson() function that returns a json with the account info and fills in the modal fields
 function editAccount(id){
-    id = id.attr('id');
-    //var lejson = {'id': id };
 
-    // get json form backend
+    //Get the id from the object
+    id = id.attr('id');
+
+    //Get json form backend
     var response = getJson(id);
 
     response.done(function(data){
@@ -311,20 +271,47 @@ function editAccount(id){
             $('#accountNoTxtFieldEdit').css("display", "none");
         }
     }).fail(function (json) {
-       alert("Error 1. Can't reach the server.");
+        alert("Error 1. Can't reach the server.");
         return;
     });
 
 }
 
+//Function that receives an account id, connects to the backend and return a json with the account info
+function getJson(id){
+
+    //Create json with the account id
+    var lejson = {'id': id };
+
+    var jxhr = $.ajax({
+        url : "create_account/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error connecting to the server. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return jxhr;
+
+}
+
+//Function triggered by SAVE on the Edit Account modal
+//Validates fields, creates json and calls updateJson() function
 $(document).on('click', '#modal_edit' ,function () {
 
-    //Validate account type
-
-
     var accountType = $('input[name=accountTypeRadioEdit]:checked', '#editAccountForm').val();
-
     var id = $("#idAccountEdit").val();
+
     //Get data
     if(accountType == "c"){
 
@@ -334,7 +321,7 @@ $(document).on('click', '#modal_edit' ,function () {
         //Validations
         if(isNull(currency)==false){
             console.log("in currency");
-            alert("You need to select a currency");
+            alert("You need to select a Currency");
             return;
         }
         if(isNull(amount)==false){
@@ -348,15 +335,10 @@ $(document).on('click', '#modal_edit' ,function () {
             return;
         }
 
-
         //Connection to backend
         var accountData = {"id":id, "account_type": accountType, "balance":amount, "currency":currency};
-
-        /*if(jsonAjax(accountData)==false){
-         alert("Error saving the account, can't reach the server. Please try again or contact the system manager.");
-         return false;
-         }*/
         updateJson(accountData);
+
     }
     if(accountType == "b") {
         var currency = $('#currencySelectEdit').val();
@@ -393,23 +375,66 @@ $(document).on('click', '#modal_edit' ,function () {
 
         //Connection to backend
         var accountData={"id":id, "account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
-
         updateJson(accountData);
 });
 
+//Function that receives a json with the Account info and connects to the backend to edit the account
+function updateJson(json){
+
+    $.ajax({
+        url : "change_account/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal, updates the tables DOM and cleans modal fields
+            $('#modalEditAccount').modal('hide');
+            $('#modalEditAccount').find('#inputAmountEdit').val('');
+            $('#modalEditAccount').find('#inputAccountNoEdit').val('');
+            $('#modalEditAccount').find('#inputBankEdit').val('');
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error editing the account. Please try again or contact the system manager.");
+
+        }
+    });
+}
+
+//***************************************** ENDS EDIT ACCOUNT **********************************************************
+
+
+//******************************************* DELETE ACCOUNT ***********************************************************
+
+//Function triggered by the DELETE button on the Edit Account modal
+//Display the confirmation to delete the account
 $(document).on('click', '#modal_editDelete' ,function () {
+
     $('#modal_editDelete').css("background", "#C61212");
     $('#modal_editDelete').css("color", "#ffffff");
     $('#deleteConfirmation').css("display", "block");
 });
 
+//Function triggered by the NO button on the confirmation to delete the account
+//Hides the confirmation
 $(document).on('click', '#deleteNo' ,function () {
+
     $('#modal_editDelete').css("background", "#ffffff");
     $('#modal_editDelete').css("color", "#C61212");
     $('#deleteConfirmation').css("display", "none");
 });
 
+//Function triggered by the YES button on the confirmation to delete the account
+//Hides the confirmation, gets the account id and calls deleteJson() function
 $(document).on('click', '#deleteYes' ,function () {
+
     $('#modal_editDelete').css("background", "#ffffff");
     $('#modal_editDelete').css("color", "#C61212");
     $('#deleteConfirmation').css("display", "none");
@@ -418,7 +443,10 @@ $(document).on('click', '#deleteYes' ,function () {
     deleteJson(id);
 });
 
+//Function that receives the account id and connects to the backend to delete the account
 function deleteJson(id){
+
+    //Create json with the id
     var lejson = {'id': id };
 
     var jxhr = $.ajax({
@@ -430,187 +458,132 @@ function deleteJson(id){
         success : function(jsonResponse) {
 
             // Hides the modal and update the tables DOM
-
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
             $('#modalEditAccount').modal('hide');
             location.reload()
 
         },
-
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
 
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            alert("Error saving the account. Please try again or contact the system manager.");
-
+            alert("Error deleting the account. Please try again or contact the system manager.");
 
         }
     });
 
     return jxhr;
 }
+//*************************************** ENDS DELETE ACCOUNT **********************************************************
 
-//Function to hide additional fields when the account type is cash
-function cashSelectAddAccount(){
-    $('#bankTxtField').css("display", "none");
-    $('#accountNoTxtField').css("display", "none");
-}
+//***************************************** MONEY TRANSFER *************************************************************
 
-//Function to display additional fields when the account type is bank
-function bankSelectAddAccount(){
-    $('#bankTxtField').css("display", "block");
-    $('#accountNoTxtField').css("display", "block");
-}
-
-function cashSelectEditAccount(){
-    $('#bankTxtFieldEdit').css("display", "none");
-    $('#accountNoTxtFieldEdit').css("display", "none");
-}
-
-//Function to display additional fields when the account type is bank
-function bankSelectEditAccount(){
-    $('#bankTxtFieldEdit').css("display", "block");
-    $('#accountNoTxtFieldEdit').css("display", "block");
-}
-
-function deleteBtnOver(){
-    $('#modal_editDelete').css("background", "#C61212");
-    $('#modal_editDelete').css("color", "#ffffff");
-}
-
-function deleteBtnOut(){
-    $('#modal_editDelete').css("background", "#ffffff");
-    $('#modal_editDelete').css("color", "#C61212");
-}
-
-function deleteBtnOverYes(){
-    $('#deleteYes').css("background", "#C61212");
-    $('#deleteYes').css("color", "#ffffff");
-}
-
-function deleteBtnOutYes(){
-    $('#deleteYes').css("background", "#ffffff");
-    $('#deleteYes').css("color", "#C61212");
-}
-
-function deleteBtnOverNo(){
-    $('#deleteNo').css("background", "darkorange");
-    $('#deleteNo').css("color", "#ffffff");
-}
-
-function deleteBtnOutNo(){
-    $('#deleteNo').css("background", "#ffffff");
-    $('#deleteNo').css("color", "darkorange");
-}
-
-
-function cashSelectMoneyTransferSource(){
-    $('#sourceBankAccount').css("display", "none");
-    $('#defaultSelectSource').css("display", "none");
-    $('#sourceCashAccount').css("display", "block");
-    $('#sourceCashAccount').val('');
-    $('#labelSourceCurrency').empty();
-}
-
-function bankSelectMoneyTransferSource(){
-    $('#sourceBankAccount').css("display", "block");
-    $('#defaultSelectSource').css("display", "none");
-    $('#sourceCashAccount').css("display", "none");
-    $('#sourceBankAccount').val('');
-    $('#labelSourceCurrency').empty();
-}
-
-function cashSelectMoneyTransferDestiny(){
-    $('#destinyAccountBank').css("display", "none");
-    $('#defaultSelectDestiny').css("display", "none");
-    $('#destinyAccountCash').css("display", "block");
-    $('#destinyAccountCash').val('');
-    $('#labelDestinyCurrency').empty();
-}
-
-function bankSelectMoneyTransferDestiny(){
-    $('#destinyAccountBank').css("display", "block");
-    $('#defaultSelectDestiny').css("display", "none");
-    $('#destinyAccountCash').css("display", "none");
-    $('#destinyAccountBank').val('');
-    $('#labelDestinyCurrency').empty();
-}
-
+//Function triggered (onchange) when you select the Source Account int the Money Transfer modal
+//Updates the source currency label on the exchange rate section
 function selectSourceAccount(currency){
+
+    //currency has the account currency+.+account id
+    //Get the account currency
     var data = currency.split('.');
-    $('#labelSourceCurrency').empty();
     var lastChar = data[0].slice(-1);
+
+    //If the currency is in plural, delete the last "s"
     if(lastChar == "s"){
         var curr = data[0].slice(0, -1);
     }
+
+    //Create the label to look like --> "1 Dollar ="
     var label = "1 "+curr+" =";
+
+    //Set the label
+    $('#labelSourceCurrency').empty();
     $('#labelSourceCurrency').append(label);
 }
 
+//Function triggered (onchange) when you select the Destiny Account int the Money Transfer modal
+//Updates the destiny currency label on the exchange rate section
 function selectDestinyAccount(currency){
+    //currency has the account currency+.+account id
     var data = currency.split('.');
+
+    //Set the label
     $('#labelDestinyCurrency').empty();
     $('#labelDestinyCurrency').append(data[0]);
 }
 
-function calculateAmount(amount){
-
-    var exchangeRate = $("#inputExchangeRate").val();
-
-    if(amount != "") {
-    if(isNull(exchangeRate) == false){
-        alert("You must enter an exchange rate.");
-        $("#inputAmountTransfer").val("");
-        return;
-    }
-
-        if (!(amount.match(/^\d*\.?\d*$/))) {
-            alert("The amount must be a number.");
-            $("#inputAmountTransfer").val("");
-            return;
-        }
-    }
-    var res = amount*exchangeRate;
-    $("#inputAmountTransferResult").val(res);
-
-}
-
+//Function triggered when an exchange rate is entered (onmouseup)
+//Validates the exchange rate and amount and updates the result of the amount transferred (amount*exchangeRate)
 function validateExchangeRate(exchangeRate){
+
     if(exchangeRate != "") {
+        //Validate if the exchange rate is a number
         if (!(exchangeRate.match(/^\d*\.?\d*$/))) {
             alert("The exchange rate must be a number.");
+            //Clear the field
             $("#inputExchangeRate").val("");
             return;
         }
     }
     if($("#inputAmountTransfer").val() != ""){
+        //Get the amount
         var amount = $("#inputAmountTransfer").val();
+        //Validate if the amount is a number
         if (!(amount.match(/^\d*\.?\d*$/))) {
             alert("The amount must be a number.");
+            //Clear the field
             $("#inputAmountTransfer").val("");
             return;
         }
+        //Get the result of the amount transferred and update the label on the amount section
         var res = amount*exchangeRate;
         $("#inputAmountTransferResult").val(res);
     }
 }
 
+//Function triggered when an amount is entered (onmouseup)
+//Validates the amount and updates the result of the amount transferred (amount*exchangeRate)
+function calculateAmount(amount){
+
+    //Get the exchange rate
+    var exchangeRate = $("#inputExchangeRate").val();
+
+    if(amount != "") {
+        if(isNull(exchangeRate) == true){
+
+            //Validate if the amount is a number
+            if (!(amount.match(/^\d*\.?\d*$/))) {
+                alert("The amount must be a number.");
+                $("#inputAmountTransfer").val("");
+                return;
+            }
+        }
+    }
+
+    ///Get the result of the amount transferred and update the label on the amount section
+    var res = amount*exchangeRate;
+    $("#inputAmountTransferResult").val(res);
+
+}
+
+//Function triggered by the SAVE button on the Money Transfer modal
+//Validates fields, creates json and calls jsonTransfer() function
 $(document).on('click', '#btnSaveTransfer' ,function (){
 
+    //Get destiny and source account type
     var sourceType = $('input[name=accountTypeRadioSource]:checked', '#modalMoneyTransfer').val();
     var destinyType = $('input[name=accountTypeRadioDestiny]:checked', '#modalMoneyTransfer').val();
 
+    //Validate destiny and source account types
     if(isNull(sourceType)==false){
         alert("You must select a Source Account type (bank/cash).");
         return;
     }
-
     if(isNull(destinyType)==false){
         alert("You must select a Destiny Account type (bank/cash).");
         return;
     }
 
+    //Get the source account id
+    //The field value is account currency+.+account id
     if(sourceType == "b"){
         var valSource = $("#sourceBankAccount").val();
         var valSourceArray = valSource.split('.');
@@ -621,6 +594,8 @@ $(document).on('click', '#btnSaveTransfer' ,function (){
         var sourceId = valSourceArray[1];
     }
 
+    //Get the destiny account id
+    //The field value is account currency+.+account id
     if(destinyType == "b"){
         var valDestiny = $("#destinyAccountBank").val();
         var valDestinyArray = valDestiny.split('.');
@@ -631,9 +606,11 @@ $(document).on('click', '#btnSaveTransfer' ,function (){
         var destinyId = valDestinyArray[1];
     }
 
+    //Get the exchange rate and amount
     var exchangeRate = $("#inputExchangeRate").val();
     var amount = $("#inputAmountTransfer").val();
 
+    //Validations
     if(isNull(sourceId)==false){
         alert("You must select a source account.");
         return;
@@ -664,15 +641,15 @@ $(document).on('click', '#btnSaveTransfer' ,function (){
         return;
     }
 
-    //source_id target_id amount rate
+    //Connection to the backend
     var json = {"source_id":sourceId, "target_id":destinyId, "amount":amount, "rate":exchangeRate};
     jsonTransfer(json);
 
 });
 
+//Function that receives the Money Transfer info and connects to the backend to add it
 function jsonTransfer(json) {
 
-    console.log(JSON.stringify(json));
 
     $.ajax({
         url: "money_transfer/", // the endpoint
@@ -683,12 +660,7 @@ function jsonTransfer(json) {
         // handle a successful response
         success: function (jsonResponse) {
 
-            // Hides the modal and update the tables DOM
-
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
-
-
+            // Hides the modal, cleans fields and update the tables DOM
             $('#modalMoneyTransfer').modal('hide');
             $('#modalMoneyTransfer').find('#sourceBankAccount').val('');
             $('#modalMoneyTransfer').find('#sourceCashAccount').val('');
@@ -718,52 +690,72 @@ function jsonTransfer(json) {
         error: function (xhr, errmsg, err) {
 
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            alert("Error saving the money transfer. Please try again or contact the system manager.");
+            alert("Error saving the Money Transfer. Please try again or contact the system manager.");
 
 
         }
     });
 }
 
-$(document).on('click', '#addAccountCancel' ,function () {
-    $('#modalAddAccount').modal('hide');
-    $('#modalAddAccount').find('#inputAmount').val('');
-    $('#modalAddAccount').find('#inputAccountNo').val('');
-    $('#modalAddAccount').find('#inputBank').val('');
-    $('#radioBank').prop('checked', true);
-    $('#bankTxtField').css("display", "block");
-    $('#accountNoTxtField').css("display", "block");
-});
-
+//Function triggered by the CANCEL button on the Money Transfer modal
+//Hides the modal, cleans all fields
 $(document).on('click', '#moneyTransferCancel' ,function () {
+
     $('#modalMoneyTransfer').modal('hide');
-    $('#modalMoneyTransfer').find('#sourceBankAccount').val('');
-    $('#modalMoneyTransfer').find('#sourceCashAccount').val('');
-    $('#modalMoneyTransfer').find('#destinyAccountBank').val('');
-    $('#modalMoneyTransfer').find('#destinyAccountCash').val('');
-    $('#modalMoneyTransfer').find('#inputExchangeRate').val('');
-    $('#modalMoneyTransfer').find('#inputAmountTransfer').val('');
-    $('#modalMoneyTransfer').find('#inputAmountTransferResult').val('');
-    $('#labelDestinyCurrency').empty();
-    $('#labelSourceCurrency').empty();
-    $('#destinyAccountBank').css("display", "none");
-    $('#defaultSelectDestiny').css("display", "block");
-    $('#destinyAccountCash').css("display", "none");
-    $('#sourceBankAccount').css("display", "none");
-    $('#defaultSelectSource').css("display", "block");
-    $('#sourceCashAccount').css("display", "none");
+
+    //Source account type
     $('#radioBankTransferSource').prop('checked', false);
     $('#radioCashTransferSource').prop('checked', false);
+
+    //Destiny account type
     $('#radioBankTransferDestiny').prop('checked', false);
     $('#radioCashTransferDestiny').prop('checked', false);
+
+    //Source account select
+    $('#modalMoneyTransfer').find('#sourceBankAccount').val('');
+    $('#modalMoneyTransfer').find('#sourceCashAccount').val('');
+
+    //Destiny account select
+    $('#modalMoneyTransfer').find('#destinyAccountBank').val('');
+    $('#modalMoneyTransfer').find('#destinyAccountCash').val('');
+
+    //Set the default Destiny Account Select
+    $('#defaultSelectDestiny').css("display", "block");
+    $('#destinyAccountBank').css("display", "none");
+    $('#destinyAccountCash').css("display", "none");
+
+    //Set the default Source Account Select
+    $('#defaultSelectSource').css("display", "block");
+    $('#sourceBankAccount').css("display", "none");
+    $('#sourceCashAccount').css("display", "none");
+
+    //Exchange rate field
+    $('#modalMoneyTransfer').find('#inputExchangeRate').val('');
+
+    //Labels for source and destiny currency on exchange rate section
+    $('#labelDestinyCurrency').empty();
+    $('#labelSourceCurrency').empty();
+
+    //Amount field
+    $('#modalMoneyTransfer').find('#inputAmountTransfer').val('');
+
+    //Result amount
+    $('#modalMoneyTransfer').find('#inputAmountTransferResult').val('');
+
 });
+//*************************************** ENDS MONEY TRANSFER **********************************************************
 
+//******************************************* ADD CURRENCY *************************************************************
 
+//Function triggered by the SAVE button on the Add Currency modal
+//Validates fields, creates json and calls jsonAddCurrency() function
 $(document).on('click', '#currencySave' ,function () {
 
+    //Get data
     var name = $("#inputName").val();
     var contraction = $("#inputContraction").val();
 
+    //Validations
     if(isNull(name)==false){
         alert("You must enter a name.")
         return;
@@ -774,10 +766,12 @@ $(document).on('click', '#currencySave' ,function () {
         return;
     }
 
+    //Connection to backend
     var json = {"name":name, "contraction":contraction};
     jsonAddCurrency(json);
 });
 
+//Function that receives the New Currency info and connects to the backend to add it
 function jsonAddCurrency(json){
 
     $.ajax({
@@ -789,15 +783,10 @@ function jsonAddCurrency(json){
         // handle a successful response
         success : function(jsonResponse) {
 
-            // Hides the modal and update the tables DOM
-
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
-
-
+            // Hides the modal, cleans fields and update the tables DOM
             $('#modalAddCurrency').modal('hide');
             $('#modalAddCurrency').find('#inputName').val('');
-            $('#modalAddAccount').find('#inputContraction').val('');
+            $('#modalAddCurrency').find('#inputContraction').val('');
 
             location.reload();
 
@@ -817,18 +806,49 @@ function jsonAddCurrency(json){
     return true;
 }
 
+//Function triggered by the CANCEL button on the Add Currency modal
+//Hides the modal, cleans all fields
+$(document).on('click', '#addCurrencyCancel' ,function () {
+
+    $('#modalAddCurrency').modal('hide');
+
+    $('#modalAddCurrency').find('#inputName').val('');
+    $('#modalAddCurrency').find('#inputContraction').val('');
+
+});
+//***************************************** ENDS ADD CURRENCY **********************************************************
+
+//****************************************** DELETE CURRENCY ***********************************************************
+
+//Function triggered by the Delete icon on the currencies table
+//Receives the currency info and updates the confirmation question
 function currencyDeleteConfirm(data){
+
+    //get the currency name and id
+    // data is currency id+.+currency name
     data = data.attr('id');
     var arrayData = data.split(".");
     var id = arrayData[0];
     var name = "Are your sure you want to delete the currency "+arrayData[1]+"?";
 
+    //Update fields
     $('#currencyId').val(id);
     $('#labelCurrencyName').empty();
     $('#labelCurrencyName').append(name);
 
 }
 
+//Function triggered by the YES button on the Delete Currency confirmation modal
+//Gets the currency id, creates the json and calls jsonDeleteCurrency() function
+$(document).on('click', '#currencyDeleteYes' ,function () {
+
+    var id= $('#currencyId').val();
+    var json = {"currency_id":id};
+    jsonDeleteCurrency(json);
+
+});
+
+//Function that receives the Currency id and connects to the backend to delete the currency
 function jsonDeleteCurrency(json){
 
     $.ajax({
@@ -841,10 +861,7 @@ function jsonDeleteCurrency(json){
         success : function(jsonResponse) {
 
             // Hides the modal and update the tables DOM
-
-            console.log(jsonResponse); // log the returned json to the console
-            console.log("success"); // another sanity check
-
+            $('#modalDeleteCurrency').modal('hide');
             location.reload();
 
         },
@@ -860,30 +877,144 @@ function jsonDeleteCurrency(json){
 
     return true;
 }
+//**************************************** ENDS DELETE CURRENCY ********************************************************
 
-function deleteYesOver(){
-    $('#currencyDeleteYes').css("background", "#C61212");
-    $('#currencyDeleteYes').css("color", "#ffffff");
+//********************************************* CSS FUNCTIONS **********************************************************
+
+//Add account modal
+//Function to hide additional fields when the account type is cash
+function cashSelectAddAccount(){
+    $('#bankTxtField').css("display", "none");
+    $('#accountNoTxtField').css("display", "none");
 }
 
-function deleteYesOut(){
-    $('#currencyDeleteYes').css("background", "#ffffff");
-    $('#currencyDeleteYes').css("color", "#C61212");
+//Add account modal
+//Function to display additional fields when the account type is bank
+function bankSelectAddAccount(){
+    $('#bankTxtField').css("display", "block");
+    $('#accountNoTxtField').css("display", "block");
 }
 
-function deleteNoOver(){
-    $('#currencyDeleteNo').css("background", "darkorange");
-    $('#currencyDeleteNo').css("color", "#ffffff");
+//Edit account modal
+//Function to hide additional fields when the account type is cash
+function cashSelectEditAccount(){
+    $('#bankTxtFieldEdit').css("display", "none");
+    $('#accountNoTxtFieldEdit').css("display", "none");
 }
 
-function deleteNoOut(){
-    $('#currencyDeleteNo').css("background", "#ffffff");
-    $('#currencyDeleteNo').css("color", "darkorange");
+//Edit account modal
+//Function to display additional fields when the account type is bank
+function bankSelectEditAccount(){
+    $('#bankTxtFieldEdit').css("display", "block");
+    $('#accountNoTxtFieldEdit').css("display", "block");
 }
 
-$(document).on('click', '#currencyDeleteYes' ,function () {
+//Edit Account modal
+//Changes DELETE button styles onmouseover
+function deleteBtnOver(id){
 
-    var id= $('#currencyId').val();
-    var json = {"currency_id":id};
-    jsonDeleteCurrency(json);
-});
+    id.css("background", "#C61212");
+    id.css("color", "#ffffff");
+}
+
+//Edit Account modal
+//Changes DELETE button styles onmouseout
+function deleteBtnOut(id){
+    id.css("background", "#ffffff");
+    id.css("color", "#C61212");
+}
+
+//Edit Account and Delete Currency modal
+//Changes YES button styles onmouseover
+function deleteBtnOverYes(id){
+
+    id.css("background", "#C61212");
+    id.css("color", "#ffffff");
+}
+
+//Edit Account and Delete Currency modal
+//Changes YES button styles onmouseout
+function deleteBtnOutYes(id){
+    id.css("background", "#ffffff");
+    id.css("color", "#C61212");
+}
+
+//Edit Account and Delete Currency modal
+//Changes NO button styles onmouseover
+function deleteBtnOverNo(id){
+    id.css("background", "darkorange");
+    id.css("color", "#ffffff");
+}
+
+//Edit Account and Delete Currency modal
+//Changes NO button styles onmouseout
+function deleteBtnOutNo(id){
+    id.css("background", "#ffffff");
+    id.css("color", "darkorange");
+}
+
+
+//Money Transfer modal
+//Triggered when the Source Account Type is CASH
+//Function that displays the source cash accounts select, sets the value to ' ' and hides the bank accounts select
+function cashSelectMoneyTransferSource(){
+
+    $('#sourceCashAccount').css("display", "block");
+    $('#sourceBankAccount').css("display", "none");
+    $('#defaultSelectSource').css("display", "none");
+
+    $('#sourceCashAccount').val('');
+
+    $('#labelSourceCurrency').empty();
+}
+
+//Money Transfer modal
+//Triggered when the Source Account Type is BANK
+//Function that displays the source bank accounts select, sets the value to ' ' and hides the cash accounts select
+function bankSelectMoneyTransferSource(){
+
+    $('#sourceBankAccount').css("display", "block");
+    $('#defaultSelectSource').css("display", "none");
+    $('#sourceCashAccount').css("display", "none");
+
+    $('#sourceBankAccount').val('');
+
+    $('#labelSourceCurrency').empty();
+}
+
+//Money Transfer modal
+//Triggered when the Destiny Account Type is CASH
+//Function that displays the destiny cash accounts select, sets the value to ' ' and hides the bank accounts select
+function cashSelectMoneyTransferDestiny(){
+
+    $('#destinyAccountCash').css("display", "block");
+    $('#destinyAccountBank').css("display", "none");
+    $('#defaultSelectDestiny').css("display", "none");
+
+    $('#destinyAccountCash').val('');
+
+    $('#labelDestinyCurrency').empty();
+}
+
+//Money Transfer modal
+//Triggered when the Destiny Account Type is BANK
+//Function that displays the destiny bank accounts select, sets the value to ' ' and hides the cash accounts select
+function bankSelectMoneyTransferDestiny(){
+
+    $('#destinyAccountBank').css("display", "block");
+    $('#defaultSelectDestiny').css("display", "none");
+    $('#destinyAccountCash').css("display", "none");
+
+    $('#destinyAccountBank').val('');
+
+    $('#labelDestinyCurrency').empty();
+}
+
+//*********************************** END CSS FUNCTIONS ****************************************************************
+
+
+
+
+
+
+

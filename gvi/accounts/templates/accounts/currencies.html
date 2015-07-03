@@ -1,48 +1,53 @@
 {% extends 'base_generic.html' %}
 
 {% block menubar %}
+<!-- Menu bar options: Accounts and Add Currency-->
     <p class="navbar-text"><a href="{% url 'accounts:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnAccounts"> Accounts</button></a></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddCurrency" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add currency</button></p>
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-5 col-md-offset-1" style="padding-bottom: 50px;">
-            <h1>Currencies</h1>
-        </div>
-
+<!-- Title -->
+<div class="row">
+    <div class="col-md-5 col-md-offset-1" style="padding-bottom: 50px;">
+        <h1>Currencies</h1>
     </div>
 
+</div>
 
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <table class="table table-hover" id="bankAccounts">
-                <tr>
-                    <th>Currency</th>
-                    <th>Contraction</th>
-                    <th>Delete</th>
-                </tr>
+<!-- Currencies table-->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table table-hover" id="bankAccounts">
+            <tr>
+                <th>Currency</th>
+                <th>Contraction</th>
+                <th>Delete</th>
+            </tr>
 
-                <!-- For to fill info about each currency -->
-                {% for c in currencies %}
-                <tr id="{{ c.id }}.{{ c.name }}">
-                    <td hidden id="pk">{{ c.id }}</td>
-                    <td>{{ c.name }}</td>
-                    <td>{{ c.contraction }}</td>
-                    <td><button class="glyphicon glyphicon-remove" id="btnDeleteCurrency" data-toggle="modal" data-target="#modalDeleteCurrency" onclick="currencyDeleteConfirm($(this).closest('tr'))"></button></td>
-                </tr>
-                {% endfor %}
+            <!-- For to fill info about each currency -->
+            {% for c in currencies %}
+            <tr id="{{ c.id }}.{{ c.name }}">
+                <td hidden id="pk">{{ c.id }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.contraction }}</td>
 
-            <!-- ****************************************-->
+                <!-- Delete button-->
+                <td><button class="glyphicon glyphicon-remove" id="btnDeleteCurrency" data-toggle="modal" data-target="#modalDeleteCurrency" onclick="currencyDeleteConfirm($(this).closest('tr'))"></button></td>
+            </tr>
+            {% endfor %}
+            <!-- **************************************-->
 
-            </table>
-        </div>
+        </table>
     </div>
+</div>
+<!-- End of currencies table-->
 
 <!--Add Currency Modal-->
 <div class="modal fade modalStyles" id="modalAddCurrency" tabindex="-1" role="dialog" aria-labelledby="labelAddCurrency">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+
             <!-- Header-->
             <div class="modal-header">
                 <h2 class="modal-title modalHeader" id="labelAddCurrency">New Currency</h2>
@@ -55,7 +60,7 @@
                     <br>
                     <form class="form-horizontal" id="addCurrencyForm">
 
-                        <!-- Name and contraction -->
+                        <!-- Name-->
                         <div class="row" id="nameTxtField">
                             <div class="form-group">
                                 <label for="inputName" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Name:</label>
@@ -65,6 +70,7 @@
                             </div>
                         </div>
 
+                        <!-- Contraction -->
                         <div class="row" id="contractionTxtField" >
                             <div class="form-group">
                                 <label for="inputContraction" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Contraction:</label>
@@ -74,8 +80,6 @@
                             </div>
                         </div>
 
-                        <!-- Name and contraction-->
-
                     </form>
                 </div>
             </div>
@@ -83,6 +87,7 @@
 
             <!-- Footer -->
             <div class="modal-footer">
+                <!-- Save and Cancel buttons-->
                 <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="currencySave">Save</button>
                 <button type="button" class="btn btn-default col-md-2" id="addCurrencyCancel" data-dismiss="modal">Cancel</button>
             </div>
@@ -96,6 +101,7 @@
 <div class="modal fade modalStyles" id="modalDeleteCurrency" tabindex="-1" role="dialog" aria-labelledby="labelDeleteCurrency">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
+
             <!-- Header-->
             <div class="modal-header">
                 <h2 class="modal-title modalHeader" id="labelDeleteCurrency">Delete Currency</h2>
@@ -106,9 +112,12 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <br>
+                    <!-- Question -->
                     <div class="row">
                         <label id="labelCurrencyName"></label>
                     </div>
+
+                    <!-- Currency id-->
                     <div>
                         <input type="hidden" id="currencyId">
                     </div>
@@ -118,12 +127,14 @@
 
             <!-- Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm col-sm-2 col-md-offset-4" id="currencyDeleteYes" onmouseover="deleteYesOver()" onmouseout="deleteYesOut()">Yes</button>
-                <button type="button" class="btn btn-sm col-sm-2" id="currencyDeleteNo" data-dismiss="modal" onmouseover="deleteNoOver()" onmouseout="deleteNoOut()">No</button>
+                <!-- Yes and No buttons-->
+                <button type="button" class="btn btn-sm col-sm-2 col-md-offset-4" id="currencyDeleteYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                <button type="button" class="btn btn-sm col-sm-2" id="currencyDeleteNo" data-dismiss="modal" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
             </div>
             <!-- Ends footer -->
         </div>
     </div>
 </div>
-<!-- Ends Add Account Modal-->
+<!-- Ends Delete Currency Modal-->
+
 {% endblock %}

@@ -325,7 +325,7 @@
 
                 <!-- Delete button -->
                 <div class="row">
-                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete Account</button>
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Account</button>
                 </div>
 
                 <!-- Delete confirmation --->
@@ -338,8 +338,8 @@
                 </div>
 
                 <div class="row">
-                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes()" onmouseout="deleteBtnOutYes()">Yes</button>
-                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo()" onmouseout="deleteBtnOutNo()">No</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
                 </div>
                     </div>
                 <!-- Ends delete confirmation -->
