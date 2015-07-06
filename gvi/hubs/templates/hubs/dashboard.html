@@ -1,0 +1,113 @@
+<!-- dashboard -->
+
+{% extends "base_generic.html" %}
+
+{% block menubar %}
+<!-- Menu bar options: Add hub -->
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddHub" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add hub</button></p>
+{% endblock %}
+
+{% block content %}
+
+<!-- Title and search bar-->
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+        <h1>Hubs</h1><br>
+    </div>
+</div><br>
+<!-- Ends title and search bar -->
+
+<!-- Table hubs -->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table table-hover" id="hubs">
+            <tr>
+                <th>Hub</th>
+                <th>Manager</th>
+                <th>Country</th>
+                <th>Edit</th>
+                <th>Detail</th>
+            </tr>
+
+            <!-- For to fill info about each hub -->
+            {% for a in hubs %}
+            <tr id="{{ a.id }}">
+                <td hidden id="pk">{{ a.id }}</td>
+                <td>{{ a.name }}</td>
+                <td>{{ a.manager }}</td>
+                <td>{{ a.country }}</td>
+                <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditHub" onclick="editHub($(this).closest('tr'))"></a></td>
+                <td><a><button class="glyphicon glyphicon-list-alt" id="btnDetails"></button></a></td>
+            </tr>
+            {% endfor %}
+            <!-- ****************************************-->
+
+        </table>
+    </div>
+</div>
+<!-- Ends table for hubs-->
+
+<!--Add Hub Modal-->
+<div class="modal fade modalStyles" id="modalAddHub" tabindex="-1" role="dialog" aria-labelledby="labelAddHub">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelAddHub">New Hub</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <br>
+                    <form class="form-horizontal" id="addHubForm">
+
+                        <!-- Name-->
+                        <div class="row" id="nameTxtField">
+                            <div class="form-group">
+                                <label for="inputName" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Name:</label>
+                                <div class=" col-md-6">
+                                    <input type="text" class="form-control" id="inputName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contraction -->
+                        <div class="row" id="managerTxtField" >
+                            <div class="form-group">
+                                <label for="inputManager" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Manager:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputManager">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Country -->
+                        <div class="row" id="countryTxtField" >
+                            <div class="form-group">
+                                <label for="inputManager" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Country:</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="inputCountry">
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <!-- Save and Cancel buttons-->
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="hubSave">Save</button>
+                <button type="button" class="btn btn-default col-md-2" id="addHubCancel" data-dismiss="modal">Cancel</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Add Hub Modal-->
+{% endblock %}
