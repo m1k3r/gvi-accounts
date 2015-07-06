@@ -7,12 +7,10 @@ def index(request):
     transactions = Transaction.objects.order_by('-date')
     category = Category.objects.all()
     subcategory = Subcategory.objects.all()
-    year_range = Transaction.year_range()
 
     context = {'transactions': transactions,
                'category': category,
                'subcategory': subcategory,
-               'year_range': year_range,
                }
 
     return render(request, 'transactions/dashboard.html', context)
@@ -45,13 +43,11 @@ def search_transactions(request):
         toDate = request.POST.get('toDate')
         transactions = Transaction.objects.filter(date__range=[fromDate, toDate]).order_by('-date')
 
-    year_range = Transaction.year_range()
     category = Category.objects.all()
     subcategory = Subcategory.objects.all()
     context = {'transactions': transactions,
                'category': category,
                'subcategory': subcategory,
-               'year_range': year_range,
                }
 
     return render(request, 'transactions/dashboard.html', context)
