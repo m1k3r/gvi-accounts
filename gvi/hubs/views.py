@@ -12,6 +12,8 @@ def index(request):
 def add_delete_hub(request):
     if request.is_ajax():
         if request.method == 'POST':
+            print request.body
+        else:
             pass
     else:
         return HttpResponseForbidden(request)
