@@ -1,9 +1,10 @@
-
-from django.shortcuts import render
-from django.http import Http404, JsonResponse, HttpResponseForbidden, HttpResponseServerError
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Account, Currency
+from .models import Account, Currency, Transfer
+
+from decimal import *
 
 
 def index(request):
@@ -40,11 +41,11 @@ def account_new_get(request):
             except KeyError, e:
                 print "Key Error account_new_get POST"
                 print e
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
             except Exception as e:
                 print "Turbo Exception account_new_get GET"
                 print e
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
 
             new_acc.save()
 
@@ -58,7 +59,8 @@ def account_new_get(request):
             try:
                 account_id = request.GET['id']
                 print account_id
-                account = Account.objects.get(pk=account_id)
+                account = get_object_or_404(Account, pk=account_id)
+                # account = Account.objects.get(pk=account_id)
                 currency = Currency.objects.get(pk=account.currency.pk)
                 json_account = {'id': account.pk,
                                 'type': account.account_type,
@@ -70,20 +72,17 @@ def account_new_get(request):
 
             except KeyError as e:
                 print "Key Error account_new_get GET"
-                print e
-                return HttpResponseServerError
-            except Account.DoesNotExist as e:
-                print "Does Not Exist account_new_get GET"
-                print e
-                return Http404
+                print type(e)
+                return HttpResponseServerError(request)
 
             return JsonResponse(json_account)
 
         # The rest of the methods are not supported
         else:
-            return HttpResponseForbidden
+            return HttpResponseNotAllowed(request)
     else:
-        return HttpResponseForbidden
+        return HttpResponseForbidden(request)
+
 
 @csrf_exempt
 def account_update_delete(request):
@@ -113,16 +112,12 @@ def account_update_delete(request):
                                      'pk': account.pk},
                                     )
 
-            except KeyError, e:
-                print "KeyError account_update_delete POST"
+            except (KeyError, Exception) as e:
+                print "KeyError/ Exception account_update_delete POST"
                 print type(e)
                 print e.args
-                return HttpResponseServerError
-            except Exception as e:
-                print "Turbo Exception account_update_delete POST"
-                print type(e)
-                print e.args
-                return HttpResponseServerError
+                return HttpResponseServerError(request)
+
         elif request.method == 'GET':
             try:
                 account_id = request.GET['id']
@@ -133,16 +128,86 @@ def account_update_delete(request):
                                      'msg': 'account deleted',
                                      'pk': account_id},
                                     )
-            except KeyError as e:
-                print "Key Error account_update_delete GET"
-                print e
-                return HttpResponseServerError
-            except Exception as e:
-                print "Turbo Exception account_update_delete GET"
-                print e
+            except (KeyError, Exception) as e:
+                print "Key Error/Exception account_update_delete GET"
+                print type(e)
+                return HttpResponseServerError(request)
+
+        else:
+            return HttpResponseNotAllowed(request)
+    else:
+        return HttpResponseNotAllowed(request)
+
+
+@csrf_exempt
+def money_transfer(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                source_id = request.POST['source_id']
+                target_id = request.POST['target_id']
+                amount = request.POST['amount']
+                rate = request.POST['rate']
+                new_amount = float(amount) * float(rate)
+                s_account = Account.objects.get(pk=int(source_id))
+                t_account = Account.objects.get(pk=int(target_id))
+                s_account.balance -= Decimal(amount)
+                t_account.balance += Decimal(new_amount)
+                s_account.save()
+                t_account.save()
+                transfer = Transfer(from_account=s_account,
+                                    to_account=t_account,
+                                    amount=amount,
+                                    exchange_rate=rate)
+                transfer.save()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'transaction completed',
+                                     })
+
+            except (KeyError, Exception) as e:
+                print "Key Error/ Exception money_transfer"
+                print type(e)
+                print e.args
+                return HttpResponseServerError(request)
+
+        else:
+            return HttpResponseNotAllowed(request)
+    else:
+        return HttpResponseForbidden(request)
+
+
+@csrf_exempt
+def currency_dash(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                name = request.POST['name']
+                contraction = request.POST['contraction']
+                new_currency = Currency(name=name, contraction=contraction)
+                new_currency.save()
+                return JsonResponse({'code': 200,
+                                     'msg': 'currency saved'})
+            except (KeyError, Exception) as e:
+                print "Key Error / Exception currency POST"
+                print type(e)
+                print e.args
                 return HttpResponseServerError
         else:
-            return HttpResponseForbidden
+            try:
+                c_id = request.GET['currency_id']
+                currency = Currency.objects.get(pk=c_id)
+                currency.delete()
+                return JsonResponse({'code': 200,
+                                     'msg': 'currency deleted'})
+            except (KeyError, Exception) as e:
+                print "Key Error/ Exception GET currency"
+                print type(e)
+                print e.args
+                return HttpResponseServerError
+
     else:
-        return HttpResponseForbidden
+        currencies = Currency.objects.all()
+        context = {'currencies': currencies}
+        return render(request, 'accounts/currencies.html', context)
 

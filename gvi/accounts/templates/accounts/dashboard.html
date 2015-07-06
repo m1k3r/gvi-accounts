@@ -3,10 +3,10 @@
 {% extends "base_generic.html" %}
 
 {% block menubar %}
-
+<!-- Menu bar options: Add account, Money transfer and Currencies -->
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalMoneyTransfer" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Money Transfer</button></p>
-
+    <p class="navbar-text"><a href="{%url 'accounts:currencies'%}" style="color: #ffffff; text-decoration: none; font-weight: 500; font-size: 12px;"><button class="btn btn-default btn-sm glyphicon glyphicon-usd" type="button" id="btnCurrencies">  Currencies</button></a></p>
 {% endblock %}
 
 {% block content %}
@@ -18,9 +18,9 @@
         <ul class="list-unstyled">
 
             <!-- For to display all currencies and how much money they have -->
-            <li class="text">Pesos: $30,000.00</li>
-            <li class="text">Pounds: &pound;10,000.00</li>
-            <li class="text">Dollars: $10,000.00</li>
+            {% for c in curr %}
+            <li class="text">{{ c }}: ${{ c.total }}</li>
+            {% endfor %}
             <!-- **********************************************************-->
 
         </ul>
@@ -124,6 +124,8 @@
                                 <div class="col-md-3 col-md-offset-2">
                                     Account type:
                                 </div>
+
+                                <!-- Cash -->
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
@@ -132,6 +134,8 @@
                                         </label>
                                     </div>
                                 </div>
+
+                                <!-- Bank-->
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
@@ -200,7 +204,7 @@
             <!-- Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_save">Save</button>
-                <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default col-md-2" id="addAccountCancel" data-dismiss="modal">Cancel</button>
             </div>
             <!-- Ends footer -->
         </div>
@@ -226,13 +230,15 @@
                         <div hidden>
                             <input type="hidden" value="" id="idAccountEdit">
                         </div>
-                        <!-- -->
+
                         <!-- Account type-->
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-3 col-md-offset-2">
                                     Account type:
                                 </div>
+
+                                <!-- Cash -->
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
@@ -241,6 +247,8 @@
                                         </label>
                                     </div>
                                 </div>
+
+                                <!-- Bank -->
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
@@ -308,13 +316,16 @@
 
             <!-- Footer -->
             <div class="modal-footer">
+                <!-- Save and Cancel buttons -->
                 <div class="row">
                     <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_edit">Save</button>
-                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="editAccountCancel">Cancel</button>
                 </div>
                 <div class="row"><p> </p><br></div>
+
+                <!-- Delete button -->
                 <div class="row">
-                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver()" onmouseout="deleteBtnOut()">Delete Account</button>
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Account</button>
                 </div>
 
                 <!-- Delete confirmation --->
@@ -327,8 +338,8 @@
                 </div>
 
                 <div class="row">
-                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes()" onmouseout="deleteBtnOutYes()">Yes</button>
-                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo()" onmouseout="deleteBtnOutNo()">No</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
                 </div>
                     </div>
                 <!-- Ends delete confirmation -->
@@ -340,199 +351,214 @@
 <!-- Ends Edit Account Modal-->
 
 
-    <!--Money Transfer Modal-->
-    <div class="modal fade modalStyles" id="modalMoneyTransfer" tabindex="-1" role="dialog" aria-labelledby="labelMoneyTransfer">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <!-- Header-->
-            <div class="modal-header">
-                <h2 class="modal-title modalHeader" id="labelMoneyTransfer">Money Transfer</h2>
-            </div>
-            <!-- Ends header -->
-
-            <!-- Body -->
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <form class="form-horizontal" id="moneyTransferForm">
-
-                        <!-- Source account-->
-                        <!-- Account type -->
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-md-offset-5">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransferSource()">
-                                            <p class="label-success accountTypeLabel">Cash</p>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()">
-                                            <p class="label-info accountTypeLabel">Bank</p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Account type -->
-
-                        <!-- Select Source account -->
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-2">Source Account:</div>
-                                <div class="col-md-3">
-                                    <select class="form-control" id="defaultSelectSource" style="display: block;">
-                                        <option></option>
-                                    </select>
-
-                                    <!-- Select bank account-->
-                                    <!-- CHANGE THE ARGUMENT OF selectSourceAccount TO THE CURRENCY OF THE ACCOUNT -->
-                                    <select class="form-control" id="sourceBankAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
-
-                                        <!-- For to display bank or cash accounts -->
-                                        <option></option>
-                                        <option>Pesos</option>
-                                        <option>Pounds</option>
-                                        <!--***************************-->
-
-                                    </select>
-
-                                    <!-- Select cash account -->
-                                    <select class="form-control" id="sourceCashAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
-
-                                        <!-- For to display bank or cash accounts -->
-                                        <option></option>
-                                        <option>Dollars</option>
-                                        <!--***************************-->
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Select Source account -->
-                        <!-- End Source account -->
-
-                        <hr><br>
-                        <!-- Destiny account-->
-                        <!-- Account type -->
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3 col-md-offset-5">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransferDestiny()">
-                                            <p class="label-success accountTypeLabel">Cash</p>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()">
-                                            <p class="label-info accountTypeLabel">Bank</p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Account type -->
-
-                        <!-- Select Source account -->
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
-                                <div class="col-md-3">
-                                    <select class="form-control" id="defaultSelectDestiny" style="display: block;">
-                                        <option></option>
-                                    </select>
-                                    <select class="form-control" id="destinyAccountBank" style="display: none;" onchange="selectDestinyAccount($(this).val())">
-
-                                        <!-- For to display bank accounts -->
-                                        <option></option>
-                                        <option>Pesos</option>
-                                        <option>Dollars</option>
-                                        <!--***************************-->
-
-
-                                    </select>
-                                    <select class="form-control" id="destinyAccountCash" style="display: none;" onchange="selectDestinyAccount($(this).val())">
-
-                                        <!-- For to display cash accounts -->
-                                        <option></option>
-                                        <option>Pounds</option>
-                                        <!--***************************-->
-
-
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Select Source account -->
-                        <!-- End Source account -->
-
-                        <hr><br>
-                        <!-- Exchange rate-->
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-2">Exchange Rate:</div>
-                            </div>
-                            <div class="row" style="padding-top: 20px;">
-
-                                <!-- Change label values to currencies from source and destiny accounts-->
-                                <div class="col-md-2 col-md-offset-3 labelExchangeRate">
-                                    <label id="labelSourceCurrency"></label>
-                                </div>
-                                <div class=" col-md-2">
-                                    <input type="text" class="form-control" id="inputExchangeRate" onkeyup="validateExchangeRate($(this).val());">
-                                </div>
-                                <div class="col-md-2 labelExchangeRate">
-                                    <label id="labelDestinyCurrency"></label>
-                                </div>
-                                <!--******************************************************************-->
-
-                            </div>
-                        </div>
-                        <!-- End exchange rate -->
-
-                        <br><hr><br>
-                        <!-- Amount -->
-                        <div class="row">
-                            <div class="col-md-3 col-md-offset-2" style="text-align: center;">Amount</div>
-                        </div>
-                        <div class="row">
-                            <div class=" col-md-3 col-md-offset-2">
-                                <input type="text" class="form-control" id="inputAmountTransfer" onkeyup="calculateAmount($(this).val())" >
-                            </div>
-                            <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
-
-                            <!--Change value to the amount multiplied by the exchange rate -->
-                            <div class="col-md-3 col-md-offset-1">
-                                <input type="text" class="form-control" id="inputAmountTransferResult" value="" disabled>
-                            </div>
-                            <!--***********************************************************-->
-
-                        </div>
-                        <br>
-                        <!-- End amount -->
-
-                    </form>
-                </div>
-            </div>
-            <!-- Ends body -->
-
-            <!-- Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" >Save</button>
-                <button type="button" class="btn btn-default col-md-2" data-dismiss="modal">Cancel</button>
-            </div>
-            <!-- Ends footer -->
+<!--Money Transfer Modal-->
+<div class="modal fade modalStyles" id="modalMoneyTransfer" tabindex="-1" role="dialog" aria-labelledby="labelMoneyTransfer">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <!-- Header-->
+        <div class="modal-header">
+            <h2 class="modal-title modalHeader" id="labelMoneyTransfer">Money Transfer</h2>
         </div>
-        </div>
-     </div>
-    <!-- Ends Add Account Modal-->
+        <!-- Ends header -->
 
+        <!-- Body -->
+        <div class="modal-body">
+            <div class="container-fluid">
+                <form class="form-horizontal" id="moneyTransferForm">
+
+                    <!-- Source Account type -->
+                    <div class="row">
+                        <div class="form-group">
+
+                            <!-- Cash -->
+                            <div class="col-md-3 col-md-offset-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransferSource()">
+                                        <p class="label-success accountTypeLabel">Cash</p>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Bank -->
+                            <div class="col-md-3">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()">
+                                        <p class="label-info accountTypeLabel">Bank</p>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End Source Account type -->
+
+                    <!-- Select Source account -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">Source Account:</div>
+                            <div class="col-md-5">
+                                <!-- Default select-->
+                                <select class="form-control" id="defaultSelectSource" style="display: block;">
+                                    <option></option>
+                                </select>
+
+                                <!-- Select bank account-->
+                                <select class="form-control" id="sourceBankAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
+
+                                    <!-- For to display bank or cash accounts -->
+                                    <option></option>
+                                    {% for a in bank_acc %}
+                                        <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} - {{ a.number }}</option>
+                                    {% endfor %}
+                                    <!-- ************************************ -->
+                                </select>
+
+                                <!-- Select cash account -->
+                                <select class="form-control" id="sourceCashAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
+
+                                    <!-- For to display bank or cash accounts -->
+                                    <option></option>
+                                    {% for a in cash_acc %}
+                                        <option value='{{ a.currency }}.{{ a.id }}'id="{{ a.currency }}">{{ a.currency }} </option>
+                                    {% endfor %}
+                                    <!--************************************* -->
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Select Source account -->
+
+                    <hr><br>
+                    <!-- Destiny Account type -->
+                    <div class="row">
+                        <div class="form-group">
+
+                            <!-- Cash -->
+                            <div class="col-md-3 col-md-offset-5">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransferDestiny()">
+                                        <p class="label-success accountTypeLabel">Cash</p>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Bank -->
+                            <div class="col-md-3">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()">
+                                        <p class="label-info accountTypeLabel">Bank</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Destiny Account type -->
+
+                    <!-- Select Destiny account -->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
+                            <div class="col-md-5">
+                                <!-- Default select -->
+                                <select class="form-control" id="defaultSelectDestiny" style="display: block;">
+                                    <option></option>
+                                </select>
+
+                                <!-- Select bank account -->
+                                <select class="form-control" id="destinyAccountBank" style="display: none;" onchange="selectDestinyAccount($(this).val())">
+
+                                    <!-- For to display bank accounts -->
+                                    <option></option>
+                                    {% for a in bank_acc %}
+                                        <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} - {{ a.number }}</option>
+                                    {% endfor %}
+                                    <!--***************************-->
+                                </select>
+
+                                <!-- Select cash account -->
+                                <select class="form-control" id="destinyAccountCash" style="display: none;" onchange="selectDestinyAccount($(this).val())">
+
+                                    <!-- For to display cash accounts -->
+                                    <option></option>
+                                    {% for a in cash_acc %}
+                                        <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} </option>
+                                    {% endfor %}
+                                    <!--***************************-->
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Select Destiny account -->
+
+                    <hr><br>
+                    <!-- Exchange rate-->
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-2">Exchange Rate:</div>
+                        </div>
+
+                        <!-- Label of currencies of source and destiny accounts-->
+                        <div class="row" style="padding-top: 20px;">
+                            <!-- Source -->
+                            <div class="col-md-4 col-md-offset-1 labelExchangeRate text-right" >
+                                <label id="labelSourceCurrency" class="text-right"></label>
+                            </div>
+                            <!-- Input -->
+                            <div class=" col-md-2">
+                                <input type="text" class="form-control" id="inputExchangeRate" onkeyup="validateExchangeRate($(this).val());">
+                            </div>
+                            <!-- Destiny -->
+                            <div class="col-md-2 labelExchangeRate">
+                                <label id="labelDestinyCurrency"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End exchange rate -->
+
+                    <br><hr><br>
+                    <!-- Amount -->
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-2" style="text-align: center;">Amount</div>
+                    </div>
+                    <div class="row">
+                        <!-- Amount input -->
+                        <div class=" col-md-3 col-md-offset-2">
+                            <input type="text" class="form-control" id="inputAmountTransfer" onkeyup="calculateAmount($(this).val())" >
+                        </div>
+
+                        <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
+
+                        <!-- Input for the result of amount*exchangeRate-->
+                        <div class="col-md-3 col-md-offset-1">
+                            <input type="text" class="form-control" id="inputAmountTransferResult" value="" disabled>
+                        </div>
+
+                    </div>
+                    <br>
+                    <!-- End amount -->
+
+                </form>
+            </div>
+        </div>
+        <!-- Ends body -->
+
+        <!-- Footer -->
+        <div class="modal-footer">
+            <!-- Save and Cancel buttons-->
+            <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="btnSaveTransfer">Save</button>
+            <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="moneyTransferCancel">Cancel</button>
+        </div>
+        <!-- Ends footer -->
+    </div>
+    </div>
+ </div>
+<!-- Ends Money Transfer Modal-->
 
 {% endblock %}

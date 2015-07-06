@@ -8,6 +8,16 @@ class Currency(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def total(self):
+        accounts = Account.objects.filter(currency=self)
+        total = 0
+        for a in accounts:
+            total += a.balance
+        return total
+
+
+
 
 class Account(models.Model):
     DEFAULT_CURRENCY_ID = 1  # pounds ?
@@ -38,7 +48,7 @@ class Transfer(models.Model):
     to_account = models.ForeignKey(Account, related_name="to_account")
     amount = models.DecimalField(decimal_places=2, max_digits=19)
     exchange_rate = models.DecimalField(decimal_places=2, max_digits=19)
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.amount
