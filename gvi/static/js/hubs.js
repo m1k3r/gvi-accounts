@@ -66,7 +66,7 @@ $(document).on('click', '#hubSave' ,function () {
 function jsonAddHub(json){
 
     $.ajax({
-        url : "../hubs/", // the endpoint
+        url : "../create_hub/", // the endpoint
         type : "POST", // http method
         data : json, // data sent with the post request
         dataType: 'json',
