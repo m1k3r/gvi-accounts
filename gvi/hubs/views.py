@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.http import HttpResponseForbidden, JsonResponse, HttpResponseServerError
+from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
 from .models import Hubs
 
 def index(request):
@@ -9,18 +10,80 @@ def index(request):
     return render(request, 'hubs/dashboard.html', context)
 
 @csrf_exempt
-def add_delete_hub(request):
+def add_get_hub(request):
     if request.is_ajax():
         if request.method == 'POST':
-            print request.body
-            return JsonResponse({'code': 200,
+            try:
+                name = request.POST['name']
+                manager = request.POST['manager']
+                country = request.POST['country']
+                hub = Hubs(name=name, manager=manager, country=country)
+                hub.save()
+            except (KeyError, Exception) as e:
+                print "KeyError / Exception in POST add_delete_hub"
+                print type(e) + e
+                return HttpResponseServerError(request)
+
+            return JsonResponse({'code': '200',
                                  'msg': 'all ok',
                                  })
         else:
-            pass
+            try:
+                hub_id = request.POST['id']
+                hub = get_object_or_404(Hubs, pk=hub_id)
+                json_hub = {'id': hub.pk,
+                            'name': hub.name,
+                            'manager': hub.manager,
+                            'country': hub.country,
+                            }
+
+            except KeyError as e:
+                print type(e) + e.args
+                print "GET add_delete_hub"
+                return HttpResponseServerError(request)
+
+            return JsonResponse(json_hub)
+
     else:
         return HttpResponseForbidden(request)
 
+def hub_update_delete(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                hub_id = request.POST['id']
+                name = request.POST['name']
+                country = request.POST['country']
+                manager = request.POST['manager']
+                hub = get_object_or_404(Hubs, pk=hub_id)
+                hub.manager = manager
+                hub.country = country
+                hub.name = name
+                hub.save()
+            except KeyError as e:
+                print type(e) + e.args + "KeyError POST hub_update POST"
+                return HttpResponseServerError(request)
+
+            return JsonResponse({'code': '200',
+                                 'msg': 'hub updated',
+                                 'id': hub_id,
+                                 })
+
+        else:
+            try:
+                hub_id = request.POST['id']
+                hub = get_object_or_404(Hubs, pk=hub_id)
+                hub.delete()
+            except KeyError as e:
+                print type(e) + e.args + "KeyError hub_update_delete GET"
+                return HttpResponseServerError(request)
+
+            return JsonResponse({'code': '200',
+                                 'msg': 'hub deleted',
+                                 'id': hub_id,
+                                 })
+    else:
+        return HttpResponseForbidden
 
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk)
