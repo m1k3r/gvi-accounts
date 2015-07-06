@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from .models import Hubs
 
 def index(request):
@@ -13,6 +13,9 @@ def add_delete_hub(request):
     if request.is_ajax():
         if request.method == 'POST':
             print request.body
+            return JsonResponse({'code': 200,
+                                 'msg': 'all ok',
+                                 })
         else:
             pass
     else:
