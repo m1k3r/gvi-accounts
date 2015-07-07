@@ -108,6 +108,7 @@ $(document).on('click', '#addHubCancel' ,function () {
     $('#modalAddHub').find('#inputManager').val('');
     $('#modalAddHub').find('#inputCountry').val('');
 
+
 });
 //***************************************** ENDS ADD HUB ***************************************************************
 
@@ -171,7 +172,8 @@ function getJson(id){
 
 //Function triggered by SAVE on the Edit Hub modal
 //Validates fields, creates json and calls updateJson() function
-$(document).on('click', '#modal_edit' ,function () {
+$(document).on('click', '#modal_editHub' ,function () {
+    alert ("entra");
 
     //Get data
     var id = $("#idHubEdit").val();
