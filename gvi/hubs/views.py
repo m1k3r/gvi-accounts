@@ -29,7 +29,7 @@ def add_get_hub(request):
                                  })
         else:
             try:
-                hub_id = request.POST['id']
+                hub_id = request.GET['id']
                 hub = get_object_or_404(Hubs, pk=hub_id)
                 json_hub = {'id': hub.pk,
                             'name': hub.name,
@@ -38,7 +38,7 @@ def add_get_hub(request):
                             }
 
             except KeyError as e:
-                print type(e) + e.args
+                #print type(e) + e.args
                 print "GET add_delete_hub"
                 return HttpResponseServerError(request)
 
@@ -47,10 +47,12 @@ def add_get_hub(request):
     else:
         return HttpResponseForbidden(request)
 
+@csrf_exempt
 def hub_update_delete(request):
     if request.is_ajax():
         if request.method == 'POST':
             try:
+                print request.body
                 hub_id = request.POST['id']
                 name = request.POST['name']
                 country = request.POST['country']
@@ -60,8 +62,8 @@ def hub_update_delete(request):
                 hub.country = country
                 hub.name = name
                 hub.save()
-            except KeyError as e:
-                print type(e) + e.args + "KeyError POST hub_update POST"
+            except KeyError:
+                print "KeyError POST hub_update POST"
                 return HttpResponseServerError(request)
 
             return JsonResponse({'code': '200',
@@ -74,8 +76,8 @@ def hub_update_delete(request):
                 hub_id = request.POST['id']
                 hub = get_object_or_404(Hubs, pk=hub_id)
                 hub.delete()
-            except KeyError as e:
-                print type(e) + e.args + "KeyError hub_update_delete GET"
+            except KeyError:
+                print "KeyError hub_update_delete GET"
                 return HttpResponseServerError(request)
 
             return JsonResponse({'code': '200',
