@@ -21,7 +21,7 @@ def add_get_hub(request):
                 hub.save()
             except (KeyError, Exception) as e:
                 print "KeyError / Exception in POST add_delete_hub"
-                print type(e) + e
+                print e.args
                 return HttpResponseServerError(request)
 
             return JsonResponse({'code': '200',
@@ -38,7 +38,7 @@ def add_get_hub(request):
                             }
 
             except KeyError as e:
-                #print type(e) + e.args
+                print e.args
                 print "GET add_delete_hub"
                 return HttpResponseServerError(request)
 
@@ -62,7 +62,8 @@ def hub_update_delete(request):
                 hub.country = country
                 hub.name = name
                 hub.save()
-            except KeyError:
+            except KeyError as e:
+                print e
                 print "KeyError POST hub_update POST"
                 return HttpResponseServerError(request)
 
@@ -76,7 +77,8 @@ def hub_update_delete(request):
                 hub_id = request.POST['id']
                 hub = get_object_or_404(Hubs, pk=hub_id)
                 hub.delete()
-            except KeyError:
+            except KeyError as e:
+                print e
                 print "KeyError hub_update_delete GET"
                 return HttpResponseServerError(request)
 
