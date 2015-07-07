@@ -21,7 +21,7 @@ def add_get_hub(request):
                 hub.save()
             except (KeyError, Exception) as e:
                 print "KeyError / Exception in POST add_delete_hub"
-                print type(e) + e
+                print e.args
                 return HttpResponseServerError(request)
 
             return JsonResponse({'code': '200',
@@ -29,7 +29,7 @@ def add_get_hub(request):
                                  })
         else:
             try:
-                hub_id = request.POST['id']
+                hub_id = request.GET['id']
                 hub = get_object_or_404(Hubs, pk=hub_id)
                 json_hub = {'id': hub.pk,
                             'name': hub.name,
@@ -38,7 +38,7 @@ def add_get_hub(request):
                             }
 
             except KeyError as e:
-                print type(e) + e.args
+                print e.args
                 print "GET add_delete_hub"
                 return HttpResponseServerError(request)
 
@@ -47,10 +47,14 @@ def add_get_hub(request):
     else:
         return HttpResponseForbidden(request)
 
+@csrf_exempt
 def hub_update_delete(request):
     if request.is_ajax():
         if request.method == 'POST':
             try:
+                print "*******"
+                print request.body
+                print "*******"
                 hub_id = request.POST['id']
                 name = request.POST['name']
                 country = request.POST['country']
@@ -61,7 +65,8 @@ def hub_update_delete(request):
                 hub.name = name
                 hub.save()
             except KeyError as e:
-                print type(e) + e.args + "KeyError POST hub_update POST"
+                print e
+                print "KeyError POST hub_update POST"
                 return HttpResponseServerError(request)
 
             return JsonResponse({'code': '200',
@@ -75,7 +80,8 @@ def hub_update_delete(request):
                 hub = get_object_or_404(Hubs, pk=hub_id)
                 hub.delete()
             except KeyError as e:
-                print type(e) + e.args + "KeyError hub_update_delete GET"
+                print e
+                print "KeyError hub_update_delete GET"
                 return HttpResponseServerError(request)
 
             return JsonResponse({'code': '200',
@@ -83,7 +89,7 @@ def hub_update_delete(request):
                                  'id': hub_id,
                                  })
     else:
-        return HttpResponseForbidden
+        return HttpResponseForbidden(request)
 
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk)
