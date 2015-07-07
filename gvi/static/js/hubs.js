@@ -119,7 +119,7 @@ function editHub(id){
 
     //Get the id from the object
     id = id.attr('id');
-    
+
     //Get json form backend
     var response = getJson(id);
 
@@ -128,6 +128,7 @@ function editHub(id){
         var manager = data.manager;
         var country = data.country;
 
+        $("#idHubEdit").val(id);
         $("#inputNameEdit").val(name);
         $("#inputManagerEdit").val(manager);
         $("#inputCountryEdit").val(country);
@@ -147,7 +148,7 @@ function getJson(id){
     var lejson = {'id': id };
 
     var jxhr = $.ajax({
-        url : "create_hub/", // the endpoint
+        url : "hub/", // the endpoint
         type : "GET", // http method
         data : lejson, // data sent with the post request
 
