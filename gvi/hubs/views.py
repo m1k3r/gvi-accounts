@@ -52,7 +52,9 @@ def hub_update_delete(request):
     if request.is_ajax():
         if request.method == 'POST':
             try:
+                print "*******"
                 print request.body
+                print "*******"
                 hub_id = request.POST['id']
                 name = request.POST['name']
                 country = request.POST['country']
@@ -87,7 +89,7 @@ def hub_update_delete(request):
                                  'id': hub_id,
                                  })
     else:
-        return HttpResponseForbidden
+        return HttpResponseForbidden(request)
 
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk)

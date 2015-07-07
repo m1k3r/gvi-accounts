@@ -136,8 +136,9 @@ function editHub(id){
     }).fail(function (json) {
         alert("Error 1. Can't reach the server.");
         $('#modalEditHub').modal('hide');
-        return;
     });
+
+
 
 }
 
@@ -171,13 +172,16 @@ function getJson(id){
 
 //Function triggered by SAVE on the Edit Hub modal
 //Validates fields, creates json and calls updateJson() function
-$(document).on('click', '#modal_edit' ,function () {
+$(document).on('click', '#modal_editHub' ,function () {
 
     //Get data
     var id = $("#idHubEdit").val();
     var name = $("#inputNameEdit").val();
     var manager = $("#inputManagerEdit").val();
     var country = $("#inputCountryEdit").val();
+
+    console.log
+    console.log(id, name, manager, country);
 
 
     //Validations
@@ -201,12 +205,12 @@ $(document).on('click', '#modal_edit' ,function () {
 });
 
 //Function that receives a json with the Account info and connects to the backend to edit the account
-function updateJson(json){
+function updateJson(lejson){
 
     $.ajax({
         url : "change_hub/", // the endpoint
         type : "POST", // http method
-        data : json, // data sent with the post request
+        data : lejson, // data sent with the post request
 
         // handle a successful response
         success : function(jsonResponse) {
