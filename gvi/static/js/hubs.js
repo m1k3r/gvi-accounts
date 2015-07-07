@@ -147,7 +147,7 @@ function getJson(id){
     var lejson = {'id': id };
 
     var jxhr = $.ajax({
-        url : "create_hub/", // the endpoint
+        url : "hub/", // the endpoint
         type : "GET", // http method
         data : lejson, // data sent with the post request
 
