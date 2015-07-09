@@ -100,7 +100,7 @@ def hub_search(request):
 
     if request.method == 'POST':
         option = request.POST['option']
-        search_text = request.POST['term']
+        search_text = request.POST['search_txt']
         if option == 'hub':
             try:
                 hub = Hubs.objects.filter(name=search_text)
