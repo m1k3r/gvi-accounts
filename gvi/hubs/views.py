@@ -127,7 +127,7 @@ def hub_search(request):
 
 
 def hub_detail(request, pk):
-    hub = get_object_or_404(Hubs, pk)
+    hub = get_object_or_404(Hubs, pk=pk)
     context = {'hub': hub}
     # return render(request, 'hubs/detail.html', context)
     response = "Hub detail: " + pk
