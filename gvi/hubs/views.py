@@ -100,8 +100,6 @@ def hub_search(request):
         pass
 
 
-
-
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk)
     context = {'hub': hub}
