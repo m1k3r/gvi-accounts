@@ -104,8 +104,8 @@ def hub_search(request):
         if option == 'hub':
             hubs = Hubs.objects.filter(name__contains=search_text)
             context = {'hubs': hubs}
-            if not hubs :
-                print "Hubs.DoesNotExist at hub_search POST" + e.args
+            if not hubs:
+                # print "Hubs.DoesNotExist at hub_search POST" + e.args
                 context = {'error': 'Hub not found'}
                 return render(request, 'hubs/dashboard.html', context)
 
