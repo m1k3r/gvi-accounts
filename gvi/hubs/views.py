@@ -103,25 +103,25 @@ def hub_search(request):
         search_text = request.POST['search_txt']
         if option == 'hub':
             try:
-                hubs = Hubs.objects.get(name__contains=search_text)
-                context = {'hubs': hubs}
+                hub = Hubs.objects.get(name__contains=search_text)
+                context = {'hub': hub}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
                 # context = {'error': 'Hub not found'}
                 return HttpResponse("Hub not found")
 
-            return HttpResponse(hubs[0].name)
+            return HttpResponse(hub.name)
 
         if option == 'manager':
             try:
-                hubs = Hubs.objects.filter(manager__contains=search_text)
-                context = {'hubs': hubs}
+                hub = Hubs.objects.filter(manager__contains=search_text)
+                context = {'hub': hub}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
                 # context = {'error': 'Hub not found'}
                 return HttpResponse("Hub not found")
 
-            return HttpResponse(hubs[0].manager)
+            return HttpResponse(hub.manager)
         else:
             print "Nor HUB nor MANAGER"
             return HttpResponse('Error')
