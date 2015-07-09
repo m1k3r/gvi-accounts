@@ -93,7 +93,7 @@ def hub_update_delete(request):
                                  'id': hub_id,
                                  })
     else:
-        return HttpResponseForbidden(request)
+        raise Http404("Not Found")
 
 
 def hub_search(request):
@@ -103,25 +103,25 @@ def hub_search(request):
         search_text = request.POST['search_txt']
         if option == 'hub':
             try:
-                hub = Hubs.objects.filter(name=search_text)[0]
-                context = {'hub': hub}
+                hubs = Hubs.objects.get(name__contains=search_text)
+                context = {'hubs': hubs}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
                 # context = {'error': 'Hub not found'}
                 return HttpResponse("Hub not found")
 
-            return HttpResponse(hub.name)
+            return HttpResponse(hubs[0].name)
 
         if option == 'manager':
             try:
-                hub = Hubs.objects.filter(manager=search_text)[0]
-                context = {'hub': hub}
+                hubs = Hubs.objects.filter(manager__contains=search_text)
+                context = {'hubs': hubs}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
                 # context = {'error': 'Hub not found'}
                 return HttpResponse("Hub not found")
 
-            return HttpResponse(hub.manager)
+            return HttpResponse(hubs[0].manager)
         else:
             print "Nor HUB nor MANAGER"
             return HttpResponse('Error')
