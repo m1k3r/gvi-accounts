@@ -97,7 +97,6 @@ def hub_update_delete(request):
 
 
 def hub_search(request):
-
     if request.method == 'POST':
         option = request.POST['option']
         search_text = request.POST['search_txt']
@@ -116,7 +115,7 @@ def hub_search(request):
             context = {'hubs': hubs}
             if not hubs:
                 # print "Hubs.DoesNotExist at hub_search POST" + e.args
-                context = {'error': 'Hub not found'}
+                context = {'error': 'Manager not found'}
                 # return render(request, 'hubs/dashboard.html', context)
 
             return render(request, 'hubs/dashboard.html', context)
@@ -130,4 +129,6 @@ def hub_search(request):
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk)
     context = {'hub': hub}
-    return render(request, 'hubs/detail.html', context)
+    # return render(request, 'hubs/detail.html', context)
+    response = "Hub detail: " + pk
+    return HttpResponse(response)
