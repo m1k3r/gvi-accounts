@@ -11,10 +11,28 @@
 
 <!-- Title and search bar-->
 <div class="row">
-    <div class="col-md-5 col-md-offset-1">
+    <div class="col-md-4 col-md-offset-1">
         <h1>Hubs</h1><br>
     </div>
-</div><br>
+    <div class="col-md-6" style="padding-top: 20px;">
+        <form class="form-inline" action="{% url 'hubs:hub_search' %}">
+            <div class="form-row">
+                <select class="form-control" id="currencySelectEdit" name="option">
+                    <option>Hub</option>
+                    <option>Manager</option>
+                </select>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchTxt" placeholder="Search..." size="50" name="search_txt">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
 <!-- Ends title and search bar -->
 
 <!-- Table hubs -->
