@@ -114,7 +114,7 @@ def hub_search(request):
 
         if option == 'manager':
             try:
-                hub = Hubs.objects.filter(manager__contains=search_text)
+                hub = Hubs.objects.get(manager__contains=search_text)
                 context = {'hub': hub}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
