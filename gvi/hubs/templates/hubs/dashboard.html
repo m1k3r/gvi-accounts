@@ -15,7 +15,8 @@
         <h1>Hubs</h1><br>
     </div>
     <div class="col-md-6" style="padding-top: 20px;">
-        <form class="form-inline" action="{% url 'hubs:hub_search' %}">
+        <form class="form-inline" action="{% url 'hubs:hub_search' %}" method="post">
+            {% csrf_token %}
             <div class="form-row">
                 <select class="form-control" id="currencySelectEdit" name="option">
                     <option>Hub</option>
