@@ -102,15 +102,14 @@ def hub_search(request):
         option = request.POST['option']
         search_text = request.POST['search_txt']
         if option == 'hub':
-            try:
-                hubs = Hubs.objects.filter(name__contains=search_text)
-                context = {'hubs': hubs}
-            except Hubs.DoesNotExist as e:
+            hubs = Hubs.objects.filter(name__contains=search_text)
+            context = {'hubs': hubs}
+            if not hubs :
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
                 context = {'error': 'Hub not found'}
                 return render(request, 'hubs/dashboard.html', context)
 
-            return render(request,'hubs/dashboard.html', context)
+            return render(request, 'hubs/dashboard.html', context)
 
         if option == 'manager':
             try:
@@ -118,7 +117,7 @@ def hub_search(request):
                 context = {'hubs': hubs}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
-                # context = {'error': 'Hub not found'}
+                context = {'error': 'Hub not found'}
                 return render(request, 'hubs/dashboard.html', context)
 
             return render(request, 'hubs/dashboard.html', context)
