@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseForbidden, JsonResponse, HttpResponseServerError
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 from .models import Hubs
 
@@ -48,7 +48,7 @@ def add_get_hub(request):
             return JsonResponse(json_hub)
 
     else:
-        return HttpResponseForbidden(request)
+        return Http404(request)
 
 
 @csrf_exempt
