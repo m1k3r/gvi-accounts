@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseForbidden, JsonResponse, HttpResponseServerError
+from django.http import HttpResponse
 
 from .models import Hubs
 
@@ -96,8 +97,33 @@ def hub_update_delete(request):
 
 
 def hub_search(request):
-    if request.POST['hub']:
-        pass
+
+    if request.method == 'POST':
+        option = request.POST['option']
+        search_text = request.POST['search_txt']
+        if option == 'hub':
+            try:
+                hub = Hubs.objects.filter(name=search_text)
+                context = {'hub': hub}
+            except Hubs.DoesNotExist as e:
+                print "Hubs.DoesNotExist at hub_search POST" + e.args
+                # context = {'error': 'Hub not found'}
+                return HttpResponse("Hub not found")
+
+            return HttpResponse(hub.name)
+
+        if option == 'manager':
+            try:
+                hub = Hubs.objects.filter(manager=search_text)
+                context = {'hub': hub}
+            except Hubs.DoesNotExist as e:
+                print "Hubs.DoesNotExist at hub_search POST" + e.args
+                # context = {'error': 'Hub not found'}
+                return HttpResponse("Hub not found")
+
+            return HttpResponse(hub.manager)
+    else:
+        return HttpResponseForbidden(request)
 
 
 def hub_detail(request, pk):

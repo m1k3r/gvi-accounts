@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^budgets/', include('budgets.urls')),
     url(r'^accounts/', include('accounts.urls', namespace='accounts', app_name='accounts')),
     url(r'^transactions/', include('transactions.urls', namespace='transactions', app_name='transactions')),
-    url(r'^hubs/', include('hubs.urls')),
+    url(r'^hubs/', include('hubs.urls', namespace='hubs', app_name='hubs')),
     url(r'^admin/', include(admin.site.urls)),
 ]
