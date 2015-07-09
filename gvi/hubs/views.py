@@ -122,6 +122,9 @@ def hub_search(request):
                 return HttpResponse("Hub not found")
 
             return HttpResponse(hub.manager)
+        else:
+            print "Nor HUB nor MANAGER"
+            return HttpResponse('Error')
     else:
         return HttpResponseForbidden(request)
 
