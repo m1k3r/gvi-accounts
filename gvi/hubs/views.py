@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseForbidden, JsonResponse, HttpResponseServerError
-from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
+
 from .models import Hubs
+
 
 def index(request):
     hubs = Hubs.objects.all()
     context = {'hubs': hubs}
     return render(request, 'hubs/dashboard.html', context)
+
 
 @csrf_exempt
 def add_get_hub(request):
@@ -46,6 +48,7 @@ def add_get_hub(request):
 
     else:
         return HttpResponseForbidden(request)
+
 
 @csrf_exempt
 def hub_update_delete(request):
@@ -90,6 +93,14 @@ def hub_update_delete(request):
                                  })
     else:
         return HttpResponseForbidden(request)
+
+
+def hub_search(request):
+    if request.POST['hub']:
+        pass
+    elif
+
+
 
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk)
