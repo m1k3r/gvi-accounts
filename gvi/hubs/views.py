@@ -107,25 +107,24 @@ def hub_search(request):
             if not hubs:
                 # print "Hubs.DoesNotExist at hub_search POST" + e.args
                 context = {'error': 'Hub not found'}
-                return render(request, 'hubs/dashboard.html', context)
+                # return render(request, 'hubs/dashboard.html', context)
 
             return render(request, 'hubs/dashboard.html', context)
 
         if option == 'manager':
-            try:
-                hubs = Hubs.objects.filter(manager__contains=search_text)
-                context = {'hubs': hubs}
-            except Hubs.DoesNotExist as e:
-                print "Hubs.DoesNotExist at hub_search POST" + e.args
+            hubs = Hubs.objects.filter(manager__contains=search_text)
+            context = {'hubs': hubs}
+            if not hubs:
+                # print "Hubs.DoesNotExist at hub_search POST" + e.args
                 context = {'error': 'Hub not found'}
-                return render(request, 'hubs/dashboard.html', context)
+                # return render(request, 'hubs/dashboard.html', context)
 
             return render(request, 'hubs/dashboard.html', context)
         else:
             print "Nor HUB nor MANAGER"
             return HttpResponse('Error')
     else:
-        return HttpResponseForbidden(request)
+        raise Http404(request)
 
 
 def hub_detail(request, pk):
