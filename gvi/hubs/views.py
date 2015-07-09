@@ -79,7 +79,7 @@ def hub_update_delete(request):
 
         else:
             try:
-                hub_id = request.POST['id']
+                hub_id = request.GET['id']
                 hub = get_object_or_404(Hubs, pk=hub_id)
                 hub.delete()
             except KeyError as e:
@@ -98,7 +98,7 @@ def hub_update_delete(request):
 def hub_search(request):
     if request.POST['hub']:
         pass
-    elif
+
 
 
 
