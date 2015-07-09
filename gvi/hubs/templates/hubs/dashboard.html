@@ -142,7 +142,7 @@
                             </div>
                         </div>
 
-                        <!-- Contraction -->
+                        <!-- Manager -->
                         <div class="row" id="managerTxtFieldEdit" >
                             <div class="form-group">
                                 <label for="inputManagerEdit" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Manager:</label>
@@ -178,12 +178,12 @@
 
                 <!-- Delete button -->
                 <div class="row">
-                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Hub</button>
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="edit_deleteHub" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Hub</button>
                 </div>
 
                 <!-- Delete confirmation --->
                 <br>
-                <div id="deleteConfirmation" style="display: none;">
+                <div id="deleteHubConfirmation" style="display: none;">
                 <div class="row">
                     <div class="col-md-7 col-md-offset-2">
                         <label id="labelDeleteConfirm">Are you sure you want to delete this hub?</label>
@@ -191,8 +191,8 @@
                 </div>
 
                 <div class="row">
-                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
-                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteHubYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteHubNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
                 </div>
                 </div>
                 <!-- Ends delete confirmation -->

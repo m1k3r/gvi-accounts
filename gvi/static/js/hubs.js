@@ -237,4 +237,66 @@ function updateJson(lejson){
 
 //********************************************* ENDS EDIT HUB **********************************************************
 
+//*********************************************** DELETE HUB ***********************************************************
 
+//Function triggered by the DELETE button on the Edit Hub modal
+//Display the confirmation to delete the hub
+$(document).on('click', '#edit_deleteHub' ,function () {
+
+    $('#edit_deleteHub').css("background", "#C61212");
+    $('#edit_deleteHub').css("color", "#ffffff");
+    $('#deleteHubConfirmation').css("display", "block");
+});
+
+//Function triggered by the NO button on the confirmation to delete the hub
+//Hides the confirmation
+$(document).on('click', '#deleteHubNo' ,function () {
+
+    $('#edit_deleteHub').css("background", "#ffffff");
+    $('#edit_deleteHub').css("color", "#C61212");
+    $('#deleteHubConfirmation').css("display", "none");
+});
+
+//Function triggered by the YES button on the confirmation to delete the account
+//Hides the confirmation, gets the account id and calls deleteJson() function
+$(document).on('click', '#deleteHubYes' ,function () {
+
+    $('#edit_deleteHub').css("background", "#ffffff");
+    $('#edit_deleteHub').css("color", "#C61212");
+    $('#deleteHubConfirmation').css("display", "none");
+
+    var id = $("#idHubEdit").val();
+    deleteJson(id);
+});
+
+//Function that receives the hub id and connects to the backend to delete the hub
+function deleteJson(id){
+
+    //Create json with the id
+    var lejson = {'id': id };
+
+    var jxhr = $.ajax({
+        url : "change_hub/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+            $('#modalEditHub').modal('hide');
+            location.reload()
+
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error deleting the account. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return jxhr;
+}
+//*************************************** ENDS DELETE ACCOUNT **********************************************************
