@@ -48,7 +48,7 @@ def add_get_hub(request):
             return JsonResponse(json_hub)
 
     else:
-        return Http404(request)
+        raise Http404("Not Found")
 
 
 @csrf_exempt
@@ -103,7 +103,7 @@ def hub_search(request):
         search_text = request.POST['search_txt']
         if option == 'hub':
             try:
-                hub = Hubs.objects.filter(name=search_text)
+                hub = Hubs.objects.filter(name=search_text)[0]
                 context = {'hub': hub}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
@@ -114,7 +114,7 @@ def hub_search(request):
 
         if option == 'manager':
             try:
-                hub = Hubs.objects.filter(manager=search_text)
+                hub = Hubs.objects.filter(manager=search_text)[0]
                 context = {'hub': hub}
             except Hubs.DoesNotExist as e:
                 print "Hubs.DoesNotExist at hub_search POST" + e.args
