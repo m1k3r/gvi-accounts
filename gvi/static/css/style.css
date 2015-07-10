@@ -1,6 +1,6 @@
 .nav-pills a {
-   color: #417505;
-   font-weight:bold;
+	color: #417505;
+	font-weight:bold;
 }
 
 .nav>li>a:hover{
@@ -11,8 +11,8 @@
 }
 
 .nav>li>a:focus {
-   background-color: #417505;
-   color: #ffffff
+	background-color: #417505;
+	color: #ffffff
 }
 
 #sidebar {
@@ -42,24 +42,24 @@
 	font-weight:bold;
 }
 .text{
-    font-size: 24px;
-    font-weight: 500;
+	font-size: 24px;
+	font-weight: 500;
 }
 
 .tableTitle{
-    font-size: 18px;
-    font-weight: 400;
+	font-size: 18px;
+	font-weight: 400;
 }
 
 .login{
-    margin-top: 150px;
-    background: #ffffff;
-    padding: 50px;
-    border-radius: 5%;
+	margin-top: 150px;
+	background: #ffffff;
+	padding: 50px;
+	border-radius: 5%;
 }
 
 #loginBody{
-    background: #d4ef82;
+	background: #d4ef82;
 }
 
 .modalStyles{
@@ -103,11 +103,11 @@ h1>#hubname{
 	font-size:120%;
 	line-height:130%;
 	color:#717171;
-	margin-bottom:25px;	
+	margin-bottom:25px;
 }
 
 .horizontal-separator{
-	background-color:black; 
+	background-color:black;
 	height:2px;
 }
 
@@ -117,14 +117,14 @@ h1>#hubname{
 }
 
 .container-non-responsive {
-  /* Margin/padding copied from Bootstrap */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 0px;
-  padding-right: 0px;
+	/* Margin/padding copied from Bootstrap */
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 0px;
+	padding-right: 0px;
 
-  /* Set width to your desired site width */
-  width: 1170px;
+	/* Set width to your desired site width */
+	width: 1170px;
 }
 
 
@@ -208,4 +208,30 @@ h1>#hubname{
 	font-weight: 500;
 }
 
+#budgetContainer{
+	min-height:100vh;
+	background-color: #b2dba1;
+
+
+}
+
+#leftBudget{
+	background-color: rgba(0, 172, 255, 0.22);
+	min-height:100vh;
+	padding-right:20px; border-right: 4px solid #787878;
+}
+
+#rightBudget{
+	background-color: rgba(244, 246, 0, 0.21);
+	min-height:100vh;
+
+}
+
+#testRight{
+	min-width: 400px;
+}
+
+#budgetInitial{
+	margin-bottom:6px;
+}
 
