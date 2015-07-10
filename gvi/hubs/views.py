@@ -127,7 +127,12 @@ def hub_search(request):
 
 def hub_detail(request, pk):
     hub = get_object_or_404(Hubs, pk=pk)
-    context = {'hub': hub}
+    bank_accounts = hub.bank_accounts()
+    cash_accounts = hub.cash_accounts()
+    context = {'hub': hub,
+               'banks': bank_accounts,
+               'cash': cash_accounts,
+               }
     return render(request, 'hubs/detail.html', context)
     # response = "Hub detail: " + pk
     # return HttpResponse(response)
