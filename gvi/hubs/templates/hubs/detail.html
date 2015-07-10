@@ -13,20 +13,23 @@
 <div class="row">
     <div class="col-md-5 col-md-offset-1">
         <h1>{{ hub }}</h1><br>
-        <div style="padding-left: 10px;">
+        <div>
             <p class="detailTxt">Manager: {{ hub.manager }}</p>
 
             <ul class="list-unstyled detailTxt">
 
                 <!-- For to display all currencies and how much money they have -->
-                {% for c in curr %}
-                <li class="text">{{ c }}: ${{ c.total }}</li>
-                {% endfor %}
-                <!-- **********************************************************-->
-                <li>Initial Budget: </li>
-                <li>Money Left: </li>
-                <li>Total Expenses: </li>
 
+                <!-- **********************************************************-->
+                <div>
+                    {% for c in curr %}
+                        <li>{{ c }}:</li>
+                        <li>Initial Budget: </li>
+                        <li> Money Left: ${{ c.total }}</li>
+                        <li>Total Expenses: </li>
+                    {% endfor %}
+
+                </div>
             </ul>
         </div>
     </div>
