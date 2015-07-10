@@ -216,13 +216,13 @@ h1>#hubname{
 }
 
 #leftBudget{
-	background-color: rgba(0, 172, 255, 0.22);
+
 	min-height:100vh;
-	padding-right:20px; border-right: 3px solid #484848;
+	padding-right:20px; border-right: 1px solid #a2a2a2;
 }
 
 #rightBudget{
-	background-color: rgba(244, 246, 0, 0.21);
+
 	min-height:100vh;
 
 }
