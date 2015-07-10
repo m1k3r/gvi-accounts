@@ -107,8 +107,8 @@ h1>#hubname{
 }
 
 .horizontal-separator{
-	background-color:black;
-	height:2px;
+	background-color: #b3b3b3;
+	height:1px;
 }
 
 .select-title{
@@ -218,7 +218,7 @@ h1>#hubname{
 #leftBudget{
 
 	min-height:100vh;
-	padding-right:20px; border-right: 1px solid #a2a2a2;
+	padding-right:20px; border-right: 1px solid #B3B3B3;
 }
 
 #rightBudget{
