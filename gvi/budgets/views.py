@@ -10,7 +10,7 @@ def index(request):
     category = Category.objects.all()
     currency = Currency.objects.all() 
     
-    context = {'transactions': category,
+    context = {'category': category,
             'currency':currency,
             }
-    return render(request, 'budgets/dashboard.html')
+    return render(request, 'budgets/dashboard.html', context)
