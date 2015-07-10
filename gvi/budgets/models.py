@@ -24,5 +24,5 @@ class BudgetElement(models.Model):
     subcategory = models.ForeignKey('transactions.Subcategory')
     
     def __str__(self):
-        return self.amount + self.number
+        return self.amount + self.number.number
 
