@@ -218,7 +218,7 @@ h1>#hubname{
 #leftBudget{
 	background-color: rgba(0, 172, 255, 0.22);
 	min-height:100vh;
-	padding-right:20px; border-right: 4px solid #787878;
+	padding-right:20px; border-right: 3px solid #484848;
 }
 
 #rightBudget{
@@ -231,7 +231,21 @@ h1>#hubname{
 	min-width: 400px;
 }
 
-#budgetInitial{
+.add-spacing{
 	margin-bottom:6px;
 }
 
+.amount-offset{
+	margin-left:-30px;
+}
+
+.currency-offset{
+	margin-left:-60px;
+}
+
+h1>#budgets{
+	font-size:120%;
+	color:black;
+	margin-bottom:25px;
+	padding-left:30px;
+}
