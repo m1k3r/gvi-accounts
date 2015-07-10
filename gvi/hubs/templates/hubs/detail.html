@@ -9,31 +9,26 @@
 
 {% block content %}
 
-<h1>{{ hub }}</h1>
 <!-- Info about money left and expenses-->
 <div class="row">
     <div class="col-md-5 col-md-offset-1">
-        <h1>Money left</h1><br>
-        <ul class="list-unstyled">
+        <h1>{{ hub }}</h1><br>
+        <div style="padding-left: 10px;">
+            <p class="detailTxt">Manager: {{ hub.manager }}</p>
 
-            <!-- For to display all currencies and how much money they have -->
-            {% for c in curr %}
-            <li class="text">{{ c }}: ${{ c.total }}</li>
-            {% endfor %}
-            <!-- **********************************************************-->
+            <ul class="list-unstyled detailTxt">
 
-        </ul>
-    </div>
-    <div class="col-md-5">
-        <h1>Expenses</h1><br>
-        <ul class="list-unstyled">
+                <!-- For to display all currencies and how much money they have -->
+                {% for c in curr %}
+                <li class="text">{{ c }}: ${{ c.total }}</li>
+                {% endfor %}
+                <!-- **********************************************************-->
+                <li>Initial Budget: </li>
+                <li>Money Left: </li>
+                <li>Total Expenses: </li>
 
-            <!-- For to display currencies and their total expenses -->
-            <li class="text">Pesos: $2,000.00</li>
-            <li class="text">Dollars: $150.00</li>
-            <!--*****************************************************-->
-
-        </ul>
+            </ul>
+        </div>
     </div>
 </div><br>
 <!-- Ends info about money left and expenses -->
@@ -53,7 +48,7 @@
             </tr>
 
             <!-- For to fill info about each account -->
-            {% for a in bank_acc %}
+            {% for a in banks %}
 
             <tr id="{{ a.id }}">
                 <td hidden id="pk">{{ a.id }}</td>
@@ -84,7 +79,7 @@
             </tr>
 
             <!-- For to fill information about each account-->
-            {% for a in cash_acc %}
+            {% for a in cash %}
 
             <tr id="{{ a.id }}">
                 <td hidden id="pk">{{ a.id }}</td>
