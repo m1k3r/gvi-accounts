@@ -65,32 +65,36 @@
         </div>
         <div class="col-xs-6" id="rightBudget">
             <div class="row">
-                    <div class="col-xs-4">
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepickerFrom'>
-                                <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepickerFrom'>
+                            <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                  </span>
-                            </div>
                         </div>
                     </div>
+                </div>
 
 
-                    <div class="col-xs-4">
-                        <hr class="horizontal-separator">
-                    </div>
+                <div class="col-xs-4">
+                    <hr class="horizontal-separator">
+                </div>
 
-                    <div class="col-xs-4">
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepickerTo'>
-                                <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepickerTo'>
+                            <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                  </span>
-                            </div>
                         </div>
                     </div>
+                </div>
+
+            </div>
+
+            <div class="row">
 
             </div>
 
@@ -101,52 +105,6 @@
 
     </div>
 
-    <script>
-        $(document).ready(function() {
-            var max_fields      = 10; //maximum input boxes allowed
-            var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-            var add_button      = $(".add_field_button"); //Add button ID
 
-            var x = 1; //initlal text box count
-            $(add_button).click(function(e){ //on add input button click
-                e.preventDefault();
-
-                x++; //text box increment
-                $(wrapper).append('<div class="row" name="extra'+x+'" id="extra'+x+'">\
-                        <div class="col-xs-5">\
-                            <select class="form-control" id="category1" name="category1">\
-                                {% for a in category %}\
-                                    <option>{{ a.name }}</option>\
-                                {% endfor %}\
-                            </select>\
-                        </div>\
-                        <div class="col-xs-3">\
-                            <input type="number" id="amount1" name="amount1" class="form-control amount-offset" placeholder="Amount">\
-                        </div>\
-                        <div class="col-xs-3">\
-                            <select class="form-control currency-offset" name="currency1" id="currency1">\
-                                {% for a in currency %}\
-                                    <option>{{ a.contraction }}</option>\
-                                {% endfor %}\
-                            </select>\
-                        </div>\
-                        <div class="col-xs-1 checkbox">\
-                            <a href="#" class="remove_field" name="'+x+'"><span class="glyphicon glyphicon-remove"></span></a>\
-                        </div>\
-                        </div>\
-                ')
-
-
-
-            });
-
-            $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-                divName = '#extra'+$(this).attr('name');
-                e.preventDefault();
-                $(divName).remove();
-                console.log(divName);
-            })
-        });
-    </script>
 
 {% endblock %}
