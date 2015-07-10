@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponseServerError, HttpResponseNotAllowed
+from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Account, Currency, Transfer
@@ -81,7 +81,7 @@ def account_new_get(request):
         else:
             return HttpResponseNotAllowed(request)
     else:
-        return HttpResponseForbidden(request)
+        raise Http404(request)
 
 
 @csrf_exempt
@@ -174,7 +174,7 @@ def money_transfer(request):
         else:
             return HttpResponseNotAllowed(request)
     else:
-        return HttpResponseForbidden(request)
+        raise Http404(request)
 
 
 @csrf_exempt
@@ -210,4 +210,3 @@ def currency_dash(request):
         currencies = Currency.objects.all()
         context = {'currencies': currencies}
         return render(request, 'accounts/currencies.html', context)
-
