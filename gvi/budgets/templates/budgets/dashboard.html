@@ -8,39 +8,20 @@
 
 {% block content %}
     <div class="row col-xs-11">
+        <div class="row" id="hubname">
+            <h1>
+                <div id="budgets">Budgets</div>
+            </h1>
+        </div>
 
 
         <div class="col-xs-6" id="leftBudget">
-            <form method="post">
+            <form action="" method="post">
+                {% csrf_token %}
 
-                <div class="input_fields_wrap">
-                    <div class="row" id="budgetInitial">
-
-                        <div class="col-xs-5">
-                            <select class="form-control" id="category1" id="category2">
-                                {% for a in category %}
-                                    <option>{{ a.name }}</option>
-                                {% endfor %}
-                            </select>
-
-                        </div>
-                        <div class="col-xs-3">
-                            <input type="number" class="form-control" placeholder="Amount" style="margin-left:-30px">
-                        </div>
-                        <div class="col-xs-3">
-                            <select class="form-control" style="margin-left:-60px">
-                                {% for a in category %}
-                                    <option>{{ a.name }}</option>
-                                {% endfor %}
-                            </select>
-
-                        </div>
-                    </div>
-
-                </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <button class="btn btn-info add_field_button">
+                        <button class="btn btn-info add_field_button add-spacing">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new
                         </button>
 
@@ -53,6 +34,33 @@
                     </div>
 
                 </div>
+
+                <div class="input_fields_wrap">
+                    <div class="row add-spacing">
+
+                        <div class="col-xs-5">
+                            <select class="form-control" id="category1" name="category1">
+                                {% for a in category %}
+                                    <option>{{ a.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="number" id="amount1" name="amount1" class="form-control amount-offset" placeholder="Amount">
+                        </div>
+                        <div class="col-xs-3">
+                            <select class="form-control currency-offset" name="currency1" id="currency1">
+                                {% for a in currency %}
+                                    <option>{{ a.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </form>
         </div>
         <div class="col-xs-6" id="rightBudget">
@@ -79,18 +87,18 @@
                 x++; //text box increment
                 $(wrapper).append('<div class="row" name="extra'+x+'" id="extra'+x+'">\
                         <div class="col-xs-5">\
-                            <select class="form-control">\
+                            <select class="form-control" id="category1" name="category1">\
                                 {% for a in category %}\
                                     <option>{{ a.name }}</option>\
                                 {% endfor %}\
                             </select>\
                         </div>\
                         <div class="col-xs-3">\
-                            <input type="number" class="form-control" placeholder="Amount" style="margin-left:-30px">\
+                            <input type="number" id="amount1" name="amount1" class="form-control amount-offset" placeholder="Amount">\
                         </div>\
                         <div class="col-xs-3">\
-                            <select class="form-control" style="margin-left:-60px">\
-                                {% for a in category %}\
+                            <select class="form-control currency-offset" name="currency1" id="currency1">\
+                                {% for a in currency %}\
                                     <option>{{ a.name }}</option>\
                                 {% endfor %}\
                             </select>\
