@@ -122,7 +122,7 @@ function editHub(id){
     id = id.attr('id');
 
     //Get json form backend
-    var response = getJson(id);
+    var response = getJsonHub(id);
 
     response.done(function(data){
         var name = data.name;
@@ -144,7 +144,7 @@ function editHub(id){
 }
 
 //Function that receives a hub id, connects to the backend and return a json with the hub info
-function getJson(id){
+function getJsonHub(id){
 
     //Create json with the account id
     var lejson = {'id': id };
@@ -201,12 +201,12 @@ $(document).on('click', '#modal_editHub' ,function () {
 
     //Connection to backend
     var hubData = {"id":id, "name": name, "manager":manager, "country":country};
-    updateJson(hubData);
+    updateJsonHub(hubData);
 
 });
 
 //Function that receives a json with the Account info and connects to the backend to edit the account
-function updateJson(lejson){
+function updateJsonHub(lejson){
 
     $.ajax({
         url : "change_hub/", // the endpoint
@@ -266,11 +266,11 @@ $(document).on('click', '#deleteHubYes' ,function () {
     $('#deleteHubConfirmation').css("display", "none");
 
     var id = $("#idHubEdit").val();
-    deleteJson(id);
+    deleteJsonHub(id);
 });
 
 //Function that receives the hub id and connects to the backend to delete the hub
-function deleteJson(id){
+function deleteJsonHub(id){
 
     //Create json with the id
     var lejson = {'id': id };
@@ -620,6 +620,69 @@ function updateJsonDetail(json){
 
 //***************************************** ENDS EDIT ACCOUNT **********************************************************
 
+//******************************************* DELETE ACCOUNT ***********************************************************
+
+//Function triggered by the DELETE button on the Edit Account modal
+//Display the confirmation to delete the account
+$(document).on('click', '#modal_editDeleteDetail' ,function () {
+
+    $('#modal_editDeleteDetail').css("background", "#C61212");
+    $('#modal_editDeleteDetail').css("color", "#ffffff");
+    $('#deleteConfirmationDetail').css("display", "block");
+});
+
+//Function triggered by the NO button on the confirmation to delete the account
+//Hides the confirmation
+$(document).on('click', '#deleteNoDetail' ,function () {
+
+    $('#modal_editDeleteDetail').css("background", "#ffffff");
+    $('#modal_editDeleteDetail').css("color", "#C61212");
+    $('#deleteConfirmationDetail').css("display", "none");
+});
+
+//Function triggered by the YES button on the confirmation to delete the account
+//Hides the confirmation, gets the account id and calls deleteJson() function
+$(document).on('click', '#deleteYesDetail' ,function () {
+
+    $('#modal_editDeleteDetail').css("background", "#ffffff");
+    $('#modal_editDeleteDetail').css("color", "#C61212");
+    $('#deleteConfirmationDetail').css("display", "none");
+
+    var id = $("#idAccountEditDetail").val();
+    deleteJsonDetail(id);
+});
+
+//Function that receives the account id and connects to the backend to delete the account
+function deleteJsonDetail(id){
+
+    //Create json with the id
+    var lejson = {'id': id };
+
+    var jxhr = $.ajax({
+        url : "change_account/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+            $('#modalEditAccount').modal('hide');
+            location.reload()
+
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error deleting the account. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return jxhr;
+}
+//*************************************** ENDS DELETE ACCOUNT **********************************************************
 
 //Edit account modal
 //Function to hide additional fields when the account type is cash
