@@ -300,3 +300,134 @@ function deleteJson(id){
     return jxhr;
 }
 //*************************************** ENDS DELETE HUB **********************************************************
+
+//***************************************** ADD ACCOUNT ****************************************************************
+
+//Function triggered by SAVE on the Add Account modal
+//Validates fields, creates json and calls jsonAjax() function
+$(document).on('click', '#modal_saveDetail' ,function (){
+
+    //Validate account type
+    var accountType = $('input[name=accountTypeRadio]:checked', '#addAccountForm').val();
+
+    //Get data according to the account type
+    if(accountType == "c"){
+        var currency = $('#currencySelect').val();
+        var amount= $('#inputAmount').val();
+
+        //Validations
+        if(isNull(currency)==false){
+            alert("You need to select a currency");
+            return;
+        }
+        if(isNull(amount)==false){
+            alert("The field Amount cannot be empty");
+            return;
+        }
+        if(isNumberDecimal(amount)==false){
+            alert("The amount must be a number");
+            return;
+        }
+
+        //Connection to backend
+        var accountData = {"account_type": accountType, "balance":amount, "currency":currency};
+        jsonAjax(accountData);
+    }
+    if(accountType == "b"){
+        var currency = $('#currencySelect').val();
+        var bank= $('#inputBank').val();
+        var account= $('#inputAccountNo').val();
+        var amount= $('#inputAmount').val();
+
+        //Validations
+        if(isNull(currency)==false){
+            alert("You need to select a currency");
+            return;
+        }
+        if(isNull(bank)==false){
+            alert("The field Bank cannot be empty");
+            return;
+        }
+        if(isNull(account)==false){
+            alert("The field Account cannot be empty");
+            return;
+        }
+        if(isNull(amount)==false){
+            alert("The field Amount cannot be empty");
+            return;
+        }
+        if(isNumberInteger(account)==false){
+            alert("The Account # must be a number without decimals");
+            return;
+        }
+        if(isNumberDecimal(amount)==false){
+            alert("The amount must be a number");
+            return;
+        }
+
+        //Connection to backend
+        var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
+        alert(accountData);
+        jsonAjaxDetail(accountData)
+
+    }
+});
+
+//Function that receives a json with the New Account info and connects to the backend to add the account
+function jsonAjaxDetail(lejson){
+
+    $.ajax({
+        url : "create_account/", // the endpoint
+        type : "POST", // http method
+        data : lejson, // data sent with the post request
+        dataType: 'json',
+
+        //Handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal, updates the tables DOM and cleans the modal fields
+            $('#modalAddAccount').modal('hide');
+            $('#modalAddAccount').find('#inputAmount').val('');
+            $('#modalAddAccount').find('#inputAccountNo').val('');
+            $('#modalAddAccount').find('#inputBank').val('');
+
+            var balance = parseInt(lejson.balance).toFixed(2);
+
+            location.reload();
+        },
+
+        //Handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the account. Please try again or contact the system manager.");
+
+            // Hides the modal and cleans the modal fields
+            $('#modalAddAccount').modal('hide');
+            $('#modalAddAccount').find('#inputAmount').val('');
+            $('#modalAddAccount').find('#inputAccountNo').val('');
+            $('#modalAddAccount').find('#inputBank').val('');
+
+        }
+    });
+
+    return true;
+}
+
+//Function triggered by the CANCEL button on the Add Account modal
+//Hides the modal, cleans fields
+$(document).on('click', '#addAccountCancelDetail' ,function () {
+
+    $('#modalAddAccount').modal('hide');
+    $('#modalAddAccount').find('#inputAmount').val('');
+    $('#modalAddAccount').find('#inputAccountNo').val('');
+    $('#modalAddAccount').find('#inputBank').val('');
+
+    //Set the default account type to Bank
+    $('#radioBank').prop('checked', true);
+    $('#bankTxtField').css("display", "block");
+    $('#accountNoTxtField').css("display", "block");
+
+});
+
+//*************************************** ENDS ADD ACCOUNT *************************************************************

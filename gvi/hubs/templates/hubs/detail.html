@@ -3,8 +3,7 @@
 {% block menubar %}
 <!-- Menu bar options: Add account, Money transfer and Currencies -->
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
-    <p class="navbar-text"><button data-toggle="modal" data-target="#modalMoneyTransfer" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Money Transfer</button></p>
-    <p class="navbar-text"><a href="{%url 'accounts:currencies'%}" style="color: #ffffff; text-decoration: none; font-weight: 500; font-size: 12px;"><button class="btn btn-default btn-sm glyphicon glyphicon-usd" type="button" id="btnCurrencies">  Currencies</button></a></p>
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddMoney" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add Money</button></p>
 {% endblock %}
 
 {% block content %}
@@ -23,17 +22,20 @@
                 <!-- **********************************************************-->
                 <div>
                     {% for c in curr %}
-                        <li>{{ c }}:</li>
-                        <li>Initial Budget: </li>
-                        <li> Money Left: ${{ c.total }}</li>
-                        <li>Total Expenses: </li>
+                        <li>{{ c }}</li>
+                        <div style="padding-left: 10px; font-size: 20px;">
+                            <li>Initial Budget: </li>
+                            <li> Money Left: ${{ c.total }}</li>
+                            <li>Total Expenses: </li>
+                        </div>
+                        <br>
                     {% endfor %}
 
                 </div>
             </ul>
         </div>
     </div>
-</div><br>
+</div>
 <!-- Ends info about money left and expenses -->
 
 <!-- Table for bank accounts -->
@@ -48,6 +50,7 @@
                 <th>Bank</th>
                 <th>Account #</th>
                 <th>Edit</th>
+                <th style="padding-top: 0px; padding-bottom: 0px;">Balance<br>Details</th>
             </tr>
 
             <!-- For to fill info about each account -->
@@ -60,6 +63,7 @@
                 <td>{{ a.bank_name }}</td>
                 <td>{{ a.number }}</td>
                 <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount($(this).closest('tr'))"></a></td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails"></a></td>
             </tr>
             {% endfor %}
             <!-- ****************************************-->
@@ -79,6 +83,7 @@
                 <th>Currency</th>
                 <th>Amount</th>
                 <th>Edit</th>
+                <th style="padding-top: 0px; padding-bottom: 0px;">Balance<br>Details</th>
             </tr>
 
             <!-- For to fill information about each account-->
@@ -91,6 +96,7 @@
                 <td>{{ a.currency }}</td>
                 <td>{{ a.balance }}</td>
                 <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount($(this).closest('tr'))"></a></td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails"></a></td>
             </tr>
             {% endfor %}
             <!--***********************************************-->
@@ -200,8 +206,8 @@
 
             <!-- Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_save">Save</button>
-                <button type="button" class="btn btn-default col-md-2" id="addAccountCancel" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_saveDetail">Save</button>
+                <button type="button" class="btn btn-default col-md-2" id="addAccountCancelDetail" data-dismiss="modal">Cancel</button>
             </div>
             <!-- Ends footer -->
         </div>
@@ -348,20 +354,20 @@
 <!-- Ends Edit Account Modal-->
 
 
-<!--Money Transfer Modal-->
-<div class="modal fade modalStyles" id="modalMoneyTransfer" tabindex="-1" role="dialog" aria-labelledby="labelMoneyTransfer">
+<!--Add Money Modal-->
+<div class="modal fade modalStyles" id="modalAddMoney" tabindex="-1" role="dialog" aria-labelledby="labelAddMoney">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
         <!-- Header-->
         <div class="modal-header">
-            <h2 class="modal-title modalHeader" id="labelMoneyTransfer">Money Transfer</h2>
+            <h2 class="modal-title modalHeader" id="labelAddMoney">Add Money</h2>
         </div>
         <!-- Ends header -->
 
         <!-- Body -->
         <div class="modal-body">
             <div class="container-fluid">
-                <form class="form-horizontal" id="moneyTransferForm">
+                <form class="form-horizontal" id="addMoneyForm">
 
                     <!-- Source Account type -->
                     <div class="row">
@@ -406,7 +412,7 @@
 
                                     <!-- For to display bank or cash accounts -->
                                     <option></option>
-                                    {% for a in bank_acc %}
+                                    {% for a in banks %}
                                         <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} - {{ a.number }}</option>
                                     {% endfor %}
                                     <!-- ************************************ -->
@@ -417,7 +423,7 @@
 
                                     <!-- For to display bank or cash accounts -->
                                     <option></option>
-                                    {% for a in cash_acc %}
+                                    {% for a in cash %}
                                         <option value='{{ a.currency }}.{{ a.id }}'id="{{ a.currency }}">{{ a.currency }} </option>
                                     {% endfor %}
                                     <!--************************************* -->
@@ -471,7 +477,7 @@
 
                                     <!-- For to display bank accounts -->
                                     <option></option>
-                                    {% for a in bank_acc %}
+                                    {% for a in banks %}
                                         <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} - {{ a.number }}</option>
                                     {% endfor %}
                                     <!--***************************-->
@@ -482,7 +488,7 @@
 
                                     <!-- For to display cash accounts -->
                                     <option></option>
-                                    {% for a in cash_acc %}
+                                    {% for a in cash %}
                                         <option value='{{ a.currency }}.{{ a.id }}'>{{ a.currency }} </option>
                                     {% endfor %}
                                     <!--***************************-->
