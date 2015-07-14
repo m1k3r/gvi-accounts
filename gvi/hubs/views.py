@@ -210,7 +210,7 @@ def hub_add_account(request, pk):
 
 
 @csrf_exempt
-def hub_account_update_delete(request):
+def hub_account_update_delete(request, pk):
     if request.is_ajax():
         if request.method == 'POST':
             try:
