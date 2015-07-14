@@ -207,3 +207,58 @@ def hub_add_account(request, pk):
             raise Http404(request)
     else:
         raise Http404(request)
+
+
+@csrf_exempt
+def hub_account_update_delete(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                account_id = request.POST['id']
+                a_type = request.POST['account_type']
+                b = request.POST['balance']
+                curr = request.POST['currency']
+                currency = Currency.objects.filter(name=curr)
+                account = Account.objects.get(pk=account_id)
+                account.account_type = a_type
+                account.balance = b
+                account.currency = currency[0]
+                if a_type == 'b':
+                    bank = request.POST['bank_name']
+                    number = request.POST['number']
+
+                    account.bank_name = bank
+                    account.number = number
+
+                account.save()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'all cool',
+                                     'pk': account.pk},
+                                    )
+
+            except (KeyError, Exception) as e:
+                print "KeyError/ Exception account_update_delete POST"
+                print type(e)
+                print e.args
+                return HttpResponseServerError(request)
+
+        elif request.method == 'GET':
+            try:
+                account_id = request.GET['id']
+                account = Account.objects.get(pk=account_id)
+                account.delete()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'account deleted',
+                                     'pk': account_id},
+                                    )
+            except (KeyError, Exception) as e:
+                print "Key Error/Exception account_update_delete GET"
+                print type(e)
+                return HttpResponseServerError(request)
+
+        else:
+            raise Http404(request)
+    else:
+        raise Http404(request)
