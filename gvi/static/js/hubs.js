@@ -431,3 +431,206 @@ $(document).on('click', '#addAccountCancelDetail' ,function () {
 });
 
 //*************************************** ENDS ADD ACCOUNT *************************************************************
+
+//*************************************** EDIT ACCOUNT *****************************************************************
+
+//Function to fill in information in the Edit Account modal
+//Receives the account id, calls getJson() function that returns a json with the account info and fills in the modal fields
+function editAccountDetail(id){
+
+    //Get the id from the object
+    id = id.attr('id');
+
+    //Get json form backend
+    var response = getJsonDetail(id);
+
+    response.done(function(data){
+
+        var accountType = data.type;
+
+        // Get data
+        if(accountType == "b") {
+
+            var bank = data.bank;
+            var accountNo = data.number;
+            var amount = data.balance;
+            var currency = data.currency;
+
+
+            //Fill fields
+            $("#idAccountEditDetail").val(id);
+            $("#radioBankEditDetail").prop('checked', true);
+            $("#currencySelectEditDetail").val(currency);
+            $("#inputBankEditDetail").val(bank);
+            $("#inputAccountNoEditDetail").val(accountNo);
+            $("#inputAmountEditDetail").val(amount);
+            $('#bankTxtFieldEditDetail').css("display", "block");
+            $('#accountNoTxtFieldEditDetail').css("display", "block");
+
+        }
+        if(accountType == "c"){
+            var amount = data.balance;
+            var currency = data.currency;
+
+            //Fill fields
+            $("#idAccountEditDetail").val(id);
+            $("#radioCashEditDetail").prop('checked', true);
+            $("#currencySelectEditDetail").val(currency);
+            $("#inputAmountEditDetail").val(amount);
+            $('#bankTxtFieldEditDetail').css("display", "none");
+            $('#accountNoTxtFieldEditDetail').css("display", "none");
+        }
+    }).fail(function (json) {
+        alert("Error 1. Can't reach the server.");
+        return;
+    });
+
+}
+
+//Function that receives an account id, connects to the backend and return a json with the account info
+function getJsonDetail(id){
+
+    //Create json with the account id
+    var lejson = {'id': id };
+
+    var jxhr = $.ajax({
+        url : "create_account/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error connecting to the server. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return jxhr;
+
+}
+
+//Function triggered by SAVE on the Edit Account modal
+//Validates fields, creates json and calls updateJson() function
+$(document).on('click', '#modal_editDetail' ,function () {
+
+    var accountType = $('input[name=accountTypeRadioEditDetail]:checked', '#editAccountFormDetail').val();
+    var id = $("#idAccountEditDetail").val();
+
+    //Get data
+    if(accountType == "c"){
+
+        var currency = $('#currencySelectEditDetail').val();
+        var amount= $('#inputAmountEditDetail').val();
+
+        //Validations
+        if(isNull(currency)==false){
+            console.log("in currency");
+            alert("You need to select a Currency");
+            return;
+        }
+        if(isNull(amount)==false){
+            console.log("in amount");
+            alert("The field Amount cannot be empty");
+            return;
+        }
+        if(isNumberDecimal(amount)==false){
+            console.log("in number");
+            alert("The amount must be a number");
+            return;
+        }
+
+        //Connection to backend
+        var accountData = {"id":id, "account_type": accountType, "balance":amount, "currency":currency};
+        updateJsonDetail(accountData);
+
+    }
+    if(accountType == "b") {
+        var currency = $('#currencySelectEditDetail').val();
+        var bank = $('#inputBankEditDetail').val();
+        var account = $('#inputAccountNoEditDetail').val();
+        var amount = $('#inputAmountEditDetail').val();
+
+        //Validations
+        if (isNull(currency) == false) {
+            alert("You need to select a currency");
+            return;
+        }
+        if (isNull(bank) == false) {
+            alert("The field Bank cannot be empty");
+            return;
+        }
+        if (isNull(account) == false) {
+            alert("The field Account cannot be empty");
+            return;
+        }
+        if (isNull(amount) == false) {
+            alert("The field amount cannot be empty");
+            return;
+        }
+        if (isNumberInteger(account) == false) {
+            alert("The Account # must be a number without decimals");
+            return;
+        }
+        if (isNumberDecimal(amount) == false) {
+            alert("The Amount must be a number");
+            return;
+        }
+    }
+
+        //Connection to backend
+        var accountData={"id":id, "account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
+        updateJsonDetail(accountData);
+});
+
+//Function that receives a json with the Account info and connects to the backend to edit the account
+function updateJsonDetail(json){
+
+    $.ajax({
+        url : "change_account/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal, updates the tables DOM and cleans modal fields
+            $('#modalEditAccountDetail').modal('hide');
+            $('#modalEditAccountDetail').find('#inputAmountEditDetail').val('');
+            $('#modalEditAccountDetail').find('#inputAccountNoEditDetail').val('');
+            $('#modalEditAccountDetail').find('#inputBankEditDetail').val('');
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error editing the account. Please try again or contact the system manager.");
+
+        }
+    });
+}
+
+//***************************************** ENDS EDIT ACCOUNT **********************************************************
+
+
+//Edit account modal
+//Function to hide additional fields when the account type is cash
+function cashSelectEditAccountDetail(){
+    $('#bankTxtFieldEditDetail').css("display", "none");
+    $('#accountNoTxtFieldEditDetail').css("display", "none");
+}
+
+//Edit account modal
+//Function to display additional fields when the account type is bank
+function bankSelectEditAccountDetail(){
+    $('#bankTxtFieldEditDetail').css("display", "block");
+    $('#accountNoTxtFieldEditDetail').css("display", "block");
+}
