@@ -79,7 +79,7 @@ def account_new_get(request):
 
         # The rest of the methods are not supported
         else:
-            return HttpResponseNotAllowed(request)
+            raise Http404(request)
     else:
         raise Http404(request)
 
