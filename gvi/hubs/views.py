@@ -4,13 +4,14 @@ from django.http import JsonResponse, HttpResponseServerError
 from django.http import HttpResponse, Http404
 
 from .models import Hubs
-from accounts.models import Currency
+from accounts.models import Currency, Account
 
 
 def index(request):
     hubs = Hubs.objects.all()
     context = {'hubs': hubs}
     return render(request, 'hubs/dashboard.html', context)
+
 
 @csrf_exempt
 def add_get_hub(request):
@@ -139,3 +140,70 @@ def hub_detail(request, pk):
     return render(request, 'hubs/detail.html', context)
     # response = "Hub detail: " + pk
     # return HttpResponse(response)
+
+
+@csrf_exempt
+def hub_add_account(request, pk):
+    if request.is_ajax():
+        # POST method for creating a new object
+        if request.method == 'POST':
+
+            try:
+                a_type = request.POST['account_type']
+                b = request.POST['balance']
+                curr = request.POST['currency']
+                currency = Currency.objects.filter(name=curr)
+                hub = get_object_or_404(Hubs, pk=pk)
+                if a_type == 'b':
+                    bank = request.POST['bank_name']
+                    number = request.POST['number']
+                    new_acc = Account(account_type=a_type, balance=b, currency=currency[0],
+                                      bank_name=bank, number=number, owner=hub)
+                else:
+                    new_acc = Account(account_type=a_type, balance=b, currency=currency[0],
+                                      owner=hub)
+
+            except KeyError, e:
+                print "Key Error account_new_get POST"
+                print e
+                return HttpResponseServerError(request)
+            except Exception as e:
+                print "Turbo Exception account_new_get GET"
+                print e.args
+                return HttpResponseServerError(request)
+
+            new_acc.save()
+
+            return JsonResponse({'code': '200',
+                                 'msg': 'all cool',
+                                 'pk': new_acc.pk},
+                                )
+
+        # GET method for retrieving an object
+        elif request.method == 'GET':
+            try:
+                account_id = request.GET['id']
+                print account_id
+                account = get_object_or_404(Account, pk=account_id)
+                # account = Account.objects.get(pk=account_id)
+                currency = Currency.objects.get(pk=account.currency.pk)
+                json_account = {'id': account.pk,
+                                'type': account.account_type,
+                                'bank': account.bank_name,
+                                'balance': account.balance,
+                                'currency': currency.name,
+                                'number': account.number,
+                                }
+
+            except KeyError as e:
+                print "Key Error account_new_get GET"
+                print type(e)
+                return HttpResponseServerError(request)
+
+            return JsonResponse(json_account)
+
+        # The rest of the methods are not supported
+        else:
+            raise Http404(request)
+    else:
+        raise Http404(request)
