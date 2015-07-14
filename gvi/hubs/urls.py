@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^hub/$', views.add_get_hub, name='hub'),
     url(r'^hub/(?P<pk>\d+)/$', views.hub_detail, name='hub_detail'),
     url(r'^hub/(?P<pk>\d+)/create_account/$', views.hub_add_account, name='hub_add_account'),
+    url(r'^hub/change_account/$', views.hub_account_update_delete, name='hub_update_account'),
     url(r'^change_hub/$', views.hub_update_delete, name='hub_update_delete'),
 ]
