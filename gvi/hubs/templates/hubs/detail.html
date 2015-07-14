@@ -2,6 +2,7 @@
 
 {% block menubar %}
 <!-- Menu bar options: Add account, Money transfer and Currencies -->
+    <p class="navbar-text"><a href="{% url 'hubs:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnHubs"> Hubs</button></a></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddMoney" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add Money</button></p>
 {% endblock %}

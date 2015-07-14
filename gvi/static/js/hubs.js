@@ -367,7 +367,7 @@ $(document).on('click', '#modal_saveDetail' ,function (){
 
         //Connection to backend
         var accountData={"account_type":accountType, "bank_name":bank, "number":account, "balance":amount, "currency":currency};
-        alert(accountData);
+        //alert(accountData);
         jsonAjaxDetail(accountData)
 
     }
