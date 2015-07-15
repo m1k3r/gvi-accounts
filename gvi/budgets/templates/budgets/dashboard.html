@@ -10,7 +10,7 @@
     <div class="row col-xs-11">
         <div class="row" id="hubname">
             <h1>
-                <div id="budgets">Budgets</div>
+                <div class="budgets">Budgets</div>
             </h1>
         </div>
 
@@ -31,6 +31,36 @@
                             <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Save
                         </button>
 
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <div class='input-group date datepick'>
+                                <input type='text' class="form-control" id="newBudgetFromDate" name="newBudgetFromDate" readonly/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-2">
+                        <hr class="horizontal-separator">
+                    </div>
+
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <div class='input-group date datepick'>
+                                <input type='text' class="form-control" id="newBudgetToDate" name="newBudgetToDate" readonly/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -65,9 +95,9 @@
         </div>
         <div class="col-xs-6" id="rightBudget">
             <div class="row">
-                <div class="col-xs-4">
+                <div class="col-xs-5">
                     <div class="form-group">
-                        <div class='input-group date' id='datetimepickerFrom'>
+                        <div class='input-group date datepick'>
                             <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -77,13 +107,13 @@
                 </div>
 
 
-                <div class="col-xs-4">
+                <div class="col-xs-2">
                     <hr class="horizontal-separator">
                 </div>
 
-                <div class="col-xs-4">
+                <div class="col-xs-5">
                     <div class="form-group">
-                        <div class='input-group date' id='datetimepickerTo'>
+                        <div class='input-group date datepick'>
                             <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
@@ -94,8 +124,38 @@
 
             </div>
 
-            <div class="row">
+            <div class="budgets budgets_wrap">
+                {% for a in currency %}
+                    <div class="row">
+                        <h3>{{ a.name }}</h3>
+                    </div>
+                    {% for b in category %}
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h4>{{ b.name }} amount spent: <label> 5400</label></h4>
+                            </div>
 
+                            <div class="col-xs-4">
+                                <div class="col-xs-1 checkbox">
+                                    <a href="#" class="toggle_sub" name="{{ a.id }}{{ b.number }}">
+                                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                        {% for c in b.subcategory_set.all %}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <ul name="{{ a.id }}{{ b.number }}sub" id="{{ a.id }}{{ b.number }}sub" class="toggle_sub">
+                                        <li><h5>{{ c.name }}: <label> 5400</label></h5></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    {% endfor %}
+                {% endfor %}
             </div>
 
         </div>
