@@ -23,6 +23,17 @@ class BudgetElement(models.Model):
     category = models.ForeignKey('transactions.Category')
     subcategory = models.ForeignKey('transactions.Subcategory')
     
+    """
+    If the element is variable
+    """
+    FIRST_W = 'f'
+    OTHER_W = 'o'
+    V_TYPE_CHOICES = (
+            (FIRST_W, 'First Week'),
+            (OTHER_W, 'Other Week'),
+    )
+    variable_type = models.CharField(max_length=5, choices=V_TYPE_CHOICES, default=OTHER_W)
+
     def __str__(self):
         return self.amount + self.number.number
 
