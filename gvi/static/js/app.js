@@ -279,7 +279,7 @@ function editAccount(id){
 
 //Function that receives an account id, connects to the backend and return a json with the account info
 function getJson(id){
-   
+
     //Create json with the account id
     var lejson = {'id': id };
 

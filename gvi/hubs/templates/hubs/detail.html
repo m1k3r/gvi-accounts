@@ -378,7 +378,7 @@
                             <div class="col-md-3 col-md-offset-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransferSource()">
+                                        <input type="radio" name="accountTypeRadioSourceAddMoney" id="radioCashTransferSourceAddMoney" value="c" onclick="cashSelectMoneyTransferSourceAddMoney()">
                                         <p class="label-success accountTypeLabel">Cash</p>
                                     </label>
                                 </div>
@@ -388,7 +388,7 @@
                             <div class="col-md-3">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()">
+                                        <input type="radio" name="accountTypeRadioSourceAddMoney" id="radioBankTransferSourceAddMoney" value="b" onclick="bankSelectMoneyTransferSourceAddMoney()">
                                         <p class="label-info accountTypeLabel">Bank</p>
                                     </label>
                                 </div>
@@ -404,12 +404,12 @@
                             <div class="col-md-3 col-md-offset-2">Source Account:</div>
                             <div class="col-md-5">
                                 <!-- Default select-->
-                                <select class="form-control" id="defaultSelectSource" style="display: block;">
+                                <select class="form-control" id="defaultSelectSourceAddMoney" style="display: block;">
                                     <option></option>
                                 </select>
 
                                 <!-- Select bank account-->
-                                <select class="form-control" id="sourceBankAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
+                                <select class="form-control" id="sourceBankAccountAddMoney" style="display: none;" onchange="selectSourceAccountAddMoney($(this).val())">
 
                                     <!-- For to display bank or cash accounts -->
                                     <option></option>
@@ -420,7 +420,7 @@
                                 </select>
 
                                 <!-- Select cash account -->
-                                <select class="form-control" id="sourceCashAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
+                                <select class="form-control" id="sourceCashAccountAddMoney" style="display: none;" onchange="selectSourceAccountAddMoney($(this).val())">
 
                                     <!-- For to display bank or cash accounts -->
                                     <option></option>
@@ -444,7 +444,7 @@
                             <div class="col-md-3 col-md-offset-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransferDestiny()">
+                                        <input type="radio" name="accountTypeRadioDestinyAddMoney" id="radioCashTransferDestinyAddMoney" value="c" onclick="cashSelectMoneyTransferDestinyAddMoney()">
                                         <p class="label-success accountTypeLabel">Cash</p>
                                     </label>
                                 </div>
@@ -454,7 +454,7 @@
                             <div class="col-md-3">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()">
+                                        <input type="radio" name="accountTypeRadioDestinyAddMoney" id="radioBankTransferDestinyAddMoney" value="b" onclick="bankSelectMoneyTransferDestinyAddMoney()">
                                         <p class="label-info accountTypeLabel">Bank</p>
                                     </label>
                                 </div>
@@ -469,12 +469,12 @@
                             <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
                             <div class="col-md-5">
                                 <!-- Default select -->
-                                <select class="form-control" id="defaultSelectDestiny" style="display: block;">
+                                <select class="form-control" id="defaultSelectDestinyAddMoney" style="display: block;">
                                     <option></option>
                                 </select>
 
                                 <!-- Select bank account -->
-                                <select class="form-control" id="destinyAccountBank" style="display: none;" onchange="selectDestinyAccount($(this).val())">
+                                <select class="form-control" id="destinyAccountBankAddMoney" style="display: none;" onchange="selectDestinyAccountAddMoney($(this).val())">
 
                                     <!-- For to display bank accounts -->
                                     <option></option>
@@ -485,7 +485,7 @@
                                 </select>
 
                                 <!-- Select cash account -->
-                                <select class="form-control" id="destinyAccountCash" style="display: none;" onchange="selectDestinyAccount($(this).val())">
+                                <select class="form-control" id="destinyAccountCashAddMoney" style="display: none;" onchange="selectDestinyAccountAddMoney($(this).val())">
 
                                     <!-- For to display cash accounts -->
                                     <option></option>
@@ -511,15 +511,15 @@
                         <div class="row" style="padding-top: 20px;">
                             <!-- Source -->
                             <div class="col-md-4 col-md-offset-1 labelExchangeRate text-right" >
-                                <label id="labelSourceCurrency" class="text-right"></label>
+                                <label id="labelSourceCurrencyAddMoney" class="text-right"></label>
                             </div>
                             <!-- Input -->
                             <div class=" col-md-2">
-                                <input type="text" class="form-control" id="inputExchangeRate" onkeyup="validateExchangeRate($(this).val());">
+                                <input type="text" class="form-control" id="inputExchangeRateAddMoney" onkeyup="validateExchangeRateAddMoney($(this).val());">
                             </div>
                             <!-- Destiny -->
                             <div class="col-md-2 labelExchangeRate">
-                                <label id="labelDestinyCurrency"></label>
+                                <label id="labelDestinyCurrencyAddMoney"></label>
                             </div>
                         </div>
 
@@ -534,14 +534,14 @@
                     <div class="row">
                         <!-- Amount input -->
                         <div class=" col-md-3 col-md-offset-2">
-                            <input type="text" class="form-control" id="inputAmountTransfer" onkeyup="calculateAmount($(this).val())" >
+                            <input type="text" class="form-control" id="inputAmountTransferAddMoney" onkeyup="calculateAmountAddMoney($(this).val())" >
                         </div>
 
                         <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
 
                         <!-- Input for the result of amount*exchangeRate-->
                         <div class="col-md-3 col-md-offset-1">
-                            <input type="text" class="form-control" id="inputAmountTransferResult" value="" disabled>
+                            <input type="text" class="form-control" id="inputAmountTransferResultAddMoney" value="" disabled>
                         </div>
 
                     </div>
@@ -556,8 +556,8 @@
         <!-- Footer -->
         <div class="modal-footer">
             <!-- Save and Cancel buttons-->
-            <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="btnSaveTransfer">Save</button>
-            <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="moneyTransferCancel">Cancel</button>
+            <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="btnSaveAddMoney">Save</button>
+            <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="addMoneyCancel">Cancel</button>
         </div>
         <!-- Ends footer -->
     </div>
