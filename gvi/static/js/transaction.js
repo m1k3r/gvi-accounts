@@ -8,6 +8,10 @@ $(document).ready(function() {
     });
 });
 
+function enableDatePicker(){
+    datepickersForm();
+}
+
 function lockSelections(){
     var lockCategory = function () {
         if ($("#enableCategory").is(":checked")) {
@@ -94,3 +98,4 @@ function dateChanged(ev) {
 
 
 }
+

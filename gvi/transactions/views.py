@@ -62,6 +62,22 @@ def search_transactions(request):
 
 
 def balance_detail(request, pk):
+    transactions = Transaction.objects.order_by('-date')
+    category = Category.objects.all()
+    subcategory = Subcategory.objects.all()
+
+    bank_accounts = Account.objects.filter(account_type='b')
+    cash_accounts = Account.objects.filter(account_type='c')
+    currencies = Currency.objects.all()
     account = get_object_or_404(Account, pk=pk)
-    context = {'a': account, }
+    context = {'transactions': transactions,
+               'category': category,
+               'subcategory': subcategory,
+               'bank_acc': bank_accounts,
+               'cash_acc': cash_accounts,
+               'currencies': currencies,
+               'a': account,
+               }
+
+
     return render(request, 'transactions/b_detail.html', context)

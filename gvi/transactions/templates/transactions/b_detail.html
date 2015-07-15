@@ -3,7 +3,8 @@
 {% extends "base_generic.html" %}
 
 {% block menubar %}
-
+    <p class="navbar-text"><a href="{% url 'transactions:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnHubs"> Accounts</button></a></p>
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddTransaction" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" onclick="enableDatePicker()"> Add Transaction</button></p>
 {% endblock %}
 
 {% block content %}
@@ -209,4 +210,89 @@
         </div><!-- /.row Transaction table -->
 
     </div>
+
+<!--Add Transaction Modal-->
+<div class="modal fade modalStyles" id="modalAddTransaction" tabindex="-1" role="dialog" aria-labelledby="labelAddTransaction">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelAddTransaction">New Transaction</h2>
+            </div><br>
+            <!-- Ends header -->
+
+            <!-- Body -->
+                <!-- Category title -->
+                <div class="row">
+
+                        <div class="col-md-3 col-md-offset-2">
+                            <label class="select-title" style="font-size: 14px;">Category</label>
+                        </div>
+                        <div class="col-md-3 ">
+                            <label class="select-title" style="font-size: 14px;">Subcategory</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="select-title" style="font-size: 14px;">Amount</label>
+                        </div>
+
+                </div>
+                <!-- /.row Category/Subcategory title -->
+
+                <div class="row">
+                        <div class="col-md-3 col-md-offset-2">
+                            <div class="form-group">
+                                <select class="form-control" id="categorySelectModal" name="categorySelectModal">
+                                    {% for a in category %}
+                                        <option>{{ a.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" id="subcategorySelectModal" name="subcategorySelectModal">
+                                {% for a in subcategory %}
+                                    <option>{{ a.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <input type="text" id="inputAmount">
+                    </div>
+                </div>
+
+                <div class="row">
+                        <div class="col-md-3 col-md-offset-2">
+                            <label class="select-title" style="font-size: 14px;">Date</label>
+                        </div>
+                </div>
+
+                
+                <div class="row">
+                        <div class="col-md-3 col-md-offset-2">
+                            <label class="select-title" style="font-size: 14px;">Comment</label>
+                        </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9 col-md-offset-2">
+                        <input type="text">
+                    </div>
+                </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_saveDetail">Save</button>
+                <button type="button" class="btn btn-default col-md-2" id="addAccountCancelDetail" data-dismiss="modal">Cancel</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Add Account Modal-->
+
 {% endblock %}
