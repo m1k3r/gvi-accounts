@@ -59,7 +59,7 @@
                 <td>{{ a.balance }}</td>
                 <td>{{ a.bank_name }}</td>
                 <td>{{ a.number }}</td>
-                <td><a class="glyphicon glyphicon-list-alt" id="btnAccountDetailTransactions" href="{% url 'hubs:account_detail' a.id %}"></a></td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails" href="{% url 'hubs:balance_detail' a.id %}"></a></td>
             </tr>
             {% endfor %}
             <!-- ****************************************-->
@@ -90,7 +90,7 @@
 
                 <td>{{ a.currency }}</td>
                 <td>{{ a.balance }}</td>
-                <td><a class="glyphicon glyphicon-list-alt" id="btnAccountDetailTransactions" href="{% url 'hubs:account_detail' a.id %}"></a></td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails" href="{% url 'hubs:account_detail' a.id %}"></a></td>
             </tr>
             {% endfor %}
             <!--***********************************************-->
