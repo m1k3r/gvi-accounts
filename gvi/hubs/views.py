@@ -263,7 +263,10 @@ def hub_account_update_delete(request, pk):
     else:
         raise Http404(request)
 
+
 def account_detail(request, pk):
     account = get_object_or_404(Account, pk=pk)
-    context = {'a': account,}
-    return render(request, 'hubs/balance_detail.html.html', context)
+
+    context = {'a': account, }
+    return render(request, 'hubs/balance_detail.html', context)
+
