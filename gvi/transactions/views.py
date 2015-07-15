@@ -64,4 +64,4 @@ def search_transactions(request):
 def balance_detail(request, pk):
     account = get_object_or_404(Account, pk=pk)
     context = {'a': account, }
-    return render(request, 'transactions/balance_detail.html', context)
+    return render(request, 'transactions/b_detail.html', context)
