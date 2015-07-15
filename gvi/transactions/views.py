@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from .models import Transaction, Category, Subcategory
-from accounts.models import Account
+from accounts.models import Account, Currency
 
 
 def index(request):
@@ -11,12 +11,14 @@ def index(request):
 
     bank_accounts = Account.objects.filter(account_type='b')
     cash_accounts = Account.objects.filter(account_type='c')
+    currencies = Currency.objects.all()
 
     context = {'transactions': transactions,
                'category': category,
                'subcategory': subcategory,
                'bank_acc': bank_accounts,
                'cash_acc': cash_accounts,
+               'currencies': currencies,
                }
 
     return render(request, 'transactions/dashboard.html', context)
