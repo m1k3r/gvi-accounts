@@ -53,9 +53,6 @@ function addBudget() {
     $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
         divName = '#extra' + $(this).attr('name');
         e.preventDefault();
-        console.log($('#form-'+$(this).attr('name')+'-category').val());
-        console.log($('#form-'+$(this).attr('name')+'-amount').val());
-        console.log($('#form-'+$(this).attr('name')+'-currency').val());
         $(divName).remove();
 
 
