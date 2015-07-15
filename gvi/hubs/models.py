@@ -29,7 +29,7 @@ class Hubs(models.Model):
         return accounts
 
 
-class UserType(models.Model):
+class UserHub(models.Model):
     HUB_MANAGER = 'h'
     C_MANAGER = 'c'
     SUPER_MANAGER = 's'
@@ -38,6 +38,7 @@ class UserType(models.Model):
         (C_MANAGER, 'Country Manager'),
         (SUPER_MANAGER, 'Super Manager'),
     )
-    user = models.ManyToManyField(Hubs)
+    user = models.OneToOneField(User)
+    hub = models.ForeignKey(Hubs)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
 
