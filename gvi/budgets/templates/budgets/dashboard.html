@@ -124,7 +124,7 @@
 
             </div>
 
-            <div class="budgets">
+            <div class="budgets budgets_wrap">
                 {% for a in currency %}
                     <div class="row">
                         <h3>{{ a.name }}</h3>
@@ -136,18 +136,18 @@
                             </div>
 
                             <div class="col-xs-4">
-                                <button class="btn btn-info" name="{{ b.name }}" id="{{ b.name }}">
-                                    <span class="" aria-hidden="true"></span> Toggle
-                                </button>
+                                <div class="col-xs-1 checkbox">
+                                    <a href="#" class="toggle_sub" name="{{ a.id }}{{ b.number }}">
+                                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                    </a>
+
+                                </div>
                             </div>
-
-
-
                         </div>
                         {% for c in b.subcategory_set.all %}
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <ul name="penis" id="penis">
+                                    <ul name="{{ a.id }}{{ b.number }}sub" id="{{ a.id }}{{ b.number }}sub" class="toggle_sub">
                                         <li><h5>{{ c.name }}: <label> 5400</label></h5></li>
                                     </ul>
                                 </div>
