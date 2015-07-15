@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Transaction, Category, Subcategory
 from accounts.models import Account, Currency
@@ -59,3 +59,9 @@ def search_transactions(request):
                }
 
     return render(request, 'transactions/dashboard.html', context)
+
+
+def balance_detail(request, pk):
+    account = get_object_or_404(Account, pk=pk)
+    context = {'a': account, }
+    return render(request, 'transactions/balance_detail.html', context)
