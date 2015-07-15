@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from .models import Transaction, Category, Subcategory
+from accounts.models import Account
 
 
 def index(request):
@@ -8,9 +9,14 @@ def index(request):
     category = Category.objects.all()
     subcategory = Subcategory.objects.all()
 
+    bank_accounts = Account.objects.filter(account_type='b')
+    cash_accounts = Account.objects.filter(account_type='c')
+
     context = {'transactions': transactions,
                'category': category,
                'subcategory': subcategory,
+               'bank_acc': bank_accounts,
+               'cash_acc': cash_accounts,
                }
 
     return render(request, 'transactions/dashboard.html', context)
