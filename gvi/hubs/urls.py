@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^hub/(?P<pk>\d+)/create_account/$', views.hub_add_account, name='hub_add_account'),
     url(r'^hub/(?P<pk>\d+)/change_account/$', views.hub_account_update_delete, name='hub_update_account'),
     url(r'^change_hub/$', views.hub_update_delete, name='hub_update_delete'),
+    url(r'^hub/account/(?P<pk>\d+)/$', views.account_detail, name='account_detail'),
 ]
