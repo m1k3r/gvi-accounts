@@ -63,8 +63,8 @@ function datepickersBudgets() {
         pickTime: false,
         defaultDate: new Date()
     })
-        .change(dateChanged)
-        .on('changeDate', dateChanged);
+        .change(dateChangedBudget)
+        .on('changeDate', dateChangedBudget);
 }
 
 function toggleSubcategory() {
@@ -74,4 +74,37 @@ function toggleSubcategory() {
         divName = '#'+$(this).attr('name')+'sub';
         $(divName).toggle(500);
     })
+}
+
+function dateChangedBudget(ev) {
+    var fromDate = $('#newBudgetFromDate').val();
+    var toDate = $('#newBudgetToDate').val();
+
+    console.log(fromDate+' '+toDate);
+
+    fromDate = fromDate.split("-");
+    toDate = toDate.split("-");
+
+
+    if(fromDate[0] > toDate[0]){
+        $('button').prop('disabled', true);
+        $("#dateError").show(500);
+
+
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
+        $('button').prop('disabled', true);
+        $("#dateError").show(500);
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
+        $('button').prop('disabled', true);
+        $("#dateError").show(500);
+    }
+    else{
+        $('button').prop('disabled', false);
+        $("#dateError").hide(500);
+    }
+
+
+
 }
