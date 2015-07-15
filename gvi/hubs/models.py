@@ -37,5 +37,5 @@ class UserType(models.Model):
         (C_MANAGER, 'Country Manager'),
         (SUPER_MANAGER, 'Super Manager'),
     )
-    type = models.CharField(max_lenght=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
     
