@@ -4,6 +4,7 @@
 $(document).ready(function() {
     $(window).load(function() {
         addBudget();
+        datepickersBudgets();
 
     });
 });
@@ -54,4 +55,17 @@ function addBudget(){
         e.preventDefault();
         $(divName).remove();
     })
+}
+
+function datepickersBudgets(){
+    $('.datepick').datetimepicker({
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        pickTime: false,
+        defaultDate: new Date()
+    })
+        .change(dateChanged)
+        .on('changeDate', dateChanged);
+
+
 }
