@@ -6,33 +6,34 @@ $(document).ready(function () {
         addBudget();
         datepickersBudgets();
         toggleSubcategory();
+        addBudgetVariable();
 
     });
 });
 
 function addBudget() {
     var wrapper = $(".input_fields_wrap"); //Fields wrapper
-    var add_budgetSave = $(".add_field_budgetSave"); //Add budgetSave ID
+    var add_button = $(".add_field_button"); //Add button ID
 
     var insert = "";
-    var x = 1; //initlal text box count
-    $(add_budgetSave).click(function (e) { //on add input budgetSave click
+    var x = 0; //initlal text box count
+    $(add_button).click(function (e) { //on add input button click
         e.preventDefault();
 
         x++; //text box increment
         insert = '<div class="row" name="extra' + x + '" id="extra' + x + '"><div class="col-xs-5">' +
-            '<select class="form-control" id="category' + x + '" name="category' + x + '">';
-        $("#category1 option").each(function () {
+            '<select class="form-control" id="form-' + x + '-category" name="form-' + x + '-category">';
+        $("#form-0-category option").each(function () {
             insert = insert + '<option>' + $(this).val() + '</option>';
         });
         insert = insert + '</select>' +
             '</div>' +
             '<div class="col-xs-3">' +
-            '<input type="number" id="amount' + x + '" name="amount' + x + '" class="form-control amount-offset" placeholder="Amount">' +
+            '<input type="number" id="form-' + x + '-amount" name="form-' + x + '-amount" class="form-control amount-offset" placeholder="Amount">' +
             '</div>' +
             '<div class="col-xs-3">' +
-            '<select class="form-control currency-offset" name="currency' + x + '" id="currency' + x + '">';
-        $("#currency1 option").each(function () {
+            '<select class="form-control currency-offset" name="form-' + x + '-currency" id="form-' + x + '-currency">';
+        $("#form-0-currency option").each(function () {
             insert = insert + '<option>' + $(this).val() + '</option>';
         });
 
@@ -50,6 +51,63 @@ function addBudget() {
     });
 
     $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+        divName = '#extra' + $(this).attr('name');
+        e.preventDefault();
+        console.log($('#form-'+$(this).attr('name')+'-category').val());
+        console.log($('#form-'+$(this).attr('name')+'-amount').val());
+        console.log($('#form-'+$(this).attr('name')+'-currency').val());
+        $(divName).remove();
+
+
+
+    })
+}
+
+function addBudgetVariable() {
+    var wrapper = $(".input_fields_wrap"); //Fields wrapper
+    var add_button = $(".add_field_button_variable"); //Add button ID
+
+    var insert = "";
+    var x = 1; //initlal text box count
+    $(add_button).click(function (e) { //on add input button click
+        e.preventDefault();
+
+        x++; //text box increment
+        insert = '<div class="row" name="extra' + x + '" id="extra' + x + '"><div class="col-xs-4">' +
+            '<select class="form-control" id="form-' + x + '-category" name="form-' + x + '-category">';
+        $("#form-0-category option").each(function () {
+            insert = insert + '<option>' + $(this).val() + '</option>';
+        });
+        insert = insert + '</select>' +
+            '</div>' +
+            '<div class="col-xs-3">' +
+            '<input type="number" id="form-' + x + '-amount" name="form-' + x + '-amount" class="form-control amount-offset" placeholder="Amount">' +
+            '</div>' +
+            '<div class="col-xs-3">' +
+            '<select class="form-control currency-offset" name="form-' + x + '-currency" id="form-' + x + '-currency">';
+        $("#form-0-currency option").each(function () {
+            insert = insert + '<option>' + $(this).val() + '</option>';
+        });
+
+        insert = insert + '</select>' +
+            '</div>' +
+            '<div class="col-xs-1">' +
+            '<div class="checkbox checkbox-offset">' +
+            '<input type="checkbox">' +
+            '</div>' +
+            '</div>' +
+            '<div class="col-xs-1 checkbox"><a href="#" class="remove_field_variable" name="' + x + '">' +
+            '<span class="glyphicon glyphicon-remove"></span>' +
+            '</a>' +
+            '</div>' +
+            '</div>';
+
+        $(wrapper).append(insert);
+
+
+    });
+
+    $(wrapper).on("click", ".remove_field_variable", function (e) { //user click on remove text
         divName = '#extra' + $(this).attr('name');
         e.preventDefault();
         $(divName).remove();
