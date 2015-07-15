@@ -10,7 +10,7 @@
     <div class="row col-xs-11">
         <div class="row" id="hubname">
             <h1>
-                <div id="budgets">Budgets</div>
+                <div class="budgets">Budgets</div>
             </h1>
         </div>
 
@@ -124,8 +124,38 @@
 
             </div>
 
-            <div class="row">
+            <div class="budgets">
+                {% for a in currency %}
+                    <div class="row">
+                        <h3>{{ a.name }}</h3>
+                    </div>
+                    {% for b in category %}
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h4>{{ b.name }} amount spent: <label> 5400</label></h4>
+                            </div>
 
+                            <div class="col-xs-4">
+                                <button class="btn btn-info" name="{{ b.name }}" id="{{ b.name }}">
+                                    <span class="" aria-hidden="true"></span> Toggle
+                                </button>
+                            </div>
+
+
+
+                        </div>
+                        {% for c in b.subcategory_set.all %}
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <ul name="penis" id="penis">
+                                        <li><h5>{{ c.name }}: <label> 5400</label></h5></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    {% endfor %}
+                {% endfor %}
             </div>
 
         </div>
