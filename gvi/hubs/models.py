@@ -39,5 +39,5 @@ class UserType(models.Model):
         (SUPER_MANAGER, 'Super Manager'),
     )
     user = models.ManyToManyField(Hubs)
-    type = models.CharField(max_lenght=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
 
