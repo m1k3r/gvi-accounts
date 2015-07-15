@@ -5,6 +5,7 @@ $(document).ready(function() {
     $(window).load(function() {
         lockSelections();
         datepickers();
+        datepickersTransactions();
     });
 });
 
