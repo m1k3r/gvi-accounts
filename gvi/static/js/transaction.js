@@ -69,36 +69,7 @@ function datepickers(){
 
 
 }
-function dateChangedNewTransaction(ev) {
-    var fromDate = $('#fromDateNewTransaction').val();
-    var toDate = $('#toDateNewTransaction').val();
 
-    fromDate = fromDate.split("-");
-    toDate = toDate.split("-");
-
-
-    if(fromDate[0] > toDate[0]){
-        $('button').prop('disabled', true);
-        $("#dateError").show(500);
-
-
-    }
-    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
-        $('button').prop('disabled', true);
-        $("#dateError").show(500);
-    }
-    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
-        $('button').prop('disabled', true);
-        $("#dateError").show(500);
-    }
-    else{
-        $('button').prop('disabled', false);
-        $("#dateError").hide(500);
-    }
-
-
-
-}
 
 function datepickersTransactions() {
     $('.datepickTransaction').datetimepicker({
@@ -136,6 +107,35 @@ function dateChanged(ev) {
     else{
         $('button').prop('disabled', false);
         $("#dateError").hide(500);
+    }
+
+}
+
+function dateChangedNewTransaction(ev) {
+    var fromDate = $('#fromDateNewTransaction').val();
+    var toDate = $('#toDateNewTransaction').val();
+
+    fromDate = fromDate.split("-");
+    toDate = toDate.split("-");
+
+
+    if(fromDate[0] > toDate[0]){
+        $('#modal_saveDetail').prop('disabled', true);
+        $("#dateErrorNewTransaction").show(500);
+
+
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
+        $('#modal_saveDetail').prop('disabled', true);
+        $("#dateErrorNewTransaction").show(500);
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
+        $('#modal_saveDetail').prop('disabled', true);
+        $("#NewTransaction").show(500);
+    }
+    else{
+        $('#modal_saveDetail').prop('disabled', false);
+        $("#dateErrorNewTransaction").hide(500);
     }
 
 
