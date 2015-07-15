@@ -1,45 +1,44 @@
 /**
  * Created by daniel on 9/07/15.
  */
-$(document).ready(function() {
-    $(window).load(function() {
+$(document).ready(function () {
+    $(window).load(function () {
         addBudget();
         datepickersBudgets();
+        toggleSubcategory();
 
     });
 });
 
-function addBudget(){
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-    var add_button      = $(".add_field_button"); //Add button ID
+function addBudget() {
+    var wrapper = $(".input_fields_wrap"); //Fields wrapper
+    var add_button = $(".add_field_button"); //Add button ID
 
-    var insert ="";
+    var insert = "";
     var x = 1; //initlal text box count
-    $(add_button).click(function(e){ //on add input button click
+    $(add_button).click(function (e) { //on add input button click
         e.preventDefault();
 
         x++; //text box increment
-        insert = '<div class="row" name="extra'+x+'" id="extra'+x+'"><div class="col-xs-5">' +
-            '<select class="form-control" id="category'+x+'" name="category'+x+'">';
-        $("#category1 option").each(function()
-        {
-            insert = insert + '<option>'+$(this).val()+'</option>';
+        insert = '<div class="row" name="extra' + x + '" id="extra' + x + '"><div class="col-xs-5">' +
+            '<select class="form-control" id="category' + x + '" name="category' + x + '">';
+        $("#category1 option").each(function () {
+            insert = insert + '<option>' + $(this).val() + '</option>';
         });
         insert = insert + '</select>' +
             '</div>' +
             '<div class="col-xs-3">' +
-            '<input type="number" id="amount'+x+'" name="amount'+x+'" class="form-control amount-offset" placeholder="Amount">' +
+            '<input type="number" id="amount' + x + '" name="amount' + x + '" class="form-control amount-offset" placeholder="Amount">' +
             '</div>' +
             '<div class="col-xs-3">' +
-            '<select class="form-control currency-offset" name="currency'+x+'" id="currency'+x+'">';
-        $("#currency1 option").each(function()
-        {
-            insert = insert + '<option>'+$(this).val()+'</option>';
+            '<select class="form-control currency-offset" name="currency' + x + '" id="currency' + x + '">';
+        $("#currency1 option").each(function () {
+            insert = insert + '<option>' + $(this).val() + '</option>';
         });
 
         insert = insert + '</select>' +
             '</div>' +
-            '<div class="col-xs-1 checkbox"><a href="#" class="remove_field" name="'+x+'">' +
+            '<div class="col-xs-1 checkbox"><a href="#" class="remove_field" name="' + x + '">' +
             '<span class="glyphicon glyphicon-remove"></span>' +
             '</a>' +
             '</div>' +
@@ -50,14 +49,14 @@ function addBudget(){
 
     });
 
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        divName = '#extra'+$(this).attr('name');
+    $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+        divName = '#extra' + $(this).attr('name');
         e.preventDefault();
         $(divName).remove();
     })
 }
 
-function datepickersBudgets(){
+function datepickersBudgets() {
     $('.datepick').datetimepicker({
         viewMode: 'years',
         format: 'YYYY-MM-DD',
@@ -66,6 +65,13 @@ function datepickersBudgets(){
     })
         .change(dateChanged)
         .on('changeDate', dateChanged);
+}
 
+function toggleSubcategory() {
+    var wrapper = $(".budgets_wrap"); //Fields wrapper
 
+    $(wrapper).on("click", ".toggle_sub", function (e) { //user click on remove text
+        divName = '#'+$(this).attr('name')+'sub';
+        $(divName).toggle(500);
+    })
 }
