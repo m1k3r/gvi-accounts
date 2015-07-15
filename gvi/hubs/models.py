@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from accounts.models import Account
 
@@ -37,5 +38,6 @@ class UserType(models.Model):
         (C_MANAGER, 'Country Manager'),
         (SUPER_MANAGER, 'Super Manager'),
     )
+    user = models.ManyToManyField(User)
     type = models.CharField(max_lenght=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
-    
+
