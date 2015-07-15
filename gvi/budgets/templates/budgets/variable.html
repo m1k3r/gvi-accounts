@@ -21,13 +21,13 @@
 
                 <div class="row">
                     <div class="col-xs-6">
-                        <button class="btn btn-info add_field_button add-spacing">
+                        <button class="btn btn-info add_field_button_variable add-spacing">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new
                         </button>
 
                     </div>
                     <div class="col-xs-6">
-                        <button class="btn btn-success pull-right" type="submit" name="budgetSave" id="budgetSave">
+                        <button class="btn btn-success pull-right" type="submit">
                             <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Save
                         </button>
 
@@ -76,8 +76,8 @@
                 <div class="input_fields_wrap">
                     <div class="row add-spacing">
 
-                        <div class="col-xs-5">
-                            <select class="form-control" id="form-0-category" name="form-0-category">
+                        <div class="col-xs-4">
+                            <select class="form-control" id="category1" name="category1">
                                 {% for a in category %}
                                     <option>{{ a.name }}</option>
                                 {% endfor %}
@@ -85,17 +85,29 @@
 
                         </div>
                         <div class="col-xs-3">
-                            <input type="number" id="form-0-amount" name="form-0-amount" class="form-control amount-offset" placeholder="Amount">
+                            <input type="number" id="amount1" name="amount1" class="form-control amount-offset" placeholder="Amount">
                         </div>
                         <div class="col-xs-3">
-                            <select class="form-control currency-offset" name="form-0-currency" id="form-0-currency">
+                            <select class="form-control currency-offset" name="currency1" id="currency1">
                                 {% for a in currency %}
                                     <option>{{ a.contraction }}</option>
                                 {% endfor %}
                             </select>
-
+                        </div>
+                        <div class="col-xs-1">
+                            <div class="checkbox checkbox-offset">
+                                    <input type="checkbox">
+                            </div>
                         </div>
                     </div>
+                    <!--XXX<div class="row">
+                        <div class="col-xs-5">
+                            <select class="form-control add-spacing" name="type1" id="type1">
+                                <option>First Week</option>
+                                <option>Susequent weeks</option>
+                            </select>
+                        </div>
+                    </div>-->
 
                 </div>
 

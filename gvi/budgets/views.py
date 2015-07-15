@@ -44,3 +44,12 @@ def create_budget(request):
                 print "**********"
 
     return render(request, 'budgets/dashboard.html', context)
+
+def variable(request):
+    category = Category.objects.all()
+    currency = Currency.objects.all()
+
+    context = {'category': category,
+            'currency':currency,
+            }
+    return render(request, 'budgets/variable.html', context)
