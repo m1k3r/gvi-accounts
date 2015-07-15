@@ -12,11 +12,11 @@ $(document).ready(function () {
 
 function addBudget() {
     var wrapper = $(".input_fields_wrap"); //Fields wrapper
-    var add_button = $(".add_field_button"); //Add button ID
+    var add_budgetSave = $(".add_field_budgetSave"); //Add budgetSave ID
 
     var insert = "";
     var x = 1; //initlal text box count
-    $(add_button).click(function (e) { //on add input button click
+    $(add_budgetSave).click(function (e) { //on add input budgetSave click
         e.preventDefault();
 
         x++; //text box increment
@@ -87,21 +87,21 @@ function dateChangedBudget(ev) {
 
 
     if(fromDate[0] > toDate[0]){
-        $('button').prop('disabled', true);
+        $('#budgetSave').prop('disabled', true);
         $("#dateError").show(500);
 
 
     }
     else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
-        $('button').prop('disabled', true);
+        $('#budgetSave').prop('disabled', true);
         $("#dateError").show(500);
     }
     else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
-        $('button').prop('disabled', true);
+        $('#budgetSave').prop('disabled', true);
         $("#dateError").show(500);
     }
     else{
-        $('button').prop('disabled', false);
+        $('#budgetSave').prop('disabled', false);
         $("#dateError").hide(500);
     }
 
