@@ -220,3 +220,13 @@ h1>#hubname{
 	font-size: 22px;
 }
 
+#btnHubs{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 6px;
+	padding-bottom: 5px;
+	font-weight: 700;
+	border-color: #1b6d85;
+	background: #53BBDB;
+	color: white;
+}

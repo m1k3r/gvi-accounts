@@ -2,6 +2,7 @@
 
 {% block menubar %}
 <!-- Menu bar options: Add account, Money transfer and Currencies -->
+    <p class="navbar-text"><a href="{% url 'hubs:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnHubs"> Hubs</button></a></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddMoney" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add Money</button></p>
 {% endblock %}
@@ -62,8 +63,8 @@
                 <td>{{ a.balance }}</td>
                 <td>{{ a.bank_name }}</td>
                 <td>{{ a.number }}</td>
-                <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount($(this).closest('tr'))"></a></td>
-                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails"></a></td>
+                <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccountDetail" onclick="editAccountDetail($(this).closest('tr'))"></a></td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnAccountDetail" href="{% url 'hubs:account_detail' a.id %}"></a></td>
             </tr>
             {% endfor %}
             <!-- ****************************************-->
@@ -95,8 +96,8 @@
 
                 <td>{{ a.currency }}</td>
                 <td>{{ a.balance }}</td>
-                <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccount" onclick="editAccount($(this).closest('tr'))"></a></td>
-                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails"></a></td>
+                <td><a class="glyphicon glyphicon-pencil" class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditAccountDetail" onclick="editAccountDetail($(this).closest('tr'))"></a></td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnAccountDetail" href="{% url 'hubs:account_detail' a.id %}"></a></td>
             </tr>
             {% endfor %}
             <!--***********************************************-->
@@ -216,7 +217,7 @@
 <!-- Ends Add Account Modal-->
 
 <!--Edit Account Modal-->
-<div class="modal fade modalStyles" id="modalEditAccount" tabindex="-1" role="dialog" aria-labelledby="labelEditAccount">
+<div class="modal fade modalStyles" id="modalEditAccountDetail" tabindex="-1" role="dialog" aria-labelledby="labelEditAccount">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <!-- Header-->
@@ -228,10 +229,10 @@
             <!-- Body -->
             <div class="modal-body">
                 <div class="container-fluid">
-                    <form class="form-horizontal" id="editAccountForm">
+                    <form class="form-horizontal" id="editAccountFormDetail">
                         <!-- Account id-->
                         <div hidden>
-                            <input type="hidden" value="" id="idAccountEdit">
+                            <input type="hidden" value="" id="idAccountEditDetail">
                         </div>
 
                         <!-- Account type-->
@@ -245,7 +246,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioEdit" id="radioCashEdit" value="c" onclick="cashSelectEditAccount()">
+                                            <input type="radio" name="accountTypeRadioEditDetail" id="radioCashEditDetail" value="c" onclick="cashSelectEditAccountDetail()">
                                             <p class="label-success accountTypeLabel">Cash</p>
                                         </label>
                                     </div>
@@ -255,7 +256,7 @@
                                 <div class="col-md-3">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="accountTypeRadioEdit" id="radioBankEdit" value="b" onclick="bankSelectEditAccount()">
+                                            <input type="radio" name="accountTypeRadioEditDetail" id="radioBankEditDetail" value="b" onclick="bankSelectEditAccountDetail()">
                                             <p class="label-info accountTypeLabel">Bank</p>
                                         </label>
                                     </div>
@@ -269,7 +270,7 @@
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-2">Currency:</div>
                                 <div class="col-md-3">
-                                    <select class="form-control" id="currencySelectEdit">
+                                    <select class="form-control" id="currencySelectEditDetail">
 
                                         <!-- For to display currencies -->
                                         {% for c in curr %}
@@ -284,29 +285,29 @@
                         <!-- End Currency -->
 
                         <!-- Bank, Account #, Amount -->
-                        <div class="row" id="bankTxtFieldEdit" style="display: block">
+                        <div class="row" id="bankTxtFieldEditDetail" style="display: block">
                             <div class="form-group">
-                                <label for="inputBank" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Bank:</label>
+                                <label for="inputBankEditDetail" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Bank:</label>
                                 <div class=" col-md-6">
-                                    <input type="text" class="form-control" id="inputBankEdit">
+                                    <input type="text" class="form-control" id="inputBankEditDetail">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row" id="accountNoTxtFieldEdit" style="display: block" >
+                        <div class="row" id="accountNoTxtFieldEditDetail" style="display: block" >
                             <div class="form-group">
-                                <label for="inputAccountNo" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Account #:</label>
+                                <label for="inputAccountNoEditDetail" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Account #:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="inputAccountNoEdit">
+                                    <input type="text" class="form-control" id="inputAccountNoEditDetail">
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group">
-                                <label for="inputAmount" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Amount $$:</label>
+                                <label for="inputAmountEditDetail" class="col-md-3 col-md-offset-2" style="font-weight: normal;">Amount $$:</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="inputAmountEdit">
+                                    <input type="text" class="form-control" id="inputAmountEditDetail">
                                 </div>
                             </div>
                         </div>
@@ -321,28 +322,28 @@
             <div class="modal-footer">
                 <!-- Save and Cancel buttons -->
                 <div class="row">
-                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_edit">Save</button>
-                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="editAccountCancel">Cancel</button>
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_editDetail">Save</button>
+                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="editAccountCancelDetail">Cancel</button>
                 </div>
                 <div class="row"><p> </p><br></div>
 
                 <!-- Delete button -->
                 <div class="row">
-                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDelete" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Account</button>
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="modal_editDeleteDetail" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Account</button>
                 </div>
 
                 <!-- Delete confirmation --->
                 <br>
-                <div id="deleteConfirmation" style="display: none;">
+                <div id="deleteConfirmationDetail" style="display: none;">
                 <div class="row">
                     <div class="col-md-7 col-md-offset-2">
-                        <label id="labelDeleteConfirm">Are you sure you want to delete this account?</label>
+                        <label id="labelDeleteConfirmDetail">Are you sure you want to delete this account?</label>
                     </div>
                 </div>
 
                 <div class="row">
-                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
-                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteYesDetail" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteNoDetail" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
                 </div>
                     </div>
                 <!-- Ends delete confirmation -->
@@ -377,7 +378,7 @@
                             <div class="col-md-3 col-md-offset-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioSource" id="radioCashTransferSource" value="c" onclick="cashSelectMoneyTransferSource()">
+                                        <input type="radio" name="accountTypeRadioSourceAddMoney" id="radioCashTransferSourceAddMoney" value="c" onclick="cashSelectMoneyTransferSourceAddMoney()">
                                         <p class="label-success accountTypeLabel">Cash</p>
                                     </label>
                                 </div>
@@ -387,7 +388,7 @@
                             <div class="col-md-3">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioSource" id="radioBankTransferSource" value="b" onclick="bankSelectMoneyTransferSource()">
+                                        <input type="radio" name="accountTypeRadioSourceAddMoney" id="radioBankTransferSourceAddMoney" value="b" onclick="bankSelectMoneyTransferSourceAddMoney()">
                                         <p class="label-info accountTypeLabel">Bank</p>
                                     </label>
                                 </div>
@@ -403,12 +404,12 @@
                             <div class="col-md-3 col-md-offset-2">Source Account:</div>
                             <div class="col-md-5">
                                 <!-- Default select-->
-                                <select class="form-control" id="defaultSelectSource" style="display: block;">
+                                <select class="form-control" id="defaultSelectSourceAddMoney" style="display: block;">
                                     <option></option>
                                 </select>
 
                                 <!-- Select bank account-->
-                                <select class="form-control" id="sourceBankAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
+                                <select class="form-control" id="sourceBankAccountAddMoney" style="display: none;" onchange="selectSourceAccountAddMoney($(this).val())">
 
                                     <!-- For to display bank or cash accounts -->
                                     <option></option>
@@ -419,7 +420,7 @@
                                 </select>
 
                                 <!-- Select cash account -->
-                                <select class="form-control" id="sourceCashAccount" style="display: none;" onchange="selectSourceAccount($(this).val())">
+                                <select class="form-control" id="sourceCashAccountAddMoney" style="display: none;" onchange="selectSourceAccountAddMoney($(this).val())">
 
                                     <!-- For to display bank or cash accounts -->
                                     <option></option>
@@ -443,7 +444,7 @@
                             <div class="col-md-3 col-md-offset-5">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioDestiny" id="radioCashTransferDestiny" value="c" onclick="cashSelectMoneyTransferDestiny()">
+                                        <input type="radio" name="accountTypeRadioDestinyAddMoney" id="radioCashTransferDestinyAddMoney" value="c" onclick="cashSelectMoneyTransferDestinyAddMoney()">
                                         <p class="label-success accountTypeLabel">Cash</p>
                                     </label>
                                 </div>
@@ -453,7 +454,7 @@
                             <div class="col-md-3">
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="accountTypeRadioDestiny" id="radioBankTransferDestiny" value="b" onclick="bankSelectMoneyTransferDestiny()">
+                                        <input type="radio" name="accountTypeRadioDestinyAddMoney" id="radioBankTransferDestinyAddMoney" value="b" onclick="bankSelectMoneyTransferDestinyAddMoney()">
                                         <p class="label-info accountTypeLabel">Bank</p>
                                     </label>
                                 </div>
@@ -468,12 +469,12 @@
                             <div class="col-md-3 col-md-offset-2">Destiny Account:</div>
                             <div class="col-md-5">
                                 <!-- Default select -->
-                                <select class="form-control" id="defaultSelectDestiny" style="display: block;">
+                                <select class="form-control" id="defaultSelectDestinyAddMoney" style="display: block;">
                                     <option></option>
                                 </select>
 
                                 <!-- Select bank account -->
-                                <select class="form-control" id="destinyAccountBank" style="display: none;" onchange="selectDestinyAccount($(this).val())">
+                                <select class="form-control" id="destinyAccountBankAddMoney" style="display: none;" onchange="selectDestinyAccountAddMoney($(this).val())">
 
                                     <!-- For to display bank accounts -->
                                     <option></option>
@@ -484,7 +485,7 @@
                                 </select>
 
                                 <!-- Select cash account -->
-                                <select class="form-control" id="destinyAccountCash" style="display: none;" onchange="selectDestinyAccount($(this).val())">
+                                <select class="form-control" id="destinyAccountCashAddMoney" style="display: none;" onchange="selectDestinyAccountAddMoney($(this).val())">
 
                                     <!-- For to display cash accounts -->
                                     <option></option>
@@ -510,15 +511,15 @@
                         <div class="row" style="padding-top: 20px;">
                             <!-- Source -->
                             <div class="col-md-4 col-md-offset-1 labelExchangeRate text-right" >
-                                <label id="labelSourceCurrency" class="text-right"></label>
+                                <label id="labelSourceCurrencyAddMoney" class="text-right"></label>
                             </div>
                             <!-- Input -->
                             <div class=" col-md-2">
-                                <input type="text" class="form-control" id="inputExchangeRate" onkeyup="validateExchangeRate($(this).val());">
+                                <input type="text" class="form-control" id="inputExchangeRateAddMoney" onkeyup="validateExchangeRateAddMoney($(this).val());">
                             </div>
                             <!-- Destiny -->
                             <div class="col-md-2 labelExchangeRate">
-                                <label id="labelDestinyCurrency"></label>
+                                <label id="labelDestinyCurrencyAddMoney"></label>
                             </div>
                         </div>
 
@@ -533,14 +534,14 @@
                     <div class="row">
                         <!-- Amount input -->
                         <div class=" col-md-3 col-md-offset-2">
-                            <input type="text" class="form-control" id="inputAmountTransfer" onkeyup="calculateAmount($(this).val())" >
+                            <input type="text" class="form-control" id="inputAmountTransferAddMoney" onkeyup="calculateAmountAddMoney($(this).val())" >
                         </div>
 
                         <div class=" col-md-1 glyphicon glyphicon-arrow-right" id="arrowTransfer" ></div>
 
                         <!-- Input for the result of amount*exchangeRate-->
                         <div class="col-md-3 col-md-offset-1">
-                            <input type="text" class="form-control" id="inputAmountTransferResult" value="" disabled>
+                            <input type="text" class="form-control" id="inputAmountTransferResultAddMoney" value="" disabled>
                         </div>
 
                     </div>
@@ -555,8 +556,8 @@
         <!-- Footer -->
         <div class="modal-footer">
             <!-- Save and Cancel buttons-->
-            <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="btnSaveTransfer">Save</button>
-            <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="moneyTransferCancel">Cancel</button>
+            <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="btnSaveAddMoney">Save</button>
+            <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="addMoneyCancel">Cancel</button>
         </div>
         <!-- Ends footer -->
     </div>
