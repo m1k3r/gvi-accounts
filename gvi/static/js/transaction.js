@@ -5,6 +5,7 @@ $(document).ready(function() {
     $(window).load(function() {
         lockSelections();
         datepickers();
+        datepickersTransactions();
     });
 });
 
@@ -68,6 +69,19 @@ function datepickers(){
 
 
 }
+
+
+function datepickersTransactions() {
+    $('.datepickTransaction').datetimepicker({
+        viewMode: 'years',
+        format: 'YYYY-MM-DD',
+        pickTime: false,
+        defaultDate: new Date()
+    })
+        .change(dateChangedNewTransaction)
+        .on('changeDate', dateChangedNewTransaction);
+}
+
 function dateChanged(ev) {
     var fromDate = $('#fromDate').val();
     var toDate = $('#toDate').val();
@@ -95,7 +109,35 @@ function dateChanged(ev) {
         $("#dateError").hide(500);
     }
 
+}
+
+function dateChangedNewTransaction(ev) {
+    var fromDate = $('#fromDateNewTransaction').val();
+    var toDate = $('#toDateNewTransaction').val();
+
+    fromDate = fromDate.split("-");
+    toDate = toDate.split("-");
+
+
+    if(fromDate[0] > toDate[0]){
+        $('#modal_saveDetail').prop('disabled', true);
+        $("#dateErrorNewTransaction").show(500);
+
+
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
+        $('#modal_saveDetail').prop('disabled', true);
+        $("#dateErrorNewTransaction").show(500);
+    }
+    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
+        $('#modal_saveDetail').prop('disabled', true);
+        $("#NewTransaction").show(500);
+    }
+    else{
+        $('#modal_saveDetail').prop('disabled', false);
+        $("#dateErrorNewTransaction").hide(500);
+    }
+
 
 
 }
-
