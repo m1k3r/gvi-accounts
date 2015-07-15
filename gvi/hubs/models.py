@@ -38,6 +38,6 @@ class UserType(models.Model):
         (C_MANAGER, 'Country Manager'),
         (SUPER_MANAGER, 'Super Manager'),
     )
-    user = models.ManyToManyField(User)
+    user = models.ManyToManyField(Hubs)
     type = models.CharField(max_lenght=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
 
