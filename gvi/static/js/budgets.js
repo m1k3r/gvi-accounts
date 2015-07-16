@@ -106,15 +106,7 @@ function addBudgetVariable() {
     $(wrapper).on("click", ".remove_field_variable", function (e) { //user click on remove text
         divName = '#extra' + $(this).attr('name');
         e.preventDefault();
-        //$(divName).remove();
-        var category = $('#form-' + $(this).attr('name') + '-category').val();
-        var amount = $('#form-' + $(this).attr('name') + '-amount').val();
-        var currency = $('#form-' + $(this).attr('name') + '-currency').val();
-        var type = $('#form-' + $(this).attr('name') + '-type').prop('checked');
-
-
-        console.log(category + ' || ' + amount + ' || ' + currency + ' || ' + type);
-
+        $(divName).remove();
     })
 }
 
