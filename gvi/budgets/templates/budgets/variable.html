@@ -27,7 +27,7 @@
 
                     </div>
                     <div class="col-xs-6">
-                        <button class="btn btn-success pull-right" type="submit">
+                        <button class="btn btn-success pull-right" type="submit" name="budgetSave" id="budgetSave">
                             <span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Save
                         </button>
 
@@ -77,7 +77,7 @@
                     <div class="row add-spacing">
 
                         <div class="col-xs-4">
-                            <select class="form-control" id="category1" name="category1">
+                            <select class="form-control" id="form-0-category" name="form-0-category">
                                 {% for a in category %}
                                     <option>{{ a.name }}</option>
                                 {% endfor %}
@@ -85,10 +85,10 @@
 
                         </div>
                         <div class="col-xs-3">
-                            <input type="number" id="amount1" name="amount1" class="form-control amount-offset" placeholder="Amount">
+                            <input type="number" id="form-0-amount" name="form-0-amount" class="form-control amount-offset" placeholder="Amount" required>
                         </div>
                         <div class="col-xs-3">
-                            <select class="form-control currency-offset" name="currency1" id="currency1">
+                            <select class="form-control currency-offset" name="form-0-currency" id="form-0-currency">
                                 {% for a in currency %}
                                     <option>{{ a.contraction }}</option>
                                 {% endfor %}
@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-xs-1">
                             <div class="checkbox checkbox-offset">
-                                    <input type="checkbox">
+                                <input type="checkbox" name="form-0-type" id="form-0-type">
                             </div>
                         </div>
                     </div>

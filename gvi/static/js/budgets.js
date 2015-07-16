@@ -56,7 +56,6 @@ function addBudget() {
         $(divName).remove();
 
 
-
     })
 }
 
@@ -90,7 +89,7 @@ function addBudgetVariable() {
             '</div>' +
             '<div class="col-xs-1">' +
             '<div class="checkbox checkbox-offset">' +
-            '<input type="checkbox">' +
+            '<input type="checkbox" name="form-' + x + '-type" id="form-' + x + '-type">' +
             '</div>' +
             '</div>' +
             '<div class="col-xs-1 checkbox"><a href="#" class="remove_field_variable" name="' + x + '">' +
@@ -107,7 +106,15 @@ function addBudgetVariable() {
     $(wrapper).on("click", ".remove_field_variable", function (e) { //user click on remove text
         divName = '#extra' + $(this).attr('name');
         e.preventDefault();
-        $(divName).remove();
+        //$(divName).remove();
+        var category = $('#form-' + $(this).attr('name') + '-category').val();
+        var amount = $('#form-' + $(this).attr('name') + '-amount').val();
+        var currency = $('#form-' + $(this).attr('name') + '-currency').val();
+        var type = $('#form-' + $(this).attr('name') + '-type').prop('checked');
+
+
+        console.log(category + ' || ' + amount + ' || ' + currency + ' || ' + type);
+
     })
 }
 
@@ -126,7 +133,7 @@ function toggleSubcategory() {
     var wrapper = $(".budgets_wrap"); //Fields wrapper
 
     $(wrapper).on("click", ".toggle_sub", function (e) { //user click on remove text
-        divName = '#'+$(this).attr('name')+'sub';
+        divName = '#' + $(this).attr('name') + 'sub';
         $(divName).toggle(500);
     })
 }
@@ -135,31 +142,30 @@ function dateChangedBudget(ev) {
     var fromDate = $('#newBudgetFromDate').val();
     var toDate = $('#newBudgetToDate').val();
 
-    console.log(fromDate+' '+toDate);
+    console.log(fromDate + ' ' + toDate);
 
     fromDate = fromDate.split("-");
     toDate = toDate.split("-");
 
 
-    if(fromDate[0] > toDate[0]){
+    if (fromDate[0] > toDate[0]) {
         $('#budgetSave').prop('disabled', true);
         $("#dateError").show(500);
 
 
     }
-    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]){
+    else if (fromDate[0] == toDate[0] && fromDate[1] > toDate[1]) {
         $('#budgetSave').prop('disabled', true);
         $("#dateError").show(500);
     }
-    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]){
+    else if (fromDate[0] == toDate[0] && fromDate[1] == toDate[1] && fromDate[2] > toDate[2]) {
         $('#budgetSave').prop('disabled', true);
         $("#dateError").show(500);
     }
-    else{
+    else {
         $('#budgetSave').prop('disabled', false);
         $("#dateError").hide(500);
     }
-
 
 
 }
