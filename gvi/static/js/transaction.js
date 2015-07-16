@@ -110,3 +110,99 @@ function dateChanged(ev) {
     }
 
 }
+
+//******************************************* ADD TRANSACTION ******************************************************************
+
+//Function triggered by the SAVE button on the Add Transaction modal
+//Validates fields, creates json and calls jsonAddTransaction() function
+$(document).on('click', '#modal_saveTransaction' ,function () {
+
+    //Get data
+    var category = $("#categorySelectModal").val();
+    var subcategory = $("#subcategorySelectModal").val();
+    var date = $("#newTransaction").val();
+    var amount = $("#inputAmount").val();
+    var comment = $("#inputComment").val();
+
+    //Validations
+    if(isNull(category)==false){
+        alert("You must enter a category.");
+        return;
+    }
+
+    if(isNull(subcategory)==false){
+        alert("You must enter a subcategory.");
+        return;
+    }
+
+    if(isNull(date)==false){
+        alert("You must enter a date.");
+        return;
+    }
+
+    if(isNull(amount)==false){
+        alert("You must enter an amount.");
+        return;
+    }
+
+    if(isNumberDecimal(amount)==false){
+        alert("The amount must be a number");
+        return;
+    }
+
+    //Connection to backend
+    var json = {"category":category, "subcategory":subcategory, "date":date, "amount":amount, "comment":comment};
+    jsonAddTransaction(json);
+});
+
+//Function that receives the New Transaction info and connects to the backend to add it
+function jsonAddTransaction(json){
+
+    $.ajax({
+        url : "new_transaction/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal, cleans fields and update the tables DOM
+            $('#modalAddTransaction').modal('hide');
+            $('#modalAddTransaction').find('#categorySelectModal').val('');
+            $('#modalAddTransaction').find('#subcategorySelectModal').val('');
+            $('#modalAddTransaction').find('#inputAmount').val('');
+            $('#modalAddTransaction').find('#inputComment').val('');
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the transaction. Please try again or contact the system manager.");
+            //$('#modalAddHub').find('#inputName').val('');
+            //$('#modalAddHub').find('#inputManager').val('');
+            //$('#modalAddHub').find('#inputCountry').val('');
+
+        }
+    });
+
+    return true;
+}
+
+//Function triggered by the CANCEL button on the Add Currency modal
+//Hides the modal, cleans all fields
+$(document).on('click', '#addTransactionCancel' ,function () {
+
+    $('#modalAddTransaction').modal('hide');
+    $('#modalAddTransaction').find('#categorySelectModal').val('');
+    $('#modalAddTransaction').find('#subcategorySelectModal').val('');
+    $('#modalAddTransaction').find('#inputAmount').val('');
+    $('#modalAddTransaction').find('#inputComment').val('');
+
+
+});
+//***************************************** ENDS ADD HUB ***************************************************************
