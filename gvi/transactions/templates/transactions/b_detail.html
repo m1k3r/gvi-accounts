@@ -222,6 +222,39 @@
                 <!-- Ends header -->
 
                 <!-- Body -->
+    <form id="addTransactionForm">
+        <!-- Account id-->
+            <div hidden>
+                <input type="hidden" value="{{ a.id }}" id="idAccount">
+            </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Transaction Type:</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                <!-- Money in -->
+                <div class="col-md-3 col-md-offset-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadio" id="radioIn" value="i">
+                            <p class="label-success accountTypeLabel" id="labelMoneyIn">Money In</p>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Money out-->
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadio" id="radioOut" value="o" >
+                            <p class="accountTypeLabel" id="labelMoneyOut">Money Out</p>
+                        </label>
+                    </div>
+                </div>
+                </div><br>
 
                 <div class="row">
                     <div class="col-md-4 col-md-offset-2">
@@ -236,6 +269,7 @@
                     <div class="col-md-4 col-md-offset-2">
                         <div class="form-group">
                             <select class="form-control" id="categorySelectModal" name="categorySelectModal">
+                                <option></option>
                                 {% for a in category %}
                                     <option>{{ a.name }}</option>
                                 {% endfor %}
@@ -246,6 +280,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <select class="form-control" id="subcategorySelectModal" name="subcategorySelectModal">
+                                <option></option>
                                 {% for a in subcategory %}
                                     <option>{{ a.name }}</option>
                                 {% endfor %}
@@ -279,7 +314,7 @@
                     <div class="col-md-4">
                         <input type="text" id="inputAmount" size="23" class="form-control">
                     </div>
-                </div>
+                </div><br>
 
                 <div class="row">
                     <div class="col-md-4 col-md-offset-2">
@@ -292,6 +327,7 @@
                         <textarea class="form-control" id="inputComment" rows="4"></textarea>
                     </div>
                 </div>
+        </form>
                 <br>
                 <!-- Ends body -->
 
@@ -305,5 +341,160 @@
         </div>
     </div>
     <!-- Ends Add Account Modal-->
+
+<!--Edit Transaction Modal-->
+<div class="modal fade modalStyles" id="modalEditTransaction" tabindex="-1" role="dialog" aria-labelledby="labelEditTransaction">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelEditTransaction">New Transaction</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <form id="editTransactionForm">
+                <!-- Transaction id-->
+            <div hidden>
+                <input type="hidden" value="" id="idTransactionEdit">
+            </div>
+            <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Transaction Type:</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                <!-- Money in -->
+                <div class="col-md-3 col-md-offset-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadioEdit" id="radioInEdit" value="i">
+                            <p class="label-success accountTypeLabel" id="labelMoneyIn">Money In</p>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Money out-->
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadioEdit" id="radioOutEdit" value="o" >
+                            <p class="accountTypeLabel" id="labelMoneyOut">Money Out</p>
+                        </label>
+                    </div>
+                </div>
+                </div><br>
+
+
+
+           <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <label class="select-title" style="font-size: 14px;">Category</label>
+                </div>
+                <div class="col-md-4 ">
+                    <label class="select-title" style="font-size: 14px;">Subcategory</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="form-group">
+                        <select class="form-control" id="categorySelectModalEdit" name="categorySelectModalEdit">
+                            {% for a in category %}
+                                <option>{{ a.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" id="subcategorySelectModalEdit" name="subcategorySelectModalEdit">
+                            {% for a in subcategory %}
+                                <option>{{ a.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <label class="select-title" style="font-size: 14px;">Date</label>
+                </div>
+                <div class="col-md-4">
+                    <label class="select-title" style="font-size: 14px;">Amount</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <div class='input-group date datepickTransaction'>
+                                <input style="position: relative; z-index: 100000"type='text' class="form-control" id="newTransactionEdit" name="newTransactionEdit" readonly/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                             </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" id="inputAmountEdit" size="23" class="form-control">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <label class="select-title" style="font-size: 14px;">Comment</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <textarea class="form-control" id="inputCommentEdit" rows="4"></textarea>
+                </div>
+            </div></form>
+            <br>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <!-- Save and Cancel buttons -->
+                <div class="row">
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_editTransaction">Save</button>
+                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="editTransactionCancel">Cancel</button>
+                </div>
+                <div class="row"><p> </p><br></div>
+
+                <!-- Delete button -->
+                <div class="row">
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="edit_deleteTransaction" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Transaction</button>
+                </div>
+
+                <!-- Delete confirmation --->
+                <br>
+                <div id="deleteTransactionConfirmation" style="display: none;">
+                <div class="row">
+                    <div class="col-md-7 col-md-offset-2">
+                        <label id="labelDeleteConfirm">Are you sure you want to delete this transaction?</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteTransactionYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteTransactionNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
+                </div>
+                </div>
+                <!-- Ends delete confirmation -->
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Add Hub Modal-->
 
 {% endblock %}

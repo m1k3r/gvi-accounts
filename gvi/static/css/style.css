@@ -237,3 +237,15 @@ h1>#hubname{
 
 
 }
+
+#labelMoneyOut{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background: #C61212;
+	color: white;
+}
+
+#labelMoneyIn{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
