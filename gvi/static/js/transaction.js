@@ -294,6 +294,7 @@ $(document).on('click', '#modal_editTransaction' ,function () {
 
     //Get data
     var id = $("#idTransactionEdit").val();
+    var idAccount = $("#idAccountEdit").val();
     var type = $('input[name=transTypeRadioEdit]:checked', '#editTransactionForm').val();
     var category = $("#categorySelectModal").val();
     var subcategory = $("#subcategorySelectModal").val();
@@ -337,7 +338,7 @@ $(document).on('click', '#modal_editTransaction' ,function () {
     }
 
     //Connection to backend
-    var transactionData = {"id":id, "category":category, "subcategory":subcategory, "date":date, "amount":amount, "comment":comment, "type":type};
+    var transactionData = {"id":id, "idAccount":idAccount, "category":category, "subcategory":subcategory, "date":date, "amount":amount, "comment":comment, "type":type};
     updateJsonTransaction(transactionData);
 
 });
@@ -377,3 +378,66 @@ function updateJsonTransaction(lejson){
 
 //********************************************* ENDS EDIT HUB **********************************************************
 
+//******************************************* DELETE TRANSACTION *******************************************************
+
+//Function triggered by the DELETE button on the Edit Transaction modal
+//Display the confirmation to delete the transaction
+$(document).on('click', '#edit_deleteTransaction' ,function () {
+
+    $('#edit_deleteTransaction').css("background", "#C61212");
+    $('#edit_deleteTransaction').css("color", "#ffffff");
+    $('#deleteTransactionConfirmation').css("display", "block");
+});
+
+//Function triggered by the NO button on the confirmation to delete the account
+//Hides the confirmation
+$(document).on('click', '#deleteTransactionNo' ,function () {
+
+    $('#edit_deleteTransaction').css("background", "#ffffff");
+    $('#edit_deleteTransaction').css("color", "#C61212");
+    $('#deleteTransactionConfirmation').css("display", "none");
+});
+
+//Function triggered by the YES button on the confirmation to delete the account
+//Hides the confirmation, gets the account id and calls deleteJson() function
+$(document).on('click', '#deleteTransactionYes' ,function () {
+
+    $('#edit_deleteTransaction').css("background", "#ffffff");
+    $('#edit_deleteTransaction').css("color", "#C61212");
+    $('#deleteTransactionConfirmation').css("display", "none");
+
+    var idAccount = $("#idAccountEdit").val();
+    var id = $("#idTransactionEdit").val();
+    var lejson = {'id': id, 'idAccount':idAccount };
+    deleteJsonDetail(lejson);
+});
+
+//Function that receives the account id and connects to the backend to delete the account
+function deleteJsonDetail(lejson){
+
+
+    var jxhr = $.ajax({
+        url : "change_transaction/", // the endpoint
+        type : "GET", // http method
+        data : lejson, // data sent with the post request
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+            $('#modalEditAccount').modal('hide');
+            location.reload()
+
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error deleting the transaction. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return jxhr;
+}
+//*************************************** ENDS DELETE TRANSACTION ******************************************************
