@@ -214,6 +214,7 @@ $(document).on('click', '#addTransactionCancel' ,function () {
     $('#radioIn').prop('checked', false);
     $('#radioOut').prop('checked', false);
     $('#addNewSubcategory').css("display", "none");
+    location.reload();
 
 
 });
@@ -501,11 +502,69 @@ $(document).on('click', '#modal_saveNewSubc' ,function () {
     }
 
     var json = {'category': category, 'subcategory':subcategory };
-    jsonAddSubcategory(json);
+    jsonAddSubcategory(json, subcategory);
+});
+
+function displayNewSubcategoryEdit(option){
+    if(option=="new"){
+
+        var category = $("#categorySelectModalEdit").val();
+
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+            $("#subcategorySelectModalEdit").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategoryEdit').empty();
+        $('#labelCategoryEdit').append(label);
+        $('#addNewSubcategoryEdit').css("display", "block");
+    }else{
+        $('#addNewSubcategoryEdit').css("display", "none");
+    }
+}
+
+function validateSubcategoryEdit(){
+    var subcategory =  $('#subcategorySelectModalEdit').val();
+    var category = $('#categorySelectModalEdit').val();
+
+    if(subcategory == "new"){
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+             $('#addNewSubcategoryEdit').css("display", "none");
+             $("#subcategorySelectModalEdit").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategoryEdit').empty();
+        $('#labelCategoryEdit').append(label);
+    }else{
+        $('#addNewSubcategoryEdit').css("display", "none");
+    }
+}
+
+$(document).on('click', '#modal_saveNewSubcEdit' ,function () {
+    var subcategory =  $('#inputNewSubcategoryEdit').val();
+    var category = $("#categorySelectModalEdit").val();
+    
+    if(isNull(subcategory)==false){
+        alert("You need to select a subcategory");
+        return;
+    }
+
+    if(isNull(category)==false){
+        alert("You need to select a category");
+        return;
+    }
+
+    var json = {'category': category, 'subcategory':subcategory };
+    jsonAddSubcategory(json, subcategory);
 });
 
 //Function that receives the New Subcategory info and connects to the backend to add it
-function jsonAddSubcategory(json){
+function jsonAddSubcategory(json, subcategory){
 
     $.ajax({
         url : "../../../new_subcategory/", // the endpoint
@@ -518,8 +577,14 @@ function jsonAddSubcategory(json){
 
             // Hides the modal, cleans fields and update the tables DOM
             $('#addNewSubcategory').css("display", "none");
+            $('#subcategorySelectModal').append('<option>'+subcategory+'</option>');
+            $('#subcategorySelectModal').val(subcategory);
+            $('#inputNewSubcategory').val('');
 
-            location.reload();
+            $('#addNewSubcategoryEdit').css("display", "none");
+            $('#subcategorySelectModalEdit').append('<option>'+subcategory+'</option>');
+            $('#subcategorySelectModalEdit').val(subcategory);
+            $('#inputNewSubcategoryEdit').val('');
 
         },
 
@@ -542,6 +607,12 @@ $(document).on('click', '#newSubcCancel' ,function () {
 
 });
 
+$(document).on('click', '#newSubcCancelEdit' ,function () {
+    $("#subcategorySelectModalEdit").val('');
+    $('#inputNewSubcategoryEdit').val('');
+    $('#addNewSubcategoryEdit').css("display", "none");
+
+});
 
 var categories;
 
