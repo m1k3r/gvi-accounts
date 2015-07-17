@@ -24,14 +24,14 @@
         {% block sidebar %}
             <div class="col-xs-2" id="sidebar">
                 <img src="{% static 'img/gvi_logo.png' %}" id="logo">
-                <div id="user">Hello User</div>
+                <div id="user">Hello {{ request.user }}</div>
                 <ul class="nav nav-pills nav-stacked">
                     <li role="presentation"><a href="{% url 'accounts:index' %}">Accounts</a></li>
                     <li role="presentation"><a href="{% url 'hubs:index' %}">Hubs</a></li>
                     <li role="presentation"><a href="{% url 'transactions:index' %}">Transactions</a></li>
                     <li role="presentation"><a href="{% url 'reports:index' %}">Reports</a></li>
                     <!--<li role="presentation"><a href="#">Settings <i class="glyphicon glyphicon-cog"></i></a></li>-->
-                    <li role="presentation"><a href="#">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                    <li role="presentation"><a href="{% url 'users_m:user_logout' %}">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
                 </ul>
 
             </div>
