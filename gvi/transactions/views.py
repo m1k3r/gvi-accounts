@@ -203,6 +203,7 @@ def cats_subs(request):
     return JsonResponse(json_response)
 
 
+@csrf_exempt
 def new_del_sub(request):
     if request.is_ajax():
         if request.method == 'POST':
