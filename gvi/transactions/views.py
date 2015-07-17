@@ -89,12 +89,13 @@ def new_transaction(request, pk):
             try:
                 t_type = request.POST['type']
                 cat = request.POST['category']
-                sub = request.POST['subcategory']
+                sub = request.POST.get('subcategory')
                 date = request.POST['date']
                 comment = request.POST['comment']
                 amount = request.POST['amount']
                 category = Category.objects.get(name=cat)
-                subcategory = Subcategory.objects.get(name=sub)
+                if sub:
+                    subcategory = Subcategory.objects.get(name=sub)
                 account_id = request.POST['id']
                 account = get_object_or_404(Account, pk=account_id)
 
@@ -103,10 +104,15 @@ def new_transaction(request, pk):
                 else:
                     account.balance -= Decimal(float(amount))
                 account.save()
+                if sub:
+                    transaction = Transaction(transaction_type=t_type, category=category, subcategory=subcategory,
+                                              comment=comment, amount=amount, balance=account.balance, date=date,
+                                              account=account)
+                else:
+                    transaction = Transaction(transaction_type=t_type, category=category,
+                                              comment=comment, amount=amount, balance=account.balance, date=date,
+                                              account=account)
 
-                transaction = Transaction(transaction_type=t_type, category=category, subcategory=subcategory,
-                                          comment=comment, amount=amount, balance=account.balance, date=date,
-                                          account=account)
                 transaction.save()
 
                 return JsonResponse({'code': '200',
@@ -178,6 +184,10 @@ def update_delete_transaction(request, pk):
             try:
                 transaction_id = request.GET['id']
                 transaction = Transaction.objects.get(pk=transaction_id)
+
+                # account = Account.objects.get(transaction=transaction)
+                # account.balance = transaction.balance + transaction.amount
+
                 transaction.delete()
 
                 return JsonResponse({'code': '200',
