@@ -137,10 +137,10 @@ $(document).on('click', '#modal_saveTransaction' ,function () {
         return;
     }
 
-    if(isNull(subcategory)==false){
+    /*if(isNull(subcategory)==false){
         alert("You must enter a subcategory.");
         return;
-    }
+    }*/
 
     if(isNull(date)==false){
         alert("You must enter a date.");

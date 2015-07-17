@@ -26,8 +26,12 @@
                                 <li>Currency: {{ a.currency }}</li>
                             {% endif %}
 
-                            <li>Initial Budget: $15,000</li>
-                            <li>Remaining Budget: {{ a.balance }}</li>
+                            {% if a.balance < 0 %}
+                                <li>Remaining Budget:<label style="color: red;">{{ a.balance }}</label></li>
+                            {% else %}
+                                <li>Remaining Budget: {{ a.balance }}</li>
+                            {% endif %}
+
                             <li>Total Expenses: {{ a.expenses }}</li>
                         </ul>
                     </div>
@@ -205,7 +209,11 @@
                             {% else %}
                                 <td>- Money Out</td>
                             {% endif %}
-                            <td>{{ a.balance }}</td>
+                            {% if a.balance < 0 %}
+                                <td style="color: red">{{ a.balance }}</td>
+                            {% else %}
+                                <td>{{ a.balance }}</td>
+                            {% endif %}
                             <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditTransaction" onclick="editTransaction({{ a.id }})"></a></td>
                         </tr>
                     {% endfor %}
