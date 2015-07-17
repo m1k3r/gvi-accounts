@@ -213,6 +213,7 @@ $(document).on('click', '#addTransactionCancel' ,function () {
     $('#modalAddTransaction').find('#inputComment').val('');
     $('#radioIn').prop('checked', false);
     $('#radioOut').prop('checked', false);
+    $('#addNewSubcategory').css("display", "none");
 
 
 });
@@ -241,6 +242,7 @@ function editTransaction(id){
         console.log(data);
         console.log(amount);
 
+        loadCatEdit();
         $("#idTransactionEdit").val(id);
         $('#modalEditTransaction').find('#categorySelectModalEdit').val(category);
         $('#modalEditTransaction').find('#subcategorySelectModalEdit').val(subcategory);
@@ -578,34 +580,6 @@ function loadCategories(){
                 });
             });
 
-           /*
-
-            var catModal = '#categorySelectModal';
-            var subModal = '#subcategorySelectModal';
-
-
-
-            var categoryVal = $(catModal).val();
-                $(subModal).empty();
-                $.each(obj[categoryVal], function(i, item) {
-                    $(subModal).append($('<option>', { item : i }).text(item));
-
-                });
-
-            $(catModal).change(function() {
-
-                var categoryVal = $(catModal).val();
-                $(subModal).empty();
-                $.each(obj[categoryVal], function(i, item) {
-                    $(subModal).append($('<option>', { item : i }).text(item));
-
-                });
-            });
-
-            */
-
-
-
         },
 
         // handle a non-successful response
@@ -622,6 +596,41 @@ function loadCat() {
 
             var catModal = '#categorySelectModal';
             var subModal = '#subcategorySelectModal';
+            var obj;
+            obj = categories;
+
+            console.log("MMMM");
+            console.log(obj);
+
+
+            var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $(subModal).append('<option></option>');
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+            $(catModal).change(function() {
+
+                var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $(subModal).append('<option></option>');
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+                validateSubcategory();
+            });
+}
+
+function loadCatEdit() {
+
+            var catModal = '#categorySelectModalEdit';
+            var subModal = '#subcategorySelectModalEdit';
             var obj;
             obj = categories;
 
