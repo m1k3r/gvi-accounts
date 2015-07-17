@@ -4,7 +4,7 @@
 <!-- Menu bar options: Add account, Money transfer and Currencies -->
     <p class="navbar-text"><a href="{% url 'hubs:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnHubs"> Hubs</button></a></p>
     <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddAccount" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add account</button></p>
-    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddMoney" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Add Money</button></p>
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddMoney" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" > Money Transfer</button></p>
 {% endblock %}
 
 {% block content %}
@@ -21,18 +21,17 @@
                 <!-- For to display all currencies and how much money they have -->
 
                 <!-- **********************************************************-->
-                <div>
+                <!-- <div>
                     {% for c in curr %}
                         <li>{{ c }}</li>
                         <div style="padding-left: 10px; font-size: 20px;">
-                            <li>Initial Budget: ${{ c.total_money }}</li>
                             <li> Money Left: ${{ c.total }}</li>
                             <li>Total Expenses: ${{ c.expenses }}</li>
                         </div>
                         <br>
                     {% endfor %}
 
-                </div>
+                </div> -->
             </ul>
         </div>
     </div>
@@ -361,7 +360,7 @@
     <div class="modal-content">
         <!-- Header-->
         <div class="modal-header">
-            <h2 class="modal-title modalHeader" id="labelAddMoney">Add Money</h2>
+            <h2 class="modal-title modalHeader" id="labelAddMoney">Money Transfer</h2>
         </div>
         <!-- Ends header -->
 

@@ -872,7 +872,7 @@ function jsonAddMoney(json) {
 
 
     $.ajax({
-        url: "money_transfer/", // the endpoint
+        url: "../../../accounts/money_transfer/", // the endpoint
         type: "POST", // http method
         data: json, // data sent with the post request
         dataType: 'json',
