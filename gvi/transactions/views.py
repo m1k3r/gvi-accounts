@@ -124,14 +124,23 @@ def new_transaction(request, pk):
             try:
                 t_id = request.GET['id']
                 transaction = get_object_or_404(Transaction, pk=t_id)
-                context = {'id': transaction.pk,
-                           'type': transaction.transaction_type,
-                           'category': transaction.category.name,
-                           'subcategory': transaction.subcategory.name,
-                           'date': transaction.date,
-                           'amount': transaction.amount,
-                           'comment': transaction.comment,
-                           }
+                if transaction.subcategory:
+                    context = {'id': transaction.pk,
+                               'type': transaction.transaction_type,
+                               'category': transaction.category.name,
+                               'subcategory': transaction.subcategory.name,
+                               'date': transaction.date,
+                               'amount': transaction.amount,
+                               'comment': transaction.comment,
+                               }
+                else:
+                    context = {'id': transaction.pk,
+                               'type': transaction.transaction_type,
+                               'category': transaction.category.name,
+                               'date': transaction.date,
+                               'amount': transaction.amount,
+                               'comment': transaction.comment,
+                               }
                 return JsonResponse(context)
             except KeyError as e:
                 print e
@@ -185,8 +194,14 @@ def update_delete_transaction(request, pk):
                 transaction_id = request.GET['id']
                 transaction = Transaction.objects.get(pk=transaction_id)
 
-                # account = Account.objects.get(transaction=transaction)
-                # account.balance = transaction.balance + transaction.amount
+                amount = transaction.amount
+
+                account = Account.objects.get(transaction=transaction)
+                if transaction.transaction_type == 'i':
+                    account.balance -= amount
+                else:
+                    account.balance += amount
+                account.save()
 
                 transaction.delete()
 

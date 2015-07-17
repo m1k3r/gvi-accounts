@@ -27,3 +27,5 @@ class Hubs(models.Model):
         accounts = Account.objects.filter(owner=self).filter(account_type='c')
         return accounts
 
+    def expenses(self):
+        pass
