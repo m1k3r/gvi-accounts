@@ -11,5 +11,5 @@ urlpatterns = [
         name='change_transaction'),
     url(r'^cats_subs/$', views.cats_subs, name='cats_subs'),
     url(r'^new_subcategory/$', views.new_del_sub, name='change_sub'),
-    url(r'^subcategories/$', views.subcategories(), name='subcategories'),
+    url(r'^subcategories/$', views.subcategories, name='subcategories'),
 ]
