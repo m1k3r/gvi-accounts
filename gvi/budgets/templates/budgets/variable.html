@@ -110,7 +110,7 @@
             </form>
         </div>
         <div class="col-xs-6" id="rightBudget">
-            <form action="search_budget_variable" method="post">
+            <form action="{% url 'budgets:search_budget_variable' %}" method="post">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-xs-5">
