@@ -7,7 +7,22 @@ class Category(models.Model):
     number = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.number
+        return str(self.name) + ":" + str(self.number)
+
+    def subs(self):
+        sub_list = []
+        ss = Subcategory.objects.filter(category=self)
+        for s in ss:
+            sub_list.append(s.name)
+        return sub_list
+
+    @classmethod
+    def to_dict(cls):
+        cats = cls.objects.all()
+        le_dict = {}
+        for cat in cats:
+            le_dict[cat.name] = cat.subs()
+        return le_dict
 
 
 class Subcategory(models.Model):
