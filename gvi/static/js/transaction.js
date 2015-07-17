@@ -6,15 +6,13 @@ $(document).ready(function() {
         lockSelections();
         datepickers();
         datepickersTransactions();
-
-        changeSubcategory();
+        loadCategories();
+        //changeSubcategory();
 
     });
 });
 
-function enableDatePicker(){
-    datepickersForm();
-}
+
 
 function lockSelections(){
     var lockCategory = function () {
@@ -543,25 +541,111 @@ $(document).on('click', '#newSubcCancel' ,function () {
 });
 
 
+var categories;
+
+function loadCategories(){
+    $.ajax({
+        url : "../../../cats_subs/", // the endpoint
+        type : "GET", // http method
+        // data : json, // data sent with the post request
+        // dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            var category = '#categorySelect';
+            var subcategory = '#subcategorySelect';
+
+            var obj;
+            obj = jsonResponse;
+            categories = obj;
+            console.log(JSON.stringify(obj));
+
+            var categoryVal = $(category).val();
+                $(subcategory).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subcategory).append($('<option>', { item : i }).text(item));
+
+                });
+
+            $(category).change(function() {
+
+                var categoryVal = $(category).val();
+                $(subcategory).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subcategory).append($('<option>', { item : i }).text(item));
+
+                });
+            });
+
+           /*
+
+            var catModal = '#categorySelectModal';
+            var subModal = '#subcategorySelectModal';
 
 
-function changeSubcategory(){
-    var le_json = '{"Fuel":["boat fuel","car fuel"],' +
-        '"Travel Expenses":["taxi","horse"],' +
-        '"Food":["cat ribs","hot dog"]}';
-    var obj = jQuery.parseJSON(le_json);
-    console.log('aaa');
-    var category = '#categorySelect';
-    var subcategory = '#subcategorySelect';
 
-    $(category).change(function() {
+            var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
 
-        var categoryVal = $(category).val();
-        $(subcategory).empty();
-        $.each(obj[categoryVal], function(i, item) {
-            $(subcategory)
-                .append($('<option>', { item : i })
-                    .text(item));
-        });
+                });
+
+            $(catModal).change(function() {
+
+                var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+            });
+
+            */
+
+
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error loading Categories JSON");
+
+        }
     });
+}
+
+function loadCat() {
+
+            var catModal = '#categorySelectModal';
+            var subModal = '#subcategorySelectModal';
+            var obj;
+            obj = categories;
+
+            console.log("MMMM");
+            console.log(obj);
+
+            var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+            $(catModal).change(function() {
+
+                var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+                validateSubcategory();
+            });
 }
