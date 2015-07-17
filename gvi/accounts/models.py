@@ -52,6 +52,15 @@ class Account(models.Model):
         else:
             return self.currency.name
 
+    @property
+    def expenses(self):
+        transactions = Transaction.objects.filter(transaction_type='o')
+        expenses = transactions.filter(account=self)
+        total = 0
+        for t in transactions:
+            total += t.amount
+        return total
+
 
 class Transfer(models.Model):
     from_account = models.ForeignKey(Account, related_name="from_account")
