@@ -29,3 +29,6 @@ class Hubs(models.Model):
 
     def expenses(self):
         pass
+
+    def money_left(self):
+        pass

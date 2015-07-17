@@ -55,7 +55,7 @@ class Account(models.Model):
     @property
     def expenses(self):
         transactions = Transaction.objects.filter(transaction_type='o')
-        expenses = transactions.filter(account=self)
+        transactions = transactions.filter(account=self)
         total = 0
         for t in transactions:
             total += t.amount
