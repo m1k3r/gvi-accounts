@@ -628,8 +628,10 @@ function loadCat() {
             console.log("MMMM");
             console.log(obj);
 
+
             var categoryVal = $(catModal).val();
                 $(subModal).empty();
+                $(subModal).append('<option></option>');
                 $.each(obj[categoryVal], function(i, item) {
                     $(subModal).append($('<option>', { item : i }).text(item));
 
@@ -640,6 +642,7 @@ function loadCat() {
 
                 var categoryVal = $(catModal).val();
                 $(subModal).empty();
+                $(subModal).append('<option></option>');
                 $.each(obj[categoryVal], function(i, item) {
                     $(subModal).append($('<option>', { item : i }).text(item));
 
