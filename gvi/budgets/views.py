@@ -121,7 +121,7 @@ def search_budget(request):
     return render(request, 'budgets/dashboard.html', context)
 #}}}
 
-#{{{Search_budget
+#{{{Search_budget_variable
 def search_budget_variable(request):
     category = Category.objects.all()
     currency = Currency.objects.all()
