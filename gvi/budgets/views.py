@@ -33,9 +33,8 @@ def variable(request):
             'currency':currency,
             }
 
-    return render(request, 'budgets/currencies.html', context)
+    return render(request, 'budgets/variable.html', context)
 #}}}
-
 
 #{{{Create Budget
 def create_budget(request):
@@ -98,15 +97,15 @@ def create_budget(request):
     return render(request, 'budgets/dashboard.html', context)
 #}}}
 
-
-#{{{Variable
-def variable(request):
+#{{{Create_budget_variable
+def create_budget_variable(request):
     category = Category.objects.all()
     currency = Currency.objects.all()
 
     context = {'category': category,
             'currency':currency,
             }
-    
+
     return render(request, 'budgets/variable.html', context)
 #}}}
+
