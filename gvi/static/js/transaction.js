@@ -548,7 +548,7 @@ function validateSubcategoryEdit(){
 $(document).on('click', '#modal_saveNewSubcEdit' ,function () {
     var subcategory =  $('#inputNewSubcategoryEdit').val();
     var category = $("#categorySelectModalEdit").val();
-    
+
     if(isNull(subcategory)==false){
         alert("You need to select a subcategory");
         return;

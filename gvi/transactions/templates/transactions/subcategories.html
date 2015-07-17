@@ -1,0 +1,83 @@
+{% extends 'base_generic.html' %}
+
+{% block menubar %}
+<!-- Menu bar options: Accounts and Add Currency-->
+    <p class="navbar-text"><a href="{% url 'transactions:balance_detail' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnAccounts"> Balance Detail</button></a></p>
+{% endblock %}
+
+{% block content %}
+<!-- Title -->
+<div class="row">
+    <div class="col-md-5 col-md-offset-1" style="padding-bottom: 50px;">
+        <h1>Subcategories</h1>
+    </div>
+
+</div>
+
+<!-- Currencies table-->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <table class="table table-hover" id="bankAccounts">
+            <tr>
+                <th>Subcategory</th>
+                <th>Delete</th>
+            </tr>
+
+            <!-- For to fill info about each currency -->
+            {% for c in subs %}
+            <tr id="{{ c.id }}.{{ c.name }}">
+                <td hidden id="pk">{{ c.id }}</td>
+                <td>{{ c.name }}</td>
+
+                <!-- Delete button-->
+                <td><button class="glyphicon glyphicon-remove" id="btnDeleteSubs" data-toggle="modal" data-target="#modalDeleteSubs" onclick="currencyDeleteConfirmSubs($(this).closest('tr'))"></button></td>
+            </tr>
+            {% endfor %}
+            <!-- **************************************-->
+
+        </table>
+    </div>
+</div>
+<!-- End of currencies table-->
+
+<!--Delete Currency Modal-->
+<div class="modal fade modalStyles" id="modalDeleteSubs" tabindex="-1" role="dialog" aria-labelledby="labelDelete">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelDeleteSubs">Delete Subcategory</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <br>
+                    <!-- Question -->
+                    <div class="row">
+                        <label id="labelSubsName"></label>
+                    </div>
+
+                    <!-- Currency id-->
+                    <div>
+                        <input type="hidden" id="subId">
+                    </div>
+                </div>
+            </div>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <!-- Yes and No buttons-->
+                <button type="button" class="btn btn-sm col-sm-2 col-md-offset-4" id="subDeleteYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                <button type="button" class="btn btn-sm col-sm-2" id="subDeleteNo" data-dismiss="modal" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Delete Currency Modal-->
+
+{% endblock %}
