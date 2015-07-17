@@ -236,3 +236,9 @@ def new_del_sub(request):
     else:
         print "new sub not ajax "
         raise Http404(request)
+
+
+def subcategories(request):
+    subs = Subcategory.objects.all()
+    context = {'subs': subs}
+    return render(request, 'transactions/subcategories.html', context)
