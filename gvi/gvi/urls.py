@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^accounts/', include('accounts.urls', namespace='accounts', app_name='accounts')),
     url(r'^transactions/', include('transactions.urls', namespace='transactions', app_name='transactions')),
     url(r'^hubs/', include('hubs.urls', namespace='hubs', app_name='hubs')),
+    url(r'^users/', include('users_m.urls', namespace='users_m', app_name='users_m')),
     url(r'^admin/', include(admin.site.urls)),
 ]
