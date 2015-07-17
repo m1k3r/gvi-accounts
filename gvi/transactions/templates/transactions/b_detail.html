@@ -16,7 +16,7 @@
                     <div id="hubname">Balance Details</div>
                 </h1>
                 <h4>
-                    <div id="hubinfo">
+                    <div id="hubinfo" style="padding-left: 10px;">
                         <ul class="list-unstyled">
                             {% if a.account_type == 'b' %}
                                 <li>Currency: {{ a.currency }}</li>
@@ -168,7 +168,7 @@
                 <button type="submit" class="btn btn-info pull-left">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span> search
                 </button>
-            </div>
+            </div><br>
             <!-- /.row Date data and search button -->
         </form>
         <!-- Form data to backend -->
@@ -176,7 +176,7 @@
         <!-- Transaction table -->
         <div class="row">
             <div class="col-xs-8">
-                <p class="tableTitle">Bank Accounts:</p>
+                <p class="tableTitle">Transactions:</p>
                 <table class="table table-hover">
                     <tr>
                         <th>Date</th>
@@ -268,7 +268,7 @@
                 <div class="row">
                     <div class="col-md-4 col-md-offset-2">
                         <div class="form-group">
-                            <select class="form-control" id="categorySelectModal" name="categorySelectModal">
+                            <select class="form-control" id="categorySelectModal" name="categorySelectModal" onchange="validateSubcategory()">
                                 <option></option>
                                 {% for a in category %}
                                     <option>{{ a.name }}</option>
@@ -279,14 +279,36 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <select class="form-control" id="subcategorySelectModal" name="subcategorySelectModal">
+                            <select class="form-control" id="subcategorySelectModal" name="subcategorySelectModal" onchange="displayNewSubcategory($(this).val())">
                                 <option></option>
                                 {% for a in subcategory %}
                                     <option>{{ a.name }}</option>
                                 {% endfor %}
+                                <option value="new">+ New Subcategory</option>
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div id="addNewSubcategory" style="display: none;">
+                    <hr><br>
+                    <div class = "row">
+                    <form class="form-inline">
+                        <div class="col-md-4 col-md-offset-2" style="padding-top: 5px;">
+                            <label class="select-title" style="font-size: 14px;" id="labelCategory"></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="inputNewSubcategory" class="form-control">
+                        </div>
+                     </form>
+                    </div><br>
+                    <div class="row" style="padding-top: 10px;">
+
+                        <button type="button" class="btn btn-success col-md-2 col-md-offset-3" name="modal_saveNewSubc" id="modal_saveNewSubc">Add</button>
+                        <button type="button" class="btn btn-warning col-md-2 col-md-offset-2" id="newSubcCancel" >Cancel</button>
+
+                    </div>
+                    <br><hr>
                 </div>
 
                 <div class="row">
@@ -421,6 +443,7 @@
                             {% for a in subcategory %}
                                 <option>{{ a.name }}</option>
                             {% endfor %}
+
                         </select>
                     </div>
                 </div>

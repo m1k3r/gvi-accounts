@@ -6,6 +6,9 @@ $(document).ready(function() {
         lockSelections();
         datepickers();
         datepickersTransactions();
+
+        changeSubcategory();
+
     });
 });
 
@@ -78,8 +81,7 @@ function datepickersTransactions() {
         pickTime: false,
         defaultDate: new Date()
     })
-        .change(dateChangedNewTransaction)
-        .on('changeDate', dateChangedNewTransaction);
+
 }
 
 function dateChanged(ev) {
@@ -317,10 +319,10 @@ $(document).on('click', '#modal_editTransaction' ,function () {
         return;
     }
 
-    if(isNull(subcategory)==false){
+    /*if(isNull(subcategory)==false){
         alert("You must enter a subcategory.");
         return;
-    }
+    }*/
 
     if(isNull(date)==false){
         alert("You must enter a date.");
@@ -441,3 +443,123 @@ function deleteJsonDetail(lejson){
     return jxhr;
 }
 //*************************************** ENDS DELETE TRANSACTION ******************************************************
+
+function displayNewSubcategory(option){
+    if(option=="new"){
+
+        var category = $("#categorySelectModal").val();
+
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+            $("#subcategorySelectModal").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategory').empty();
+        $('#labelCategory').append(label);
+        $('#addNewSubcategory').css("display", "block");
+    }else{
+        $('#addNewSubcategory').css("display", "none");
+    }
+}
+
+function validateSubcategory(){
+    var subcategory =  $('#subcategorySelectModal').val();
+    var category = $('#categorySelectModal').val();
+
+    if(subcategory == "new"){
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+             $('#addNewSubcategory').css("display", "none");
+             $("#subcategorySelectModal").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategory').empty();
+        $('#labelCategory').append(label);
+    }else{
+        $('#addNewSubcategory').css("display", "none");
+    }
+}
+
+$(document).on('click', '#modal_saveNewSubc' ,function () {
+    var subcategory =  $('#inputNewSubcategory').val();
+    var category = $("#categorySelectModal").val();
+
+    if(isNull(subcategory)==false){
+        alert("You need to select a subcategory");
+        return;
+    }
+
+    if(isNull(category)==false){
+        alert("You need to select a category");
+        return;
+    }
+
+    var json = {'category': category, 'subcategory':subcategory };
+    jsonAddSubcategory(json);
+});
+
+//Function that receives the New Subcategory info and connects to the backend to add it
+function jsonAddSubcategory(json){
+
+    $.ajax({
+        url : "new_subcategory/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal, cleans fields and update the tables DOM
+            $('#addNewSubcategory').css("display", "none");
+
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the subcategory. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return true;
+}
+
+$(document).on('click', '#newSubcCancel' ,function () {
+    $("#subcategorySelectModal").val('');
+    $('#inputNewSubcategory').val('');
+    $('#addNewSubcategory').css("display", "none");
+
+});
+
+
+
+
+function changeSubcategory(){
+    var le_json = '{"Fuel":["boat fuel","car fuel"],' +
+        '"Travel Expenses":["taxi","horse"],' +
+        '"Food":["cat ribs","hot dog"]}';
+    var obj = jQuery.parseJSON(le_json);
+    console.log('aaa');
+    var category = '#categorySelect';
+    var subcategory = '#subcategorySelect';
+
+    $(category).change(function() {
+
+        var categoryVal = $(category).val();
+        $(subcategory).empty();
+        $.each(obj[categoryVal], function(i, item) {
+            $(subcategory)
+                .append($('<option>', { item : i })
+                    .text(item));
+        });
+    });
+}
