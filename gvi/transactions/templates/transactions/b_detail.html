@@ -191,7 +191,8 @@
 
                     <!-- For to fill info about each account -->
                     {% for a in transactions %}
-                        <tr>
+                        <tr id="{{ a.id }}">
+                            <td hidden id="pk">{{ a.id }}</td>
                             <td>{{ a.date }}</td>
                             <td>{{ a.category.number }}</td>
                             <td>{{ a.category.name }}</td>
@@ -199,8 +200,7 @@
                             <td>{{ a.comment }}</td>
                             <td>{{ a.amount }}</td>
                             <td>{{ a.balance }}</td>
-                            <td><a class="glyphicon glyphicon-pencil" data-toggle="modal"
-                                   data-target="#modalEditTransaction" onclick="editTransaction()"></a></td>
+                            <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditTransaction" onclick="editTransaction({{ a.id }})"></a></td>
                         </tr>
                     {% endfor %}
                     <!-- ****************************************-->
@@ -449,7 +449,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <input type="text" id="inputAmountEdit" size="23" class="form-control">
+                    <input type="text" id='inputAmountEdit' size="23" class="form-control">
                 </div>
             </div>
 

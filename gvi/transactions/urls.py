@@ -6,4 +6,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^search_transactions/$', views.search_transactions, name='search_transactions'),
     url(r'^transaction/account/(?P<pk>\d+)/$', views.balance_detail, name='balance_detail'),
+    url(r'^transaction/account/(?P<pk>\d+)/new_transaction/$', views.new_transaction, name='new_transaction'),
+    url(r'^transaction/account/(?P<pk>\d+)/change_transaction/$', views.update_delete_transaction,
+        name='change_transaction'),
 ]

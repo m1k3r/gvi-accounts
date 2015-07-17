@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponseServerError
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Transaction, Category, Subcategory
 from accounts.models import Account, Currency
@@ -74,10 +75,14 @@ def balance_detail(request, pk):
     currencies = Currency.objects.all()
     account = get_object_or_404(Account, pk=pk)
 
-    context = {'a': account, }
-    return render(request, 'transactions/balance_detail.html', context)
+    context = {'a': account,
+               'category': category,
+               'subcategory': subcategory,
+               'transactions': transactions}
+    return render(request, 'transactions/b_detail.html', context)
 
 
+@csrf_exempt
 def new_transaction(request, pk):
     if request.is_ajax():
         if request.method == 'POST':
@@ -100,7 +105,8 @@ def new_transaction(request, pk):
                 account.save()
 
                 transaction = Transaction(transaction_type=t_type, category=category, subcategory=subcategory,
-                                          comment=comment, amount=amount, balance=account.balance, date=date)
+                                          comment=comment, amount=amount, balance=account.balance, date=date,
+                                          account=account)
                 transaction.save()
 
                 return JsonResponse({'code': '200',
@@ -110,17 +116,20 @@ def new_transaction(request, pk):
                 pass
         if request.method == 'GET':
             try:
-                transaction = get_object_or_404(Transaction, pk=pk)
+                t_id = request.GET['id']
+                transaction = get_object_or_404(Transaction, pk=t_id)
                 context = {'id': transaction.pk,
                            'type': transaction.transaction_type,
-                           'category': transaction.category,
-                           'subcategory': transaction.subcategory,
+                           'category': transaction.category.name,
+                           'subcategory': transaction.subcategory.name,
                            'date': transaction.date,
                            'amount': transaction.amount,
+                           'comment': transaction.comment,
                            }
                 return JsonResponse(context)
             except KeyError as e:
-                pass
+                print e
+                print "KeyError in GET in new_transaction"
         else:
             raise Http404(request)
     else:
@@ -128,7 +137,8 @@ def new_transaction(request, pk):
         raise Http404(request)
 
 
-def update_delete_transaction(request):
+@csrf_exempt
+def update_delete_transaction(request, pk):
     if request.is_ajax():
         if request.method == 'POST':
             try:
@@ -166,7 +176,7 @@ def update_delete_transaction(request):
 
         if request.method == 'GET':
             try:
-                transaction_id = request.POST['id']
+                transaction_id = request.GET['id']
                 transaction = Transaction.objects.get(pk=transaction_id)
                 transaction.delete()
 
@@ -177,6 +187,7 @@ def update_delete_transaction(request):
             except KeyError as e:
                 print e.args
                 print "KeyError at update_delete_transaction GET"
+                raise HttpResponseServerError(request)
 
         else:
             print "update_delete_transaction request.method not supported"

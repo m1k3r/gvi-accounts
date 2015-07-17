@@ -225,7 +225,7 @@ $(document).on('click', '#addTransactionCancel' ,function () {
 function editTransaction(id){
 
     //Get the id from the object
-    id = id.attr('id');
+    //id = id.attr('id');
 
     //Get json form backend
     var response = getJsonTransaction(id);
@@ -238,12 +238,15 @@ function editTransaction(id){
         var comment = data.comment;
         var type = data.type;
 
+        console.log(data);
+        console.log(amount);
+
         $("#idTransactionEdit").val(id);
-        $('#modalAddTransaction').find('#categorySelectModalEdit').val(category);
-        $('#modalAddTransaction').find('#subcategorySelectModalEdit').val(subcategory);
-        $('#modalAddTransaction').find('#inputAmountEdit').val(amount);
-        $('#modalAddTransaction').find('#inputCommentEdit').val(comment);
-        $('#modalAddTransaction').find('#newTransactionEdit').val(date);
+        $('#modalEditTransaction').find('#categorySelectModalEdit').val(category);
+        $('#modalEditTransaction').find('#subcategorySelectModalEdit').val(subcategory);
+        $('#modalEditTransaction').find('#inputAmountEdit').val(amount);
+        $('#modalEditTransaction').find('#inputCommentEdit').val(comment);
+        $('#modalEditTransaction').find('#newTransactionEdit').val(date);
 
         if(type=="i"){
             $('#radioInEdit').prop('checked', true);
@@ -296,14 +299,13 @@ $(document).on('click', '#modal_editTransaction' ,function () {
     var id = $("#idTransactionEdit").val();
     var idAccount = $("#idAccountEdit").val();
     var type = $('input[name=transTypeRadioEdit]:checked', '#editTransactionForm').val();
-    var category = $("#categorySelectModal").val();
-    var subcategory = $("#subcategorySelectModal").val();
-    var date = $("#newTransaction").val();
-    var amount = $("#inputAmount").val();
-    var comment = $("#inputComment").val();
+    var category = $("#categorySelectModalEdit").val();
+    var subcategory = $("#subcategorySelectModalEdit").val();
+    var date = $("#newTransactionEdit").val();
+    var amount = $("#inputAmountEdit").val();
+    var comment = $("#inputCommentEdit").val();
 
-    console.log
-    console.log(id, name, manager, country);
+
 
 
     //Validations
