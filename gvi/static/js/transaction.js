@@ -508,7 +508,7 @@ $(document).on('click', '#modal_saveNewSubc' ,function () {
 function jsonAddSubcategory(json){
 
     $.ajax({
-        url : "new_subcategory/", // the endpoint
+        url : "../../../new_subcategory/", // the endpoint
         type : "POST", // http method
         data : json, // data sent with the post request
         dataType: 'json',
