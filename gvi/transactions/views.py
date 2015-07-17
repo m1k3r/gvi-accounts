@@ -201,3 +201,37 @@ def update_delete_transaction(request, pk):
 def cats_subs(request):
     json_response = Category.to_dict()
     return JsonResponse(json_response)
+
+
+def new_del_sub(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            try:
+                cat = request.POST['category']
+                name = request.POST['subcategory']
+                category = get_object_or_404(Category, name=cat)
+                subcategory = Subcategory(name=name, category=category)
+                subcategory.save()
+
+                return JsonResponse({'code': '200',
+                                     'msg': 'ok'})
+
+            except KeyError as e:
+                print "KeyError new_del_sub POST"
+                print e.args
+                return HttpResponseServerError(request)
+        else:
+            try:
+                sub_id = request.GET['id']
+                sub = get_object_or_404(Subcategory, pk=sub_id)
+                sub.delete()
+                return JsonResponse({'code': '200',
+                                     'msg': 'deleted'})
+
+            except KeyError as e:
+                print e.args
+                print "KeyError new_del_sub GET"
+                raise HttpResponseServerError
+    else:
+        print "new sub not ajax "
+        raise Http404(request)
