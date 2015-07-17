@@ -110,35 +110,46 @@
             </form>
         </div>
         <div class="col-xs-6" id="rightBudget">
-            <div class="row">
-                <div class="col-xs-5">
-                    <div class="form-group">
-                        <div class='input-group date datepick'>
-                            <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <div class='input-group date datepick'>
+                                <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                  </span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
 
-                <div class="col-xs-2">
-                    <hr class="horizontal-separator">
-                </div>
+                    <div class="col-xs-2">
+                        <hr class="horizontal-separator">
+                    </div>
 
-                <div class="col-xs-5">
-                    <div class="form-group">
-                        <div class='input-group date datepick'>
-                            <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <div class='input-group date datepick'>
+                                <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                  </span>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-info pull-left">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> search
+                        </button>
+                    </div>
+                </div>
+            </form>
 
             <div class="budgets budgets_wrap">
                 {% for a in currency %}

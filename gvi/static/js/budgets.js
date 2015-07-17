@@ -29,7 +29,7 @@ function addBudget() {
         insert = insert + '</select>' +
             '</div>' +
             '<div class="col-xs-3">' +
-            '<input type="number" id="form-' + x + '-amount" name="form-' + x + '-amount" class="form-control amount-offset" placeholder="Amount">' +
+            '<input type="number" id="form-' + x + '-amount" name="form-' + x + '-amount" class="form-control amount-offset" placeholder="Amount" required>' +
             '</div>' +
             '<div class="col-xs-3">' +
             '<select class="form-control currency-offset" name="form-' + x + '-currency" id="form-' + x + '-currency">';
@@ -77,7 +77,7 @@ function addBudgetVariable() {
         insert = insert + '</select>' +
             '</div>' +
             '<div class="col-xs-3">' +
-            '<input type="number" id="form-' + x + '-amount" name="form-' + x + '-amount" class="form-control amount-offset" placeholder="Amount">' +
+            '<input type="number" id="form-' + x + '-amount" name="form-' + x + '-amount" class="form-control amount-offset" placeholder="Amount" required>' +
             '</div>' +
             '<div class="col-xs-3">' +
             '<select class="form-control currency-offset" name="form-' + x + '-currency" id="form-' + x + '-currency">';
