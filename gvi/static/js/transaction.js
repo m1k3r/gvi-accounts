@@ -381,6 +381,23 @@ function updateJsonTransaction(lejson){
     });
 }
 
+
+//Function triggered by the CANCEL button on the Add Currency modal
+//Hides the modal, cleans all fields
+$(document).on('click', '#editTransactionCancel' ,function () {
+
+    $('#modalAddTransaction').modal('hide');
+    $('#modalAddTransaction').find('#categorySelectModal').val('');
+    $('#modalAddTransaction').find('#subcategorySelectModal').val('');
+    $('#modalAddTransaction').find('#inputAmount').val('');
+    $('#modalAddTransaction').find('#inputComment').val('');
+    $('#radioIn').prop('checked', false);
+    $('#radioOut').prop('checked', false);
+    $('#addNewSubcategory').css("display", "none");
+    location.reload();
+
+
+});
 //********************************************* ENDS EDIT HUB **********************************************************
 
 //******************************************* DELETE TRANSACTION *******************************************************
@@ -657,7 +674,7 @@ function loadCategories(){
         error : function(xhr,errmsg,err) {
 
             console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            alert("Error loading Categories JSON");
+            console.log("Error loading Categories JSON");
 
         }
     });
@@ -732,3 +749,64 @@ function loadCatEdit() {
                 validateSubcategory();
             });
 }
+
+//****************************************** DELETE CURRENCY ***********************************************************
+
+//Function triggered by the Delete icon on the currencies table
+//Receives the currency info and updates the confirmation question
+function currencyDeleteConfirmSubs(data){
+
+    //get the currency name and id
+    // data is currency id+.+currency name
+    data = data.attr('id');
+    var arrayData = data.split(".");
+    var id = arrayData[0];
+    var name = "Are your sure you want to delete the subcategory "+arrayData[1]+"?";
+
+    //Update fields
+    $('#subId').val(id);
+    $('#labelSubsName').empty();
+    $('#labelSubsName').append(name);
+
+}
+
+//Function triggered by the YES button on the Delete Currency confirmation modal
+//Gets the currency id, creates the json and calls jsonDeleteCurrency() function
+$(document).on('click', '#subDeleteYes' ,function () {
+
+    var id= $('#subId').val();
+    var json = {"id":id};
+    jsonDeleteSub(json);
+
+});
+
+//Function that receives the Currency id and connects to the backend to delete the currency
+function jsonDeleteSub(json){
+
+    $.ajax({
+        url : "../new_subcategory/", // the endpoint
+        type : "GET", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+            $('#modalDeleteSubs').modal('hide');
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error deleting the subcategory. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return true;
+}
+//**************************************** ENDS DELETE CURRENCY ********************************************************

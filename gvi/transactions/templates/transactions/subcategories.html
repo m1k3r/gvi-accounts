@@ -2,7 +2,7 @@
 
 {% block menubar %}
 <!-- Menu bar options: Accounts and Add Currency-->
-    <p class="navbar-text"><a href="{% url 'transactions:balance_detail' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnAccounts"> Balance Detail</button></a></p>
+    <p class="navbar-text"><a href="{% url 'transactions:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnAccounts"> Accounts</button></a></p>
 {% endblock %}
 
 {% block content %}
@@ -41,7 +41,7 @@
 <!-- End of currencies table-->
 
 <!--Delete Currency Modal-->
-<div class="modal fade modalStyles" id="modalDeleteSubs" tabindex="-1" role="dialog" aria-labelledby="labelDelete">
+<div class="modal fade modalStyles" id="modalDeleteSubs" tabindex="-1" role="dialog" aria-labelledby="labelDeleteSubs">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
 
