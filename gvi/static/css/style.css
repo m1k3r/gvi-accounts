@@ -103,11 +103,11 @@ h1>#hubname{
 	font-size:120%;
 	line-height:130%;
 	color:#717171;
-	margin-bottom:25px;	
+	margin-bottom:25px;
 }
 
 .horizontal-separator{
-	background-color:black; 
+	background-color:black;
 	height:2px;
 }
 
@@ -229,4 +229,23 @@ h1>#hubname{
 	border-color: #1b6d85;
 	background: #53BBDB;
 	color: white;
+}
+
+#inputAmount{
+	padding-top: 2px;
+	padding-bottom: 5px;
+
+
+}
+
+#labelMoneyOut{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background: #C61212;
+	color: white;
+}
+
+#labelMoneyIn{
+	padding-top: 5px;
+	padding-bottom: 5px;
 }

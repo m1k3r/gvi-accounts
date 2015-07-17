@@ -3,7 +3,7 @@
 {% extends "base_generic.html" %}
 
 {% block menubar %}
-
+    <p class="navbar-text"><a href="{% url 'hubs:hub_detail' a.owner.id %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnHubs"> {{ a.owner.name }}</button></a></p>
 {% endblock %}
 
 {% block content %}

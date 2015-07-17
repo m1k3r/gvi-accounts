@@ -65,7 +65,15 @@ def search_transactions(request):
 
 
 def balance_detail(request, pk):
+    transactions = Transaction.objects.order_by('-date')
+    category = Category.objects.all()
+    subcategory = Subcategory.objects.all()
+
+    bank_accounts = Account.objects.filter(account_type='b')
+    cash_accounts = Account.objects.filter(account_type='c')
+    currencies = Currency.objects.all()
     account = get_object_or_404(Account, pk=pk)
+
     context = {'a': account, }
     return render(request, 'transactions/balance_detail.html', context)
 
@@ -175,3 +183,4 @@ def update_delete_transaction(request):
             raise Http404(request)
     else:
         print "update_delete_transaction not ajax"
+        raise Http404(request)

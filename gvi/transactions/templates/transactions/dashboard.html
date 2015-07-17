@@ -3,203 +3,101 @@
 {% extends "base_generic.html" %}
 
 {% block menubar %}
-
+<!-- Menu bar options: Add account, Money transfer and Currencies -->
 {% endblock %}
 
 {% block content %}
-    <div class="row col-xs-offset-1">
-        <!-- Hub info -->
-        <div class="row">
-            <div class="col-xs-12">
-                <h1>
-                    <div id="hubname">Pez Maya Balance</div>
-                </h1>
-                <h4>
-                    <div id="hubinfo">
-                        <ul class="list-unstyled">
-                            <li>Account: Pesos Santander 02342222341</li>
-                            <li>Initial Budget: $15,000</li>
-                            <li>Remaining Budget: $10,000</li>
-                            <li>Total Expenses: $5,000</li>
-                        </ul>
-                    </div>
-                </h4>
 
-            </div>
-        </div>
-        <!-- /.row Hub info -->
+<!-- Info about money left and expenses-->
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+        <h1>Money left</h1><br>
+        <ul class="list-unstyled">
 
-        <!-- Form data to backend -->
-        <form action="{% url 'transactions:search_transactions' %}" method="post">
-            {% csrf_token %}
+            <!-- For to display all currencies and how much money they have -->
+            {% for c in currencies %}
+            <li class="text">{{ c }}: ${{ c.total }}</li>
+            {% endfor %}
+            <!-- **********************************************************-->
 
-            <!-- Category title -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="col-xs-1">
-                        <label class="select-title">Enable</label>
-                    </div>
-                    <div class="col-xs-1">
-                        <label class="select-title">Category</label>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row Category/Subcategory title -->
-
-            <!-- Category -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="col-xs-1 checkbox">
-                        <div class="pull-right">
-                            <label class="select-title">
-                                <input type="checkbox" id="enableCategory" name="enableCategory">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-xs-11 pull-left">
-                        <div class="form-group">
-                            <select class="form-control" id="categorySelect" name="categorySelect">
-                                {% for a in category %}
-                                    <option>{{ a.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row Category -->
-
-            <!-- Subcategory title -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="col-xs-1 col-xs-offset-1">
-                        <label class="select-title">Subcategory</label>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row Subcategory title -->
-
-            <!-- Subcategory -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="col-xs-1 checkbox">
-                        <div class="pull-right">
-                            <label class="select-title">
-                                <input type="checkbox" name="enableSubcategory" id="enableSubcategory">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-xs-11 pull-left">
-                        <div class="form-group">
-                            <select class="form-control" id="subcategorySelect" name="subcategorySelect">
-                                {% for a in subcategory %}
-                                    <option>{{ a.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <!-- /.col-xs-4 -->
-                </div>
-            </div>
-            <!-- /.row Subcategory -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="alert alert-danger" role="alert" id="dateError" name="dateError" hidden="true">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error:</strong> Initial date is greater than end date.
-                    </div>
-                </div>
-            </div>
-
-            <!-- To - From title -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="col-xs-1">
-                        <label class="select-title">From</label>
-                    </div>
-                    <div class="col-xs-1 col-xs-offset-7">
-                        <div class="pull-left">
-                            <label class="select-title">To</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.row To - From title -->
-
-            <!-- Date data and search button -->
-            <div class="row">
-                <div class="col-xs-8">
-                    <div class="col-xs-4">
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepickerFrom'>
-                                <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                 </span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-xs-4">
-                        <hr class="horizontal-separator">
-                    </div>
-
-                    <div class="col-xs-4">
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepickerTo'>
-                                <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                 </span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <button type="submit" class="btn btn-info pull-left">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> search
-                </button>
-            </div>
-            <!-- /.row Date data and search button -->
-        </form>
-        <!-- Form data to backend -->
-
-        <!-- Transaction table -->
-        <div class="row">
-            <div class="col-xs-8">
-                <p class="tableTitle">Bank Accounts:</p>
-                <table class="table table-hover">
-                    <tr>
-                        <th>Date</th>
-                        <th>Code</th>
-                        <th>Category</th>
-                        <th>Subcategory</th>
-                        <th>Comment</th>
-                        <th>Amount</th>
-                        <th>Balance</th>
-                        <th>Edit</th>
-                    </tr>
-
-                    <!-- For to fill info about each account -->
-                    {% for a in transactions %}
-                        <tr>
-                            <td>{{ a.date }}</td>
-                            <td>{{ a.category.number }}</td>
-                            <td>{{ a.category.name }}</td>
-                            <td>{{ a.subcategory.name }}</td>
-                            <td>{{ a.comment }}</td>
-                            <td>{{ a.amount }}</td>
-                            <td>{{ a.balance }}</td>
-                            <td><a class="glyphicon glyphicon-pencil" data-toggle="modal"
-                                   data-target="#modalEditTransaction" onclick="editTransaction()"></a></td>
-                        </tr>
-                    {% endfor %}
-                    <!-- ****************************************-->
-
-                </table>
-            </div>
-        </div><!-- /.row Transaction table -->
-
+        </ul>
     </div>
+    <div class="col-md-5">
+        <h1>Expenses</h1><br>
+        <ul class="list-unstyled">
+
+            <!-- For to display currencies and their total expenses -->
+            <li class="text">Pesos: $2,000.00</li>
+            <li class="text">Dollars: $150.00</li>
+            <!--*****************************************************-->
+
+        </ul>
+    </div>
+</div><br>
+<!-- Ends info about money left and expenses -->
+
+<!-- Table for bank accounts -->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <p class="tableTitle">Bank Accounts:</p>
+        <table class="table table-hover" id="bankAccounts">
+            <tr>
+
+                <th>Currency</th>
+                <th>Amount</th>
+                <th>Bank</th>
+                <th>Account #</th>
+                <th style="padding-top: 0px; padding-bottom: 0px;">Balance<br>Details</th>
+            </tr>
+
+            <!-- For to fill info about each account -->
+            {% for a in bank_acc %}
+
+            <tr id="{{ a.id }}">
+                <td hidden id="pk">{{ a.id }}</td>
+                <td>{{ a.currency }}</td>
+                <td>{{ a.balance }}</td>
+                <td>{{ a.bank_name }}</td>
+                <td>{{ a.number }}</td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails" href="{% url 'transactions:balance_detail' a.id %}"></a></td>
+            </tr>
+            {% endfor %}
+            <!-- ****************************************-->
+
+        </table>
+    </div>
+</div>
+<!-- Ends table for bank accounts-->
+
+<!-- Table for cash accounts -->
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <p class="tableTitle">Cash Accounts:</p>
+        <table class="table table-hover" id="cashAccounts">
+            <tr>
+
+                <th>Currency</th>
+                <th>Amount</th>
+                <th style="padding-top: 0px; padding-bottom: 0px;">Balance<br>Details</th>
+            </tr>
+
+            <!-- For to fill information about each account-->
+            {% for a in cash_acc %}
+
+            <tr id="{{ a.id }}">
+                <td hidden id="pk">{{ a.id }}</td>
+
+
+                <td>{{ a.currency }}</td>
+                <td>{{ a.balance }}</td>
+                <td><a class="glyphicon glyphicon-list-alt" id="btnDetails" href="{% url 'transactions:balance_detail' a.id %}"></a></td>
+            </tr>
+            {% endfor %}
+            <!--***********************************************-->
+
+        </table>
+    </div>
+</div>
+<!-- Ends table for cash accounts -->
+
 {% endblock %}
