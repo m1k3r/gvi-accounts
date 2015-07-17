@@ -41,4 +41,4 @@ class UserHub(models.Model):
 
     user = models.OneToOneField(User)
     hub = models.ForeignKey(Hubs)
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
+    # type = models.CharField(max_length=20, choices=TYPE_CHOICES, default=HUB_MANAGER)
