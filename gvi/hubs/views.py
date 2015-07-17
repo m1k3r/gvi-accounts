@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 
 from .models import Hubs
 from accounts.models import Currency, Account
+from transactions.models import Category, Subcategory
 
 
 def index(request):
@@ -266,7 +267,9 @@ def hub_account_update_delete(request, pk):
 
 def account_detail(request, pk):
     account = get_object_or_404(Account, pk=pk)
-
-    context = {'a': account, }
+    category = Category.objects.all()
+    context = {'a': account,
+               'category': category,
+               }
     return render(request, 'hubs/b_detail.html', context)
 

@@ -6,12 +6,13 @@ $(document).ready(function() {
         lockSelections();
         datepickers();
         datepickersTransactions();
+        loadCategories();
+        //changeSubcategory();
+
     });
 });
 
-function enableDatePicker(){
-    datepickersForm();
-}
+
 
 function lockSelections(){
     var lockCategory = function () {
@@ -78,8 +79,7 @@ function datepickersTransactions() {
         pickTime: false,
         defaultDate: new Date()
     })
-        .change(dateChangedNewTransaction)
-        .on('changeDate', dateChangedNewTransaction);
+
 }
 
 function dateChanged(ev) {
@@ -213,6 +213,8 @@ $(document).on('click', '#addTransactionCancel' ,function () {
     $('#modalAddTransaction').find('#inputComment').val('');
     $('#radioIn').prop('checked', false);
     $('#radioOut').prop('checked', false);
+    $('#addNewSubcategory').css("display", "none");
+    location.reload();
 
 
 });
@@ -241,6 +243,7 @@ function editTransaction(id){
         console.log(data);
         console.log(amount);
 
+        loadCatEdit();
         $("#idTransactionEdit").val(id);
         $('#modalEditTransaction').find('#categorySelectModalEdit').val(category);
         $('#modalEditTransaction').find('#subcategorySelectModalEdit').val(subcategory);
@@ -319,10 +322,10 @@ $(document).on('click', '#modal_editTransaction' ,function () {
         return;
     }
 
-    if(isNull(subcategory)==false){
+    /*if(isNull(subcategory)==false){
         alert("You must enter a subcategory.");
         return;
-    }
+    }*/
 
     if(isNull(date)==false){
         alert("You must enter a date.");
@@ -378,6 +381,23 @@ function updateJsonTransaction(lejson){
     });
 }
 
+
+//Function triggered by the CANCEL button on the Add Currency modal
+//Hides the modal, cleans all fields
+$(document).on('click', '#editTransactionCancel' ,function () {
+
+    $('#modalAddTransaction').modal('hide');
+    $('#modalAddTransaction').find('#categorySelectModal').val('');
+    $('#modalAddTransaction').find('#subcategorySelectModal').val('');
+    $('#modalAddTransaction').find('#inputAmount').val('');
+    $('#modalAddTransaction').find('#inputComment').val('');
+    $('#radioIn').prop('checked', false);
+    $('#radioOut').prop('checked', false);
+    $('#addNewSubcategory').css("display", "none");
+    location.reload();
+
+
+});
 //********************************************* ENDS EDIT HUB **********************************************************
 
 //******************************************* DELETE TRANSACTION *******************************************************
@@ -443,3 +463,350 @@ function deleteJsonDetail(lejson){
     return jxhr;
 }
 //*************************************** ENDS DELETE TRANSACTION ******************************************************
+
+function displayNewSubcategory(option){
+    if(option=="new"){
+
+        var category = $("#categorySelectModal").val();
+
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+            $("#subcategorySelectModal").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategory').empty();
+        $('#labelCategory').append(label);
+        $('#addNewSubcategory').css("display", "block");
+    }else{
+        $('#addNewSubcategory').css("display", "none");
+    }
+}
+
+function validateSubcategory(){
+    var subcategory =  $('#subcategorySelectModal').val();
+    var category = $('#categorySelectModal').val();
+
+    if(subcategory == "new"){
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+             $('#addNewSubcategory').css("display", "none");
+             $("#subcategorySelectModal").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategory').empty();
+        $('#labelCategory').append(label);
+    }else{
+        $('#addNewSubcategory').css("display", "none");
+    }
+}
+
+$(document).on('click', '#modal_saveNewSubc' ,function () {
+    var subcategory =  $('#inputNewSubcategory').val();
+    var category = $("#categorySelectModal").val();
+
+    if(isNull(subcategory)==false){
+        alert("You need to select a subcategory");
+        return;
+    }
+
+    if(isNull(category)==false){
+        alert("You need to select a category");
+        return;
+    }
+
+    var json = {'category': category, 'subcategory':subcategory };
+    jsonAddSubcategory(json, subcategory);
+});
+
+function displayNewSubcategoryEdit(option){
+    if(option=="new"){
+
+        var category = $("#categorySelectModalEdit").val();
+
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+            $("#subcategorySelectModalEdit").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategoryEdit').empty();
+        $('#labelCategoryEdit').append(label);
+        $('#addNewSubcategoryEdit').css("display", "block");
+    }else{
+        $('#addNewSubcategoryEdit').css("display", "none");
+    }
+}
+
+function validateSubcategoryEdit(){
+    var subcategory =  $('#subcategorySelectModalEdit').val();
+    var category = $('#categorySelectModalEdit').val();
+
+    if(subcategory == "new"){
+        if(isNull(category)==false){
+            alert("You need to select a Category");
+             $('#addNewSubcategoryEdit').css("display", "none");
+             $("#subcategorySelectModalEdit").val('');
+            return;
+        }
+
+        var label = "New Subcategory for "+category+ ":";
+        $('#labelCategoryEdit').empty();
+        $('#labelCategoryEdit').append(label);
+    }else{
+        $('#addNewSubcategoryEdit').css("display", "none");
+    }
+}
+
+$(document).on('click', '#modal_saveNewSubcEdit' ,function () {
+    var subcategory =  $('#inputNewSubcategoryEdit').val();
+    var category = $("#categorySelectModalEdit").val();
+
+    if(isNull(subcategory)==false){
+        alert("You need to select a subcategory");
+        return;
+    }
+
+    if(isNull(category)==false){
+        alert("You need to select a category");
+        return;
+    }
+
+    var json = {'category': category, 'subcategory':subcategory };
+    jsonAddSubcategory(json, subcategory);
+});
+
+//Function that receives the New Subcategory info and connects to the backend to add it
+function jsonAddSubcategory(json, subcategory){
+
+    $.ajax({
+        url : "../../../new_subcategory/", // the endpoint
+        type : "POST", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal, cleans fields and update the tables DOM
+            $('#addNewSubcategory').css("display", "none");
+            $('#subcategorySelectModal').append('<option>'+subcategory+'</option>');
+            $('#subcategorySelectModal').val(subcategory);
+            $('#inputNewSubcategory').val('');
+
+            $('#addNewSubcategoryEdit').css("display", "none");
+            $('#subcategorySelectModalEdit').append('<option>'+subcategory+'</option>');
+            $('#subcategorySelectModalEdit').val(subcategory);
+            $('#inputNewSubcategoryEdit').val('');
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error saving the subcategory. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return true;
+}
+
+$(document).on('click', '#newSubcCancel' ,function () {
+    $("#subcategorySelectModal").val('');
+    $('#inputNewSubcategory').val('');
+    $('#addNewSubcategory').css("display", "none");
+
+});
+
+$(document).on('click', '#newSubcCancelEdit' ,function () {
+    $("#subcategorySelectModalEdit").val('');
+    $('#inputNewSubcategoryEdit').val('');
+    $('#addNewSubcategoryEdit').css("display", "none");
+
+});
+
+var categories;
+
+function loadCategories(){
+    $.ajax({
+        url : "../../../cats_subs/", // the endpoint
+        type : "GET", // http method
+        // data : json, // data sent with the post request
+        // dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            var category = '#categorySelect';
+            var subcategory = '#subcategorySelect';
+
+            var obj;
+            obj = jsonResponse;
+            categories = obj;
+            console.log(JSON.stringify(obj));
+
+            var categoryVal = $(category).val();
+                $(subcategory).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subcategory).append($('<option>', { item : i }).text(item));
+
+                });
+
+            $(category).change(function() {
+
+                var categoryVal = $(category).val();
+                $(subcategory).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subcategory).append($('<option>', { item : i }).text(item));
+
+                });
+            });
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            console.log("Error loading Categories JSON");
+
+        }
+    });
+}
+
+function loadCat() {
+
+            var catModal = '#categorySelectModal';
+            var subModal = '#subcategorySelectModal';
+            var obj;
+            obj = categories;
+
+            console.log("MMMM");
+            console.log(obj);
+
+
+            var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $(subModal).append('<option></option>');
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+            $(catModal).change(function() {
+
+                var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $(subModal).append('<option></option>');
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+                validateSubcategory();
+            });
+}
+
+function loadCatEdit() {
+
+            var catModal = '#categorySelectModalEdit';
+            var subModal = '#subcategorySelectModalEdit';
+            var obj;
+            obj = categories;
+
+            console.log("MMMM");
+            console.log(obj);
+
+
+            var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $(subModal).append('<option></option>');
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+            $(catModal).change(function() {
+
+                var categoryVal = $(catModal).val();
+                $(subModal).empty();
+                $(subModal).append('<option></option>');
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subModal).append($('<option>', { item : i }).text(item));
+
+                });
+                $(subModal).append('<option value="new">+ New Subcategory</option>');
+
+                validateSubcategory();
+            });
+}
+
+//****************************************** DELETE CURRENCY ***********************************************************
+
+//Function triggered by the Delete icon on the currencies table
+//Receives the currency info and updates the confirmation question
+function currencyDeleteConfirmSubs(data){
+
+    //get the currency name and id
+    // data is currency id+.+currency name
+    data = data.attr('id');
+    var arrayData = data.split(".");
+    var id = arrayData[0];
+    var name = "Are your sure you want to delete the subcategory "+arrayData[1]+"?";
+
+    //Update fields
+    $('#subId').val(id);
+    $('#labelSubsName').empty();
+    $('#labelSubsName').append(name);
+
+}
+
+//Function triggered by the YES button on the Delete Currency confirmation modal
+//Gets the currency id, creates the json and calls jsonDeleteCurrency() function
+$(document).on('click', '#subDeleteYes' ,function () {
+
+    var id= $('#subId').val();
+    var json = {"id":id};
+    jsonDeleteSub(json);
+
+});
+
+//Function that receives the Currency id and connects to the backend to delete the currency
+function jsonDeleteSub(json){
+
+    $.ajax({
+        url : "../new_subcategory/", // the endpoint
+        type : "GET", // http method
+        data : json, // data sent with the post request
+        dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            // Hides the modal and update the tables DOM
+            $('#modalDeleteSubs').modal('hide');
+            location.reload();
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            alert("Error deleting the subcategory. Please try again or contact the system manager.");
+
+        }
+    });
+
+    return true;
+}
+//**************************************** ENDS DELETE CURRENCY ********************************************************

@@ -1,3 +1,14 @@
+$(document).ready(function() {
+    $(window).load(function() {
+        lockSelections();
+        datepickers();
+        datepickersTransactions();
+        loadCategoriesHubs();
+        //changeSubcategory();
+
+    });
+});
+
 //************************************** GENERAL VALIDATIONS ***********************************************************
 //Function to validate if a field or select is null or empty
 function isNull(field){
@@ -1021,4 +1032,56 @@ function bankSelectMoneyTransferDestinyAddMoney(){
     $('#destinyAccountBankAddMoney').val('');
 
     $('#labelDestinyCurrencyAddMoney').empty();
+}
+
+var categories;
+
+function loadCategoriesHubs(){
+
+    console.log("STUUUUUF");
+
+    $.ajax({
+        url : "../../../../transactions/cats_subs/", // the endpoint
+        type : "GET", // http method
+        // data : json, // data sent with the post request
+        // dataType: 'json',
+
+        // handle a successful response
+        success : function(jsonResponse) {
+
+            var category = '#categorySelect';
+            var subcategory = '#subcategorySelect';
+
+            var obj;
+            obj = jsonResponse;
+            categories = obj;
+            console.log(JSON.stringify(obj));
+
+            var categoryVal = $(category).val();
+                $(subcategory).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subcategory).append($('<option>', { item : i }).text(item));
+
+                });
+
+            $(category).change(function() {
+
+                var categoryVal = $(category).val();
+                $(subcategory).empty();
+                $.each(obj[categoryVal], function(i, item) {
+                    $(subcategory).append($('<option>', { item : i }).text(item));
+
+                });
+            });
+
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            console.log("Error loading Categories JSON IN HUBS");
+
+        }
+    });
 }
