@@ -21,7 +21,7 @@ class BudgetElement(models.Model):
     number = models.ForeignKey(Budget)
     currency = models.ForeignKey('accounts.Currency')
     category = models.ForeignKey('transactions.Category')
-    subcategory = models.ForeignKey('transactions.Subcategory')
+    #subcategory = models.ForeignKey('transactions.Subcategory', blank=True)
     
     """
     If the element is variable
@@ -35,5 +35,5 @@ class BudgetElement(models.Model):
     variable_type = models.CharField(max_length=5, choices=V_TYPE_CHOICES, default=OTHER_W)
 
     def __str__(self):
-        return self.amount + self.number.number
+        return str(self.amount)+":" + self.number.number
 
