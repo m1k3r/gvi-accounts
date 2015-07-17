@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, Http404, HttpResponseServerError, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from .models import Account, Currency, Transfer
 
 from decimal import *
 
 
+@login_required
 def index(request):
     bank_acc = Account.objects.filter(account_type='b')
     cash_acc = Account.objects.filter(account_type='c')

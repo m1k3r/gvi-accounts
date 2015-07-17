@@ -113,6 +113,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
+LOGIN_URL = 'users_m:user_login'
+
 try:
     from local_settings import *
 except ImportError:
