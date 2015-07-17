@@ -109,3 +109,27 @@ def create_budget_variable(request):
     return render(request, 'budgets/variable.html', context)
 #}}}
 
+#{{{Search_budget
+def search_budget(request):
+    category = Category.objects.all()
+    currency = Currency.objects.all()
+
+    context = {'category': category,
+            'currency':currency,
+            }
+
+    return render(request, 'budgets/dashboard.html', context)
+#}}}
+
+#{{{Search_budget
+def search_budget_variable(request):
+    category = Category.objects.all()
+    currency = Currency.objects.all()
+
+    context = {'category': category,
+            'currency':currency,
+            }
+
+    return render(request, 'budgets/variable.html', context)
+#}}}
+
