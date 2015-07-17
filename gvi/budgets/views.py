@@ -22,7 +22,19 @@ def index(request):
             }
     
     return render(request, 'budgets/dashboard.html', context)
-#}}} 
+#}}}
+
+#{{{Variable
+def variable(request):
+    category = Category.objects.all()
+    currency = Currency.objects.all()
+
+    context = {'category': category,
+            'currency':currency,
+            }
+
+    return render(request, 'budgets/currencies.html', context)
+#}}}
 
 
 #{{{Create Budget
