@@ -30,8 +30,9 @@
         <ul class="list-unstyled">
 
             <!-- For to display currencies and their total expenses -->
-            <li class="text">Pesos: $2,000.00</li>
-            <li class="text">Dollars: $150.00</li>
+            {% for c in curr %}
+            <li class="text">{{ c }}: ${{ c.expenses }}</li>
+            {% endfor %}
             <!--*****************************************************-->
 
         </ul>

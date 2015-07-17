@@ -25,9 +25,9 @@
                     {% for c in curr %}
                         <li>{{ c }}</li>
                         <div style="padding-left: 10px; font-size: 20px;">
-                            <li>Initial Budget: </li>
+                            <li>Initial Budget: ${{ c.total_money }}</li>
                             <li> Money Left: ${{ c.total }}</li>
-                            <li>Total Expenses: </li>
+                            <li>Total Expenses: ${{ c.expenses }}</li>
                         </div>
                         <br>
                     {% endfor %}
