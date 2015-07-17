@@ -1,0 +1,564 @@
+<!-- dashboard -->
+
+{% extends "base_generic.html" %}
+
+{% block menubar %}
+    <p class="navbar-text"><a href="{% url 'transactions:index' %}" style="color: black; text-decoration: none;"> <button class="btn btn-default btn-sm glyphicon glyphicon-menu-left" type="button" id="btnHubs"> Accounts</button></a></p>
+    <p class="navbar-text"><button data-toggle="modal" data-target="#modalAddTransaction" class="btn btn-default btn-sm glyphicon glyphicon-plus" type="button" onclick="loadCat()"> Add Transaction</button></p>
+{% endblock %}
+
+{% block content %}
+    <div class="row col-xs-offset-1">
+        <!-- Hub info -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>
+                    <div id="hubname">Balance Details</div>
+                </h1>
+                <h4>
+                    <div id="hubinfo" style="padding-left: 10px;">
+                        <ul class="list-unstyled">
+                            {% if a.account_type == 'b' %}
+                                <li>Currency: {{ a.currency }}</li>
+                                <li>Bank: {{ a.bank_name }}</li>
+                                <li>Account No. {{ a.number }}</li>
+                            {% else %}
+                                <li>Currency: {{ a.currency }}</li>
+                            {% endif %}
+
+                            {% if a.balance < 0 %}
+                                <li>Remaining Budget:<label style="color: red;">{{ a.balance }}</label></li>
+                            {% else %}
+                                <li>Remaining Budget: {{ a.balance }}</li>
+                            {% endif %}
+
+                            <li>Total Expenses: {{ a.expenses }}</li>
+                        </ul>
+                    </div>
+                </h4>
+
+            </div>
+        </div>
+        <!-- /.row Hub info -->
+
+        <!-- Form data to backend -->
+        <form action="{% url 'transactions:search_transactions' %}" method="post">
+            {% csrf_token %}
+
+            <!-- Category title -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="col-xs-1">
+                        <label class="select-title">Enable</label>
+                    </div>
+                    <div class="col-xs-1">
+                        <label class="select-title">Category</label>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row Category/Subcategory title -->
+
+            <!-- Category -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="col-xs-1 checkbox">
+                        <div class="pull-right">
+                            <label class="select-title">
+                                <input type="checkbox" id="enableCategory" name="enableCategory">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-11 pull-left">
+                        <div class="form-group">
+                            <select class="form-control" id="categorySelect" name="categorySelect">
+                                {% for a in category %}
+                                    <option>{{ a.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row Category -->
+
+            <!-- Subcategory title -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="col-xs-1 col-xs-offset-1">
+                        <label class="select-title">Subcategory</label>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row Subcategory title -->
+
+            <!-- Subcategory -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="col-xs-1 checkbox">
+                        <div class="pull-right">
+                            <label class="select-title">
+                                <input type="checkbox" name="enableSubcategory" id="enableSubcategory">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-xs-11 pull-left">
+                        <div class="form-group">
+                            <select class="form-control" id="subcategorySelect" name="subcategorySelect">
+
+                                    <option></option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <!-- /.col-xs-4 -->
+                </div>
+            </div>
+            <!-- /.row Subcategory -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="alert alert-danger" role="alert" id="dateError" name="dateError" hidden="true">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Error:</strong> Initial date is greater than end date.
+                    </div>
+                </div>
+            </div>
+
+            <!-- To - From title -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="col-xs-1">
+                        <label class="select-title">From</label>
+                    </div>
+                    <div class="col-xs-1 col-xs-offset-7">
+                        <div class="pull-left">
+                            <label class="select-title">To</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row To - From title -->
+
+            <!-- Date data and search button -->
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepickerFrom'>
+                                <input type='text' class="form-control" id="fromDate" name="fromDate" readonly/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-4">
+                        <hr class="horizontal-separator">
+                    </div>
+
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepickerTo'>
+                                <input type='text' class="form-control" id="toDate" name="toDate" readonly/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button type="submit" class="btn btn-info pull-left">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> search
+                </button>
+            </div><br>
+            <!-- /.row Date data and search button -->
+        </form>
+        <!-- Form data to backend -->
+
+        <!-- Transaction table -->
+        <div class="row">
+            <div class="col-md-10">
+                <p class="tableTitle">Transactions:</p>
+                <table class="table table-hover">
+                    <tr>
+                        <th>Date</th>
+                        <th>Code</th>
+                        <th>Category</th>
+                        <th>Subcategory</th>
+                        <th>Comment</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Balance</th>
+                        <th>Edit</th>
+                    </tr>
+
+                    <!-- For to fill info about each account -->
+                    {% for a in transactions %}
+                        <tr id="{{ a.id }}">
+                            <td hidden id="pk">{{ a.id }}</td>
+                            <td>{{ a.date }}</td>
+                            <td>{{ a.category.number }}</td>
+                            <td>{{ a.category.name }}</td>
+                            <td>{{ a.subcategory.name }}</td>
+                            <td>{{ a.comment }}</td>
+                            <td>{{ a.amount }}</td>
+                            {% if a.transaction_type == 'i' %}
+                                <td>+ Money In</td>
+                            {% else %}
+                                <td>- Money Out</td>
+                            {% endif %}
+                            {% if a.balance < 0 %}
+                                <td style="color: red">{{ a.balance }}</td>
+                            {% else %}
+                                <td>{{ a.balance }}</td>
+                            {% endif %}
+                            <td><a class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#modalEditTransaction" onclick="editTransaction({{ a.id }})"></a></td>
+                        </tr>
+                    {% endfor %}
+                    <!-- ****************************************-->
+
+                </table>
+            </div>
+        </div><!-- /.row Transaction table -->
+
+    </div>
+
+    <!--Add Transaction Modal-->
+    <div class="modal fade modalStyles" id="modalAddTransaction" tabindex="-1" role="dialog" aria-labelledby="labelAddTransaction">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- Header-->
+                <div class="modal-header">
+                    <h2 class="modal-title modalHeader" id="labelAddTransaction">New Transaction</h2>
+                </div><br>
+                <!-- Ends header -->
+
+                <!-- Body -->
+    <form id="addTransactionForm">
+        <!-- Account id-->
+            <div hidden>
+                <input type="hidden" value="{{ a.id }}" id="idAccount">
+            </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Transaction Type:</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                <!-- Money in -->
+                <div class="col-md-3 col-md-offset-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadio" id="radioIn" value="i">
+                            <p class="label-success accountTypeLabel" id="labelMoneyIn">Money In</p>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Money out-->
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadio" id="radioOut" value="o" >
+                            <p class="accountTypeLabel" id="labelMoneyOut">Money Out</p>
+                        </label>
+                    </div>
+                </div>
+                </div><br>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Category</label>
+                    </div>
+                    <div class="col-md-4 ">
+                        <label class="select-title" style="font-size: 14px;">Subcategory</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <div class="form-group">
+                            <select class="form-control" id="categorySelectModal" name="categorySelectModal" onchange="validateSubcategory()">
+
+                                {% for a in category %}
+                                <option>{{a.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <select class="form-control" id="subcategorySelectModal" name="subcategorySelectModal" onchange="displayNewSubcategory($(this).val())">
+                                <option></option>
+
+                                    <option></option>
+
+                                <option value="new">+ New Subcategory</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="addNewSubcategory" style="display: none;">
+                    <hr><br>
+                    <div class = "row">
+                    <form class="form-inline">
+                        <div class="col-md-4 col-md-offset-2" style="padding-top: 5px;">
+                            <label class="select-title" style="font-size: 14px;" id="labelCategory"></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="inputNewSubcategory" class="form-control">
+                        </div>
+                     </form>
+                    </div><br>
+                    <div class="row" style="padding-top: 10px;">
+
+                        <button type="button" class="btn btn-success col-md-2 col-md-offset-3" name="modal_saveNewSubc" id="modal_saveNewSubc">Add</button>
+                        <button type="button" class="btn btn-warning col-md-2 col-md-offset-2" id="newSubcCancel" >Cancel</button>
+
+                    </div>
+                    <br><hr>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Date</label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="select-title" style="font-size: 14px;">Amount</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-offset-2">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class='input-group date datepickTransaction'>
+                                    <input style="position: relative; z-index: 100000"type='text' class="form-control" id="newTransaction" name="newTransaction" readonly/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" id="inputAmount" size="23" class="form-control">
+                    </div>
+                </div><br>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Comment</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <textarea class="form-control" id="inputComment" rows="4"></textarea>
+                    </div>
+                </div>
+        </form>
+                <br>
+                <!-- Ends body -->
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" name="modal_saveTransaction" id="modal_saveTransaction">Save</button>
+                    <button type="button" class="btn btn-default col-md-2" id="addTransactionCancel" data-dismiss="modal">Cancel</button>
+                </div>
+                <!-- Ends footer -->
+            </div>
+        </div>
+    </div>
+    <!-- Ends Add Account Modal-->
+
+<!--Edit Transaction Modal-->
+<div class="modal fade modalStyles" id="modalEditTransaction" tabindex="-1" role="dialog" aria-labelledby="labelEditTransaction">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <!-- Header-->
+            <div class="modal-header">
+                <h2 class="modal-title modalHeader" id="labelEditTransaction">New Transaction</h2>
+            </div>
+            <!-- Ends header -->
+
+            <!-- Body -->
+            <form id="editTransactionForm">
+                <!-- Transaction id-->
+            <div hidden>
+                <input type="hidden" value="" id="idTransactionEdit">
+            </div>
+
+                <!-- Account id-->
+            <div hidden>
+                <input type="hidden" value="{{ a.id }}" id="idAccountEdit">
+            </div>
+
+            <div class="row">
+                    <div class="col-md-4 col-md-offset-2">
+                        <label class="select-title" style="font-size: 14px;">Transaction Type:</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                <!-- Money in -->
+                <div class="col-md-3 col-md-offset-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadioEdit" id="radioInEdit" value="i">
+                            <p class="label-success accountTypeLabel" id="labelMoneyIn">Money In</p>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Money out-->
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="transTypeRadioEdit" id="radioOutEdit" value="o" >
+                            <p class="accountTypeLabel" id="labelMoneyOut">Money Out</p>
+                        </label>
+                    </div>
+                </div>
+                </div><br>
+
+
+
+           <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <label class="select-title" style="font-size: 14px;">Category</label>
+                </div>
+                <div class="col-md-4 ">
+                    <label class="select-title" style="font-size: 14px;">Subcategory</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <div class="form-group">
+                        <select class="form-control" id="categorySelectModalEdit" name="categorySelectModalEdit" onchange="validateSubcategoryEdit()">
+                            {% for a in category %}
+                                <option>{{ a.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <select class="form-control" id="subcategorySelectModalEdit" name="subcategorySelectModalEdit" onchange="displayNewSubcategoryEdit($(this).val())">
+                            {% for a in subcategory %}
+                                <option>{{ a.name }}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addNewSubcategoryEdit" style="display: none;">
+                    <hr><br>
+                    <div class = "row">
+                    <form class="form-inline">
+                        <div class="col-md-4 col-md-offset-2" style="padding-top: 5px;">
+                            <label class="select-title" style="font-size: 14px;" id="labelCategoryEdit"></label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" id="inputNewSubcategoryEdit" class="form-control">
+                        </div>
+                     </form>
+                    </div><br>
+                    <div class="row" style="padding-top: 10px;">
+
+                        <button type="button" class="btn btn-success col-md-2 col-md-offset-3" name="modal_saveNewSubcEdit" id="modal_saveNewSubcEdit">Add</button>
+                        <button type="button" class="btn btn-warning col-md-2 col-md-offset-2" id="newSubcCancelEdit" >Cancel</button>
+
+                    </div>
+                    <br><hr>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <label class="select-title" style="font-size: 14px;">Date</label>
+                </div>
+                <div class="col-md-4">
+                    <label class="select-title" style="font-size: 14px;">Amount</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-offset-2">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <div class='input-group date datepickTransaction'>
+                                <input style="position: relative; z-index: 100000"type='text' class="form-control" id="newTransactionEdit" name="newTransactionEdit" readonly/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                             </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" id='inputAmountEdit' size="23" class="form-control">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <label class="select-title" style="font-size: 14px;">Comment</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <textarea class="form-control" id="inputCommentEdit" rows="4"></textarea>
+                </div>
+            </div></form>
+            <br>
+            <!-- Ends body -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <!-- Save and Cancel buttons -->
+                <div class="row">
+                    <button type="button" class="btn btn-success col-md-2 col-md-offset-4" id="modal_editTransaction">Save</button>
+                    <button type="button" class="btn btn-default col-md-2" data-dismiss="modal" id="editTransactionCancel">Cancel</button>
+                </div>
+                <div class="row"><p> </p><br></div>
+
+                <!-- Delete button -->
+                <div class="row">
+                    <button type="button" class="btn btnDelete col-md-4 col-md-offset-4" id="edit_deleteTransaction" onmouseover="deleteBtnOver($(this))" onmouseout="deleteBtnOut($(this))">Delete Transaction</button>
+                </div>
+
+                <!-- Delete confirmation --->
+                <br>
+                <div id="deleteTransactionConfirmation" style="display: none;">
+                <div class="row">
+                    <div class="col-md-7 col-md-offset-2">
+                        <label id="labelDeleteConfirm">Are you sure you want to delete this transaction?</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button type="button" class="btn col-md-2 col-md-offset-4 btnDelete" id="deleteTransactionYes" onmouseover="deleteBtnOverYes($(this))" onmouseout="deleteBtnOutYes($(this))">Yes</button>
+                    <button type="button" class="btn col-md-2 col-md-offset-2 btnDeleteCancel" id="deleteTransactionNo" onmouseover="deleteBtnOverNo($(this))" onmouseout="deleteBtnOutNo($(this))">No</button>
+                </div>
+                </div>
+                <!-- Ends delete confirmation -->
+            </div>
+            <!-- Ends footer -->
+        </div>
+    </div>
+</div>
+<!-- Ends Add Hub Modal-->
+
+{% endblock %}

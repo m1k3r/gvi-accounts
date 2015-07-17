@@ -107,8 +107,8 @@ h1>#hubname{
 }
 
 .horizontal-separator{
-	background-color: #b3b3b3;
-	height:1px;
+	background-color:black;
+	height:2px;
 }
 
 .select-title{
@@ -179,6 +179,14 @@ h1>#hubname{
 	background: transparent;
 }
 
+#btnDeleteSubs{
+	color: #C61212;
+	border: none;
+	padding-left: 15px;
+	font-size: 16px;
+	background: transparent;
+}
+
 #btnAccounts{
 	padding-left: 15px;
 	padding-right: 15px;
@@ -207,6 +215,7 @@ h1>#hubname{
 	border-radius: 5%;
 	font-weight: 500;
 }
+
 
 #budgetContainer{
 	min-height:100vh;
@@ -256,4 +265,65 @@ h1>#hubname{
 	color:black;
 	margin-bottom:25px;
 	padding-left:30px;
+}
+
+
+#subDeleteYes{
+	color: #C61212;
+	background: #FFFFFF;
+	border-width: 2px;
+	border-color: #C61212;
+	border-radius: 5%;
+	font-weight: 500;
+}
+
+#subDeleteNo{
+	color: darkorange;
+	background: #FFFFFF;
+	border-width: 2px;
+	border-color: darkorange;
+	border-radius: 5%;
+	font-weight: 500;
+}
+
+#btnDetails{
+	border: none;
+	padding-left: 15px;
+	font-size: 16px;
+	background: transparent;
+}
+
+.detailTxt{
+	color:#717171;
+	font-size: 22px;
+}
+
+#btnHubs{
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 6px;
+	padding-bottom: 5px;
+	font-weight: 700;
+	border-color: #1b6d85;
+	background: #53BBDB;
+	color: white;
+}
+
+#inputAmount{
+	padding-top: 2px;
+	padding-bottom: 5px;
+
+
+}
+
+#labelMoneyOut{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background: #C61212;
+	color: white;
+}
+
+#labelMoneyIn{
+	padding-top: 5px;
+	padding-bottom: 5px;
 }

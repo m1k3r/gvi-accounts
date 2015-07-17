@@ -1,5 +1,7 @@
 from django.db import models
 
+from accounts.models import Account
+
 
 class Hubs(models.Model):
     HUB = 'h'
@@ -16,4 +18,17 @@ class Hubs(models.Model):
 
     def __str__(self):
         return self.name
-                      
+
+    def bank_accounts(self):
+        accounts = Account.objects.filter(owner=self).filter(account_type='b')
+        return accounts
+
+    def cash_accounts(self):
+        accounts = Account.objects.filter(owner=self).filter(account_type='c')
+        return accounts
+
+    def expenses(self):
+        pass
+
+    def money_left(self):
+        pass

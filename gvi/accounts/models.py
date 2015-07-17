@@ -1,5 +1,7 @@
 from django.db import models
 
+from transactions.models import Transaction
+
 
 class Currency(models.Model):
     name = models.CharField(max_length=25)
@@ -16,7 +18,15 @@ class Currency(models.Model):
             total += a.balance
         return total
 
+    @property
+    def expenses(self):
+        expenses = Transaction.objects.filter(transaction_type='o')
+        transactions = expenses.filter(account__currency=self)
+        total = 0
+        for t in transactions:
+            total += t.amount
 
+        return total
 
 
 class Account(models.Model):
@@ -42,6 +52,15 @@ class Account(models.Model):
         else:
             return self.currency.name
 
+    @property
+    def expenses(self):
+        transactions = Transaction.objects.filter(transaction_type='o')
+        transactions = transactions.filter(account=self)
+        total = 0
+        for t in transactions:
+            total += t.amount
+        return total
+
 
 class Transfer(models.Model):
     from_account = models.ForeignKey(Account, related_name="from_account")
@@ -52,4 +71,3 @@ class Transfer(models.Model):
 
     def __str__(self):
         return self.amount
-

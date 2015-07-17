@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'transactions',
     'budgets',
     'reports',
+    'users_m'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,6 +112,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_prod')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+LOGIN_URL = 'users_m:user_login'
 
 try:
     from local_settings import *
