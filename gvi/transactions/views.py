@@ -62,7 +62,7 @@ def search_transactions(request):
                'subcategory': subcategory,
                }
 
-    return render(request, 'transactions/dashboard.html', context)
+    return render(request, 'transactions/b_detail.html', context)
 
 
 def balance_detail(request, pk):
@@ -195,3 +195,9 @@ def update_delete_transaction(request, pk):
     else:
         print "update_delete_transaction not ajax"
         raise Http404(request)
+
+
+@csrf_exempt
+def cats_subs(request):
+    json_response = Category.to_dict()
+    return JsonResponse(json_response)

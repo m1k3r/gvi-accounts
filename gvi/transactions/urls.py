@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^transaction/account/(?P<pk>\d+)/new_transaction/$', views.new_transaction, name='new_transaction'),
     url(r'^transaction/account/(?P<pk>\d+)/change_transaction/$', views.update_delete_transaction,
         name='change_transaction'),
+    url(r'^cats_subs/$', views.cats_subs, name='cats_subs'),
 ]
