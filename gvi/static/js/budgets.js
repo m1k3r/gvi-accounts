@@ -7,6 +7,7 @@ $(document).ready(function () {
         datepickersBudgets();
         toggleSubcategory();
         addBudgetVariable();
+        searchBudget();
 
     });
 });
@@ -160,4 +161,60 @@ function dateChangedBudget(ev) {
     }
 
 
+}
+
+function searchBudget() {
+    $(document).on('submit', '#searchBudgetForm', function(e){
+        e.preventDefault();
+        //alert("Buscando en Backend:");
+        var fechas = { de: $('#fromDate').val(), a: $('#toDate').val() }
+        var request = $.ajax({
+            url:'search_budget',
+            method: "GET",
+            data: fechas,
+            dataType: "JSON",
+            success: function (data) {
+                testJson(data);
+            },
+            error: function(){
+                alert("An error occurred connecting to the server.");
+            }
+        });
+
+
+    });
+}
+
+
+function testJson(JSON) {
+    //JSON = '{"Pesos":{"Fuel":{"total":100,"Car Fuel":50,"Boat Fuel":50},"Office":{"total":200,"paper":50,"clips":150}},"Dollars":{"Fuel":{"total":20,"Car Fuel":15,"Boat Fuel":5},"Office":{"total":200,"clips":200}}}';
+
+    var obj = jQuery.parseJSON(JSON);
+
+    transactionResult='';
+
+    $.each(obj, function(key, element) {
+        transactionResult += '<div class="row budgets budgets_wrap"><div class="col-xs-8"><h3 id="'+key+'" name="'+key+'">'+key+'</h3></div>';
+        $.each(obj[key], function(key2, element) {
+            //console.log(obj[key][key2]);
+            transactionResult += '<div class="row"><div class="col-xs-offset-1 col-xs-5"><h4 >'+key2+': <label>'+obj[key][key2]['total']+'</label></div><div class="col-xs-1"><div class="col-xs-1 checkbox"><a href="#" class="toggle_sub" name="'+key+key2+'"><span class="glyphicon glyphicon-triangle-bottom"></span></a></div></div>';
+
+            transactionResult += '<div class="row"><div class="col-xs-offset-1 col-xs-11"><ul id="'+key+key2+'sub" name="'+key+key2+'sub">';
+            $.each(obj[key][key2], function(key3, element) {
+                if(key3 != 'total'){
+
+                    transactionResult += '<li><h5>'+key3+': <label>'+obj[key][key2][key3]+'</label></h5></li>';
+                }
+
+
+            });
+            transactionResult += "</ul></div></div>";
+            transactionResult += '</div>'
+        });
+        transactionResult += '</div>';
+    });
+
+    console.log(transactionResult);
+
+    $('#transaction').append(transactionResult);
 }
