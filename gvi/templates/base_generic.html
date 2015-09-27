@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gvi Accounting System</title>
+    <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'js/moment.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/datepicker.min.css' %}">
+
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/hubs.js' %}"></script>
+    <script src="{% static 'js/transaction.js' %}"></script>
+    <script src="{% static 'js/budgets.js' %}"></script>
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="row">
+        {% block sidebar %}
+            <div class="col-xs-2" id="sidebar">
+                <img src="{% static 'img/gvi_logo.png' %}" id="logo">
+                <div id="user">Hello {{ request.user }}</div>
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a href="{% url 'accounts:index' %}">Accounts</a></li>
+                    <li role="presentation"><a href="{% url 'hubs:index' %}">Hubs</a></li>
+                    <li role="presentation"><a href="{% url 'budgets:index' %}">Budgets</a></li>
+                    <li role="presentation"><a href="{% url 'transactions:index' %}">Transactions</a></li>
+                    <li role="presentation"><a href="{% url 'budgets:index' %}">Reports</a></li>
+                    <!--<li role="presentation"><a href="#">Settings <i class="glyphicon glyphicon-cog"></i></a></li>-->
+                    <li role="presentation"><a href="{% url 'users_m:user_logout' %}">Logout <i class="glyphicon glyphicon-log-out"></i></a></li>
+                </ul>
+
+            </div>
+        {% endblock %}
+
+        <div class="col-xs-10">
+            <div class="row">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            {% block menubar %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </nav>
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+</body>
+</html>
